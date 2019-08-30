@@ -1,13 +1,13 @@
-- Grille test d'acceptation
+- DÃ©finir grille test d'acceptation
 - Installation de logiciel
-- Séparation des tâches en 4 
-	- Créer un exercice (UML) (Kévin)
-	- Gérer des exercices (UML) (Florian)
-	- Prendre un exercice (UML) (Gaël)
-	- Création du WIKI sur GIT (Nicolas)
-- Mise en commun des use cases
-- REVIEWER ("Critères qu'il contrôlera") (Florian)
-	- Présence des rôles
+- SÃ©paration des tÃ¢ches en 4 
+	- CrÃ©er un exercice (UML) (KÃ©vin)
+	- GÃ©rer des exercices (UML) (Florian)
+	- Prendre un exercice (UML) (GaÃ«l)
+	- CrÃ©ation du WIKI sur GIT (Nicolas)
+- Mise en commun des uses cases
+- REVIEWER ("CritÃ¨res qu'il contrÃ´lera") (Florian)
+	- PrÃ©sence des rÃ´les
 	- Use cases des fonctions
 	- Nom du groupe
 	- Version
@@ -17,7 +17,7 @@
 - Rendu sur GIT de l'UML
 - Envoi par mail du lien GIT par mail au client
 - Revue de l'UML par le client
-- Délai : 14h Rendu Stratégie de test / 15h Rendu UML
+- DÃ©lai : 14h Rendu StratÃ©gie de test / 15h Rendu UML
 
 
 
