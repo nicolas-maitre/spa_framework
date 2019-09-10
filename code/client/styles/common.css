@@ -1,0 +1,17 @@
+/*general*/
+body{
+    font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif
+}
+
+*{
+    box-sizing: border-box;
+}
+
+.none{
+    display: none!important;
+}
+
+/*basic interface*/
+.pagesContainer{
+    
+}
