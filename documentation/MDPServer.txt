@@ -1,0 +1,11 @@
+Apanel:
+    Login : kaphoot
+    Password : GOoTy.0Xn7
+
+FTP:
+    Login : kaphoot_dev
+    Password : GOoTy.0Xn7
+
+BDD: 
+    Login : kaphoot_db
+    Password : GOoTy.0Xn7
