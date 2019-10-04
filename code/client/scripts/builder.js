@@ -1,3 +1,6 @@
 function Builder(){
-    this.elements = {};
+    var _this = this;
+    this.prebuildPage = function(){
+        
+    }
 }
