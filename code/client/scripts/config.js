@@ -1,3 +1,5 @@
 var config = {
-    viewsLocation: "/views"
+    viewsLocation: "/views",
+    landingPage: "home",
+    pageTitlePrefix: "Kaphoot - "
 };

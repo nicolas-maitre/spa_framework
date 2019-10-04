@@ -1,5 +1,6 @@
 var pagesConfig = {
     home:{
+        title: "Accueil",
         headButton:{
             text: "Manage",
             target: "manage"
@@ -19,6 +20,7 @@ var pagesConfig = {
         }
     },
     error:{
+        title: "Erreur",
         headButton:{
             text: "Home",
             target: "home"

@@ -16,16 +16,20 @@ utils.getGlobalLoader = function(){
 		elements.globalLoader.loader = elements.globalLoader.container.addElement("div", "globalLoaderImage");
 		
 		elements.globalLoader.show = function(){
+			console.log("show global loader");
 			elements.globalLoader.container.classList.remove("none");
 			requestAnimationFrame(function(){
 				elements.globalLoader.container.style.opacity = 1;
 			});
 		}
 		elements.globalLoader.hide = function(){
-			elements.globalLoader.container.style.opacity = 0;
-			setTimeout(function(){
-				elements.globalLoader.container.classList.add("none");
-			}, 500);
+			console.log("hide global loader");
+			requestAnimationFrame(function(){
+				elements.globalLoader.container.style.opacity = 0;
+				setTimeout(function(){
+					elements.globalLoader.container.classList.add("none");
+				}, 200);
+			});
 		}
 	}
 	return elements.globalLoader;
