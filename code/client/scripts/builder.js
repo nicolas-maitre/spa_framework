@@ -1,3 +1,3 @@
 function Builder(){
-    
+    this.elements = {};
 }
