@@ -7,10 +7,8 @@
 </head>
 
 <body>
-    <div class="topMenu">
-        <div>Kaphoot</div>
-        <button onclick="location.href='index.html';" class="topMenuRightButton">Back</button>
-    </div>
+    
+    <?php include("include/menu.php"); ?>
 
     <!-- titre et description du Quizz-->
     <div class="pagesContainer">
