@@ -1,0 +1,4 @@
+DirectoryIndex root.html
+
+RewriteEngine on
+RewriteRule ^(error|home|config)$ root.html
