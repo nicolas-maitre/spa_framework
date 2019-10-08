@@ -11,6 +11,7 @@
     <head>
         <meta charset="UTF-8"/>
         <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+        <script src="../js/functions.js"></script>
         <link rel="stylesheet" href="css/renderer.css"/>
     </head>
     <body>

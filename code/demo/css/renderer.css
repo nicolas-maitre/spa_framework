@@ -173,7 +173,7 @@ i:hover{
 
 /*TableQuizz*/
 
-.quizzQuestionsContainer > table{
+.quizzQuestionsContainer{
    margin: auto;
    border-collapse: collapse;
    width: 100%;
@@ -189,13 +189,14 @@ i:hover{
     width: 40%;
 }
 
-td {
+.droped{
    padding: 25px;
    text-align: left;
    border-bottom: 1px solid #ddd;
+   cursor: pointer;
  }
 
-  .dateQuizz {
+.dateQuizz {
     
     float:right;
 }
@@ -245,4 +246,7 @@ input{
     background-color: #eee;
     height: 30px;
     line-height: 29px;
+}
+.hovered{
+    background-color: lightblue;
 }
