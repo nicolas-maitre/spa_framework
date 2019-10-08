@@ -20,12 +20,13 @@ function FilesManager(){
 		var path = INDEX_FILE; //defaults
 		//console.log("exists: ", CLIENT_RESOURCES_PATH + urlObject.pathname);
 		//test if file exists
-		console.log(urlObject.pathname);
+		var whitelistPaths = ["/", "/home", "/manage", "/error"];
+		console.log(urlObject.pathname/*, whitelistPaths.includes(urlObject.pathname)*/);
 		if(fs.existsSync(CLIENT_RESOURCES_PATH + urlObject.pathname)
 			&& urlObject.pathname != "/"){
 			path = urlObject.pathname;
 			getFileFromWebsitePath(path, callBack);
-		} else if(urlObject.pathname == "/") {
+		} else if(whitelistPaths.includes(urlObject.pathname)/* == "/"*/) {
 			getFileFromWebsitePath(path, callBack);
 		} else{
 			callBack({errorCode:404, clientMsg:"page not found"});
