@@ -129,7 +129,7 @@ function PagesManager(){
         console.log("downloading " + viewName + " view");
         //load
         viewsCache[viewName].isLoading = true;
-        var url = config.viewsLocation + "/" + viewName + ".html";
+        var url = config.viewsLocation + "/" + viewName + config.viewsExtension;
         
         fetch(url).then(function(response){
             viewsCache[viewName].isLoading = false;
