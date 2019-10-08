@@ -23,6 +23,12 @@
             }
             break;
 
+        case 'POST':
+
+            //Insertion d'un exercice
+            $api->insertExercise($_POST);
+            break;
+
         default:
             // Requête invalide
             header("HTTP/1.0 405 Method Not Allowed");
