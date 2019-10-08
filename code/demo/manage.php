@@ -7,10 +7,9 @@
 </head>
 
 <body>
-    <div class="topMenu">
-        <div>Kaphoot</div>
-        <button onclick="location.href='index.html';" class="topMenuRightButton">Back</button>
-    </div>
+    
+    <?php include("include/menu.php"); ?>
+
     <div class="pagesContainer">
         <div class="flex-container">
 
@@ -21,7 +20,7 @@
                     <tr>
                         <td>
                             <div class="titreQuizz" style="display: inline">
-                                <div class="questionTitle"> <a href="quizz.html">la conditions IF ?</a></div>
+                                <div class="questionTitle"> <a href="quizz.php">la conditions IF ?</a></div>
                             </div>
                             <div class="dateQuizz" style="display: inline">
                                 <i class="fas fa-pencil-alt"></i>

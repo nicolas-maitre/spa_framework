@@ -4,10 +4,9 @@
         <link rel="stylesheet" href="css/renderer.css"/>
     </head>
     <body>
-        <div class="topMenu">
-            <div>Kaphoot</div>
-            <button  onclick="location.href='index.html';" class="topMenuRightButton">Back</button>
-        </div>
+
+        <?php include("include/menu.php"); ?>
+        
         <div class="pagesContainer">
             <div class="quizzPageContainer">
                 <div class="quizzTitle">Les notions d'orienté objet</div>
@@ -26,9 +25,6 @@
                         <div class="questionTitle">Que permet l'orienté objet?</div><div class="questionAnswerContainer">
                             <input class="questionAnswer questionAnswerSingleLine" type="text" placeholder="Entrez votre réponse ici"/>
                         </div>
-                    </div>
-                    <div class="quizzActionsContainer">
-                        <button class="quizzSubmitBtn">Valider</button>
                     </div>
                 </div>
             </div>
