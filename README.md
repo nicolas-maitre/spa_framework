@@ -11,3 +11,4 @@ The backend is developped in php and the fronted in JavaScript.
 `Questions.get("abcd-egef-hakd-kaak")`  
 Response:   
 `{id:"...", name:"...", quizz: {quizzObject}}`
+
