@@ -7,13 +7,16 @@ function Actions(){
     //page actions on load
     this.onPageLoad = {};
     this.onPageLoad.error = function(){
-
+        
     }
 
     //page actions on display
     this.onPageDisplay = {};
     this.onPageDisplay.error = function(){
-        document.getElementById("errorStatusCode").innerText = globalMemory.error.code;
-        document.getElementById("errorClientMsg").innerText = globalMemory.error.msg;
+        errorStatusCode.innerText = globalMemory.error.code;
+        errorClientMsg.innerText = globalMemory.error.msg;
+    }
+    this.onPageDisplay.manage = function(){
+
     }
 }
