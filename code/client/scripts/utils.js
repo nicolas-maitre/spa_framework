@@ -8,6 +8,7 @@ Element.prototype.addElement = function(type, className, options){
 	}
 	return newElement;
 }
+
 var utils = {};
 utils.getGlobalLoader = function(){
 	if(!elements.globalLoader){
@@ -47,4 +48,37 @@ utils.infoBox = function(message, time = 5000){
 		}, time);
 	});
 	return infoBox;
+}
+
+/**
+ * function to check if mouse is in half top of element
+ * @returns true or false 
+ */
+Element.prototype.checkMouseIsTop = function(){
+	var heightToCheck = this.offsetTop + (this.offsetHeight / 2);
+	if(event.clientY < heightToCheck)
+		return true;
+	return false;
+}
+function checkMouseIsTop(elemToCheck){
+	var heightToCheck = elemToCheck.offsetTop + (elemToCheck.offsetHeight / 2);
+	if(event.clientY < heightToCheck)
+		return true;
+	return false;
+}
+
+/**
+ * function to add Element before ref
+ * @param {DOM element} ref
+ */
+Element.prototype.addElemBefore = function(ref){
+	this.parentNode.insertBefore(this, ref);
+}
+
+/**
+ * function to add Element after ref
+ * @param {DOM element} ref
+ */
+Element.prototype.moveAfter = function(ref){
+	this.parentNode.insertBefore(this, ref.nextSibling);
 }
