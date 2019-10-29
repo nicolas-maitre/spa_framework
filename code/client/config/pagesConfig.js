@@ -6,18 +6,19 @@ var pagesConfig = {
             target: "manage"
         }
     },
-    createQuizz:{
+    create:{
         headButton:{
-            text: "Manage",
-            target: "manage"
+            text: "Home",
+            target: "home"
         },
-        view: "editQuizz"
+        view: "create"
     },
-    editQuizz:{
+    quizz:{
         headButton:{
-            text: "Manage",
-            target: "manage"
-        }
+            text: "Home",
+            target: "home"
+        },
+        view: "quizz"
     },
     error:{
         title: "Erreur",

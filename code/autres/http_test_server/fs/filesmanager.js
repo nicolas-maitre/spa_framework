@@ -20,7 +20,7 @@ function FilesManager(){
 		var path = INDEX_FILE; //defaults
 		//console.log("exists: ", CLIENT_RESOURCES_PATH + urlObject.pathname);
 		//test if file exists
-		var whitelistPaths = ["/", "/home", "/manage", "/error"];
+		var whitelistPaths = ["/", "/home", "/manage", "/error", "/quizz", "/create"];
 		console.log(urlObject.pathname/*, whitelistPaths.includes(urlObject.pathname)*/);
 		if(fs.existsSync(CLIENT_RESOURCES_PATH + urlObject.pathname)
 			&& urlObject.pathname != "/"){
