@@ -4,6 +4,7 @@ function ApiManager(){
     this.put = {};
     this.update = {};
     this.delete = {};
+
     //create self properties tree
     
 }
