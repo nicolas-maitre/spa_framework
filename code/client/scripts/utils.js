@@ -60,25 +60,19 @@ Element.prototype.checkMouseIsTop = function(){
 		return true;
 	return false;
 }
-function checkMouseIsTop(elemToCheck){
-	var heightToCheck = elemToCheck.offsetTop + (elemToCheck.offsetHeight / 2);
-	if(event.clientY < heightToCheck)
-		return true;
-	return false;
-}
 
 /**
  * function to add Element before ref
  * @param {DOM element} ref
  */
 Element.prototype.addElemBefore = function(ref){
-	this.parentNode.insertBefore(this, ref);
+	ref.parentNode.insertBefore(this, ref);
 }
 
 /**
  * function to add Element after ref
  * @param {DOM element} ref
  */
-Element.prototype.moveAfter = function(ref){
-	this.parentNode.insertBefore(this, ref.nextSibling);
+Element.prototype.addElemAfter = function(ref){
+	ref.parentNode.insertBefore(this, ref.nextSibling);
 }

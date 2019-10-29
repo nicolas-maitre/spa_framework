@@ -26,5 +26,12 @@ var pagesConfig = {
             text: "Home",
             target: "home"
         }
+    },
+    manage:{
+        title: "Manage",
+        headButton:{
+            text: "Home",
+            target: "home"
+        }
     }
 };

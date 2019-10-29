@@ -147,7 +147,7 @@ function PagesManager(){
             response.text().then(function(textData){
                 viewsCache[viewName].htmlString = textData;
                 viewsCache[viewName].isLoaded = true;
-                console.log("view downloaded", viewName, viewsCache[viewName]);
+                console.log("view downloaded", viewName);
 
                 //onload event
                 for(var indEvt = 0; indEvt < viewsCache[viewName].onload.length; indEvt++){
