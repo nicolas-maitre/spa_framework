@@ -24,7 +24,7 @@ button:active{
 i:hover{
     cursor: pointer;
 }
-td {
+.ContainerQuizz {
     padding: 25px;
     text-align: left;
     border-bottom: 1px solid #ddd;
@@ -68,7 +68,13 @@ input{
 }
 
 .topMenuRightButton {
-
+    background-color: white;
+    color: black;
+    border: 2px solid black;
+}
+.topMenuRightButton:hover {
+   cursor: pointer;
+   box-shadow: #666 2 2;
 }
 
 /*loader*/

@@ -10,7 +10,7 @@ const querystring = require("querystring");
 const mime = require("mime");
 const uuidv4 = require('uuid/v4');
 
-const CLIENT_RESOURCES_PATH = "/git/kaphoot/code/client"; //web directory path
+const CLIENT_RESOURCES_PATH = "code/client"; //web directory path
 const INDEX_FILE = "/root.html";
 const FILES_DIR_PATH = "/var/messaging_web_app/files";
 
@@ -20,7 +20,7 @@ function FilesManager(){
 		var path = INDEX_FILE; //defaults
 		//console.log("exists: ", CLIENT_RESOURCES_PATH + urlObject.pathname);
 		//test if file exists
-		var whitelistPaths = ["/", "/home", "/manage", "/error"];
+		var whitelistPaths = ["/", "/home", "/manage", "/error", "/quizz", "/create"];
 		console.log(urlObject.pathname/*, whitelistPaths.includes(urlObject.pathname)*/);
 		if(fs.existsSync(CLIENT_RESOURCES_PATH + urlObject.pathname)
 			&& urlObject.pathname != "/"){
