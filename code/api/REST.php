@@ -34,16 +34,12 @@
             }
         }
 
-        /** Fonctions des exercices
-         * POST :
-         * GET :
-         * PUT :
-         * DELETE:
+        /** BLOC INSERT
          *
          * @param $_POST
          */
 
-        function insertExercise($insData){
+        function insertQuiz($insData){
 
             $query='INSERT INTO tblquizzes (idQuizzes,name,description,datecreation) VALUES (?,?,?,?)';
 
@@ -59,13 +55,11 @@
             $pquery->bind_param("ssss",$uuid,$name,$description,$date);
 
             $pquery->execute();
-    
-            printf ("New Record has id %d.\n", $this->dbConnect->insert_id);
 
-            //$this->returndata($last_id);
+            $this->returndata(array("id" => $uuid));
         }
 
-        function getExercises()
+        function getQuizzes()
         {
             $query = "SELECT * FROM $this->quizTable";
             $response = array();
@@ -83,7 +77,7 @@
             $this->returndata($response);
         }
 
-        function getExercise($id=0)
+        function getQuiz($id=0)
         {
             $query = "SELECT * FROM $this->quizTable";
             if($id != 0)
@@ -103,6 +97,48 @@
             }
 
             $this->returndata($response);
+        }
+
+        /** BLOC UPDATE
+         *
+         *
+         */
+        function updateQuiz($id)
+        {
+
+            $query='UPDATE tblquizzes SET name=?, description=? WHERE idQuizzes=?';
+
+            $pquery = $this->dbConnect->prepare($query);
+
+            $data = json_decode(file_get_contents("php://input"),true);
+            $name = $data["name"];
+            $description = $data["description"];
+
+            $pquery->bind_param("sss",$name,$description,$id);
+
+            $pquery->execute();
+
+            //Effectuer un test pour savoir si insert OK
+
+            header('Content-Type: application/json');
+        }
+
+        /** BLOC DELETE
+         * @param $data
+         */
+
+        function deleteQuiz($id)
+        {
+            $query='DELETE FROM tblquizzes WHERE idQuizzes=?';
+
+            $pquery = $this->dbConnect->prepare($query);
+
+            $pquery->bind_param("s",$id);
+            $pquery->execute();
+
+            //Effectuer un test pour savoir si insert OK
+
+            header('Content-Type: application/json');
         }
 
 

@@ -10,23 +10,39 @@
     switch($request_method)
     {
         case 'GET':
-            // Récupérer les exercices
+            // Récupérer les quiz
             if(!empty($_GET["id"]))
             {
                 $id = intval($_GET["id"]);
 
-                $api->getExercise($id);
+                $api->getQuiz($id);
             }
             else
             {
-                $api->getExercises();
+                $api->getQuizzes();
             }
             break;
 
         case 'POST':
 
-            //Insertion d'un exercice
-            $api->insertExercise($_POST);
+            //Insertion d'un quizz
+            $api->insertQuiz($_POST);
+            break;
+
+        case 'PUT':
+
+            //Modifier un quizz
+            $id = intval($_GET["id"]);
+
+            $api->updateQuiz($id);
+            break;
+
+        case 'DELETE':
+            //Delete d'un quizz
+            $id = intval($_GET["id"]);
+
+            $api->deleteQuiz($id);
+
             break;
 
         default:
