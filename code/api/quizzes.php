@@ -1,7 +1,9 @@
 <?php
+	ini_set('display_errors', 1);
+	ini_set('display_startup_errors', 1);
+	error_reporting(E_ALL);
 
-
-    include('Rest.php');
+    include('REST.php');
 
     $api = new REST();
 
@@ -11,15 +13,14 @@
     {
         case 'GET':
             // Récupérer les quiz
-            if(!empty($_GET["id"]))
+            if(empty($_GET["id"]))
             {
-                $id = intval($_GET["id"]);
-
-                $api->getQuiz($id);
+                $api->getQuizzes();
             }
             else
             {
-                $api->getQuizzes();
+				$id = intval($_GET["id"]);
+                $api->getQuiz($id);
             }
             break;
 
