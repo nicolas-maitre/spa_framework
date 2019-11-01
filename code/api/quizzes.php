@@ -1,7 +1,7 @@
 <?php
 
 
-    include('REST.php');
+    include('Rest.php');
 
     $api = new REST();
 
@@ -19,7 +19,6 @@
             }
             else
             {
-				
                 $api->getQuizzes();
             }
             break;

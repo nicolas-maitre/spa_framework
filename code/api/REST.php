@@ -1,16 +1,14 @@
 <?php
-
-
-    class REST
+    class Rest
     {
 
         static private $instance;
 
         //Credentials
-        private $host = 'web09.swisscenter.com';
-        private $user = 'kaphoot_db';
-        private $password = "ebJn8.Ez";
-        private $database = "kaphoot_db";
+        private $host = 'localhost';
+        private $user = 'root';
+        private $password = "root";
+        private $database = "kaphootdb";
 
         //Définition des tables dans la bdd
         private $ansTable = 'tblanswers';
@@ -25,7 +23,6 @@
         {
             if (!$this->dbConnect) {
                 $conn = new mysqli($this->host, $this->user, $this->password, $this->database);
-				$conn->set_charset("utf8");
                 if ($conn->connect_error) {
                     //Return avec erreur 500 (A modifier)
                     die("Error failed to connect to MySQL: " . $conn->connect_error);
@@ -69,15 +66,13 @@
             {
                 $response[] = [
                     "id" => $row['idQuizzes'],
-                    "name" => $row['name'],
-                    "description" => $row['description'],
-                    "datecreation" => $row['datecreation'],
-                    "active" => $row['active']
+                    "name" => $row['1'],
+                    "description" => $row['2'],
+                    "datecreation" => $row['3']
                 ];
             }
 
             $this->returndata($response);
-		
         }
 
         function getQuiz($id=0)
@@ -132,7 +127,7 @@
 
         function deleteQuiz($id)
         {
-            $query='UPDATE tblquizzes SET active=0 WHERE idQuizzes=?';
+            $query='DELETE FROM tblquizzes WHERE idQuizzes=?';
 
             $pquery = $this->dbConnect->prepare($query);
 
@@ -147,11 +142,9 @@
 
         private function returndata($data)
         {
-			//$data = array("salut");
+
             header('Content-Type: application/json');
-			//var_dump($data);
-			echo json_encode($data,JSON_PRETTY_PRINT);
-			//var_dump(json_last_error_msg());
+            echo json_encode($data,JSON_PRETTY_PRINT);
         }
 
         static public function getInstance(){

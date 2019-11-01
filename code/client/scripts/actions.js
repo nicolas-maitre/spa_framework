@@ -7,13 +7,20 @@ function Actions(){
     //page actions on load
     this.onPageLoad = {};
     this.onPageLoad.error = function(){
-
+        
     }
 
     //page actions on display
     this.onPageDisplay = {};
     this.onPageDisplay.error = function(){
-        document.getElementById("errorStatusCode").innerText = globalMemory.error.code;
-        document.getElementById("errorClientMsg").innerText = globalMemory.error.msg;
+        errorStatusCode.innerText = globalMemory.error.code;
+        errorClientMsg.innerText = globalMemory.error.msg;
+    }
+    //action when mange page is displayed
+    this.onPageDisplay.manage = function(){
+        //add dragondrop on the page
+        var dragAndDropManage = new DragAndDrop();
+        dragAndDropManage.buildDragAndDrop("quizzQuestionsContainer", "droped");
+        console.log("drag and drop added to manage");
     }
 }
