@@ -1,16 +1,16 @@
 <?php
 
 
-    class Rest
+    class REST
     {
 
         static private $instance;
 
         //Credentials
-        private $host = 'localhost';
-        private $user = 'root';
-        private $password = "root";
-        private $database = "kaphootdb";
+        private $host = 'web09.swisscenter.com';
+        private $user = 'kaphoot_db';
+        private $password = "ebJn8.Ez";
+        private $database = "kaphoot_db";
 
         //Définition des tables dans la bdd
         private $ansTable = 'tblanswers';
@@ -25,6 +25,7 @@
         {
             if (!$this->dbConnect) {
                 $conn = new mysqli($this->host, $this->user, $this->password, $this->database);
+				$conn->set_charset("utf8");
                 if ($conn->connect_error) {
                     //Return avec erreur 500 (A modifier)
                     die("Error failed to connect to MySQL: " . $conn->connect_error);
@@ -34,7 +35,32 @@
             }
         }
 
-        function getExercises()
+        /** BLOC INSERT
+         *
+         * @param $_POST
+         */
+
+        function insertQuiz($insData){
+
+            $query='INSERT INTO tblquizzes (idQuizzes,name,description,datecreation) VALUES (?,?,?,?)';
+
+            $pquery = $this->dbConnect->prepare($query);
+
+            //var_dump($query);
+
+            $uuid = $this->gen_uuid();
+            $date = date('Y-m-d');
+            $name = $insData['name'];
+            $description = $insData['description'];
+
+            $pquery->bind_param("ssss",$uuid,$name,$description,$date);
+
+            $pquery->execute();
+
+            $this->returndata(array("id" => $uuid));
+        }
+
+        function getQuizzes()
         {
             $query = "SELECT * FROM $this->quizTable";
             $response = array();
@@ -43,16 +69,18 @@
             {
                 $response[] = [
                     "id" => $row['idQuizzes'],
-                    "name" => $row['1'],
-                    "description" => $row['2'],
-                    "datecreation" => $row['3']
+                    "name" => $row['name'],
+                    "description" => $row['description'],
+                    "datecreation" => $row['datecreation'],
+                    "active" => $row['active']
                 ];
             }
 
             $this->returndata($response);
+		
         }
 
-        function getExercise($id=0)
+        function getQuiz($id=0)
         {
             $query = "SELECT * FROM $this->quizTable";
             if($id != 0)
@@ -74,12 +102,56 @@
             $this->returndata($response);
         }
 
+        /** BLOC UPDATE
+         *
+         *
+         */
+        function updateQuiz($id)
+        {
+
+            $query='UPDATE tblquizzes SET name=?, description=? WHERE idQuizzes=?';
+
+            $pquery = $this->dbConnect->prepare($query);
+
+            $data = json_decode(file_get_contents("php://input"),true);
+            $name = $data["name"];
+            $description = $data["description"];
+
+            $pquery->bind_param("sss",$name,$description,$id);
+
+            $pquery->execute();
+
+            //Effectuer un test pour savoir si insert OK
+
+            header('Content-Type: application/json');
+        }
+
+        /** BLOC DELETE
+         * @param $data
+         */
+
+        function deleteQuiz($id)
+        {
+            $query='UPDATE tblquizzes SET active=0 WHERE idQuizzes=?';
+
+            $pquery = $this->dbConnect->prepare($query);
+
+            $pquery->bind_param("s",$id);
+            $pquery->execute();
+
+            //Effectuer un test pour savoir si insert OK
+
+            header('Content-Type: application/json');
+        }
+
 
         private function returndata($data)
         {
-
+			//$data = array("salut");
             header('Content-Type: application/json');
-            echo json_encode($data,JSON_PRETTY_PRINT);
+			//var_dump($data);
+			echo json_encode($data,JSON_PRETTY_PRINT);
+			//var_dump(json_last_error_msg());
         }
 
         static public function getInstance(){
@@ -87,6 +159,32 @@
                 self::$instance = new Rest();
             }
             return self::$instance;
+        }
+
+        /** Générateur UUID
+         * Source : https://stackoverflow.com/questions/2040240/php-function-to-generate-v4-uuid
+         * Date 08.10.2019
+         */
+        private function gen_uuid() {
+            return sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+                // 32 bits for "time_low"
+                mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
+
+                // 16 bits for "time_mid"
+                mt_rand( 0, 0xffff ),
+
+                // 16 bits for "time_hi_and_version",
+                // four most significant bits holds version number 4
+                mt_rand( 0, 0x0fff ) | 0x4000,
+
+                // 16 bits, 8 bits for "clk_seq_hi_res",
+                // 8 bits for "clk_seq_low",
+                // two most significant bits holds zero and one for variant DCE1.1
+                mt_rand( 0, 0x3fff ) | 0x8000,
+
+                // 48 bits for "node"
+                mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff )
+            );
         }
     }
 
