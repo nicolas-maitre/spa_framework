@@ -1,4 +1,11 @@
 var pagesConfig = {
+	error:{
+        title: "Erreur",
+        headButton:{
+            text: "Home",
+            target: "home"
+        }
+    },
     home:{
         title: "Accueil",
         headButton:{
@@ -19,13 +26,6 @@ var pagesConfig = {
             target: "home"
         },
         view: "quizz"
-    },
-    error:{
-        title: "Erreur",
-        headButton:{
-            text: "Home",
-            target: "home"
-        }
     },
     manage:{
         title: "Manage",

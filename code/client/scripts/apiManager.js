@@ -11,7 +11,7 @@ function ApiManager(){
         return response.text();
     })
     .then(function(text){
-        console.log("fetch test", text);
+        //console.log("fetch test", text);
     });
 
     this.call = function(url, options){

@@ -1,4 +1,5 @@
 DirectoryIndex root.html
 
 RewriteEngine on
-RewriteRule ^(error|home|config)/* root.html
+#new pages should be added between the two brackets, separated by a vertical bar
+RewriteRule ^(error|home|create|quizz|manage)/* root.html
