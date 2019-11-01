@@ -6,6 +6,7 @@ var globalMemory = {};
 
 //instanciate managers
 var pagesManager = new PagesManager();
+var apiManager = new ApiManager();
 var builder = new Builder();
 var actions = new Actions();
 
