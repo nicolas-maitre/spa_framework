@@ -89,7 +89,7 @@ var DragAndDrop = function(){
         }
         if(elementToDrop.className.includes("toDrag")){
             if(elementToDrop != elemToDrag){
-$                if(elementToDrop.checkMouseIsTop()){
+                if(elementToDrop.checkMouseIsTop()){
                     elemToDrag.addElemBefore(elementToDrop);
                 }else{ 
                     elemToDrag.addElemAfter(elementToDrop)
