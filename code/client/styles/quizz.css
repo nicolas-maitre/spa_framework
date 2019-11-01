@@ -1,0 +1,103 @@
+/*quizzs*/
+.ContainerQuizz{
+    padding: 25px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+.quizzPageContainer{
+    text-align: center;
+}
+.dateQuizz{
+    float:right;
+}
+.DescriptionQuizz{
+    font-style: italic;
+}
+/*quizz title*/
+.titreQuizz{
+    font-family: Arial, sans-serif; 
+    font-size: 20px;
+ }
+.quizzTitle{
+    text-align: center;
+    font-size: 30px;
+}
+/*questions*/
+.quizzQuestionsContainer{
+    margin: auto;
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 5%;
+    display: inline-block;
+    margin-top: 20px;
+    margin: 20px;
+    width: 100%;
+}
+.titreQuizz > .questionAnswerContainer{
+     width: 40%;
+ }
+.questionContainer{
+    margin-top: 10px;
+}
+.quizzQuestionsContainer > .ContainerTable{
+    margin: auto;
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 5%;
+ }
+/*question title*/
+.questionTitle{
+    width: 250px;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: left;
+    padding-right: 5px;
+}
+/*question answer*/
+.questionAnswerContainer{
+    display: inline-block;
+    width: calc(100% - 300px);
+    vertical-align: middle;
+}
+.questionAnswerContainer > .questionAnswerSingleLine2{
+    width: 350px;
+}
+.questionAnswerContainerSearch{
+    display: flex;
+    justify-content: center;
+}
+.questionAnswerContainerSearch > i{
+    margin-left: 16px;
+    margin-top: 4px;
+}
+.questionAnswerContainerSearch > i:hover{
+    cursor: pointer;
+    color: blue;
+}
+.questionAnswer{
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+}
+.questionAnswer.questionAnswerMultiLines{
+    max-width: 100%;
+    min-width: 100%;
+    min-height: 30px;
+    max-height: 300px;
+    height: 60px;
+}
+
+/*Others*/
+.AddQuizz{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 75px;
+}
+.AddQuizz > a > i{
+   font-size: 25px;
+   color: black;
+}
+.AddQuizz > a > i:hover{
+    color: blue;
+ }
