@@ -17,9 +17,6 @@
             <input class="questionAnswer questionAnswerSingleLine" type="text" placeholder="Entrez votre réponse ici"/>
         </div>
     </div>
-    <div class="questionContainer">
-        <div class="questionButton">
-            <button class="topMenuRightButton">Sousmettre</button>
-        </div>
+    <button>Soumettre</button>
     </div>
 </div>

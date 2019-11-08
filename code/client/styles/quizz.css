@@ -1,5 +1,5 @@
 /*quizzs*/
-.ContainerQuizz{
+.containerQuizz{
     padding: 25px;
     text-align: left;
     border-bottom: 1px solid #ddd;
@@ -10,7 +10,7 @@
 .dateQuizz{
     float:right;
 }
-.DescriptionQuizz{
+.descriptionQuizz{
     font-style: italic;
 }
 /*quizz title*/
@@ -38,6 +38,9 @@
  }
 .questionContainer{
     margin-top: 10px;
+}
+.questionContainer:nth-child(2n){
+    background-color: whitesmoke;
 }
 .quizzQuestionsContainer > .ContainerTable{
     margin: auto;

@@ -1,12 +1,11 @@
 /*header*/
 .topMenu {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     width: 100%;
     border-bottom: 1px solid #666;
     height: 50px;
     line-height: 49px;
-    text-align: center;
     font-size: 35px;
     position: fixed;
     top: 0;
@@ -15,21 +14,15 @@
     color:white;
     text-shadow: 0px 0px 5px#999;
 }
-.topMenu > .topMenuRightButton {
-    margin : 4px;
-}
-
-.topMenu > div {
-    width: 100%;
-}
-.topMenuRightButton {
-    background-color: white;
-    color: black;
-    border: 2px solid black;
-}
-.topMenuRightButton:hover {
-   cursor: pointer;
-   box-shadow: #666 2 2;
+.pizza{
+    vertical-align: middle;
+    display: inline-block;
+    background-image: url(../images/pizza.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 45px;
+    width: 45px;
+    margin: 2px;
 }
 /*footer*/
 .footer {
@@ -41,14 +34,4 @@
     line-height: 29px;
     position: fixed;
     bottom: 0;
-}
-.pizza{
-    vertical-align: middle;
-    display: inline-block;
-    background-image: url(../images/pizza.png);
-    background-size: cover;
-    background-repeat: no-repeat;
-    height: 20px;
-    width: 20px;
-    margin: 5px;
 }
