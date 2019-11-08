@@ -1,6 +1,4 @@
 <?php
-
-
     class Rest
     {
 
@@ -8,15 +6,14 @@
 
         //Credentials
         private $host = 'localhost';
-        private $user = 'root';
-        private $password = "root";
-        private $database = "kaphootdb";
+        private $user = 'kaphoot';
+        private $password = "GOoTy.0Xn7";
+        private $database = "kaphoot_db";
 
         //Définition des tables dans la bdd
         private $ansTable = 'tblanswers';
         private $quesTable = 'tblquestions';
         private $quizTable = 'tblquizzes';
-
 
         private $dbConnect = false;
 
@@ -73,7 +70,6 @@
                     "datecreation" => $row['3']
                 ];
             }
-
             $this->returndata($response);
         }
 
@@ -144,9 +140,10 @@
 
         private function returndata($data)
         {
-
             header('Content-Type: application/json');
             echo json_encode($data,JSON_PRETTY_PRINT);
+			// if this method fails without throwing an error, 
+			// it is probably because there are unsupoorted chars inside the data.
         }
 
         static public function getInstance(){
