@@ -1,0 +1,10 @@
+.linkQuizz>div{
+    background-color: white;
+    cursor: pointer;
+}
+.linkQuizz:nth-child(2n)>div{
+    background-color: whitesmoke;
+}
+.linkQuizz:hover>div{
+    background-color: lightgray;
+}
