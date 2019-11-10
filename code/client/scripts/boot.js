@@ -11,7 +11,7 @@ var apiManager = new ApiManager();
 var builder = new Builder();
 var actions = new Actions();
 
-document.addEventListener("DOMContentLoaded", function(domEv){
+document.addEventListener("DOMContentLoaded", function(domEvt){
 	//elements
 	elements.pagesContainer = document.getElementById("pagesContainer");
 	elements.topMenuButton = document.getElementById("topMenuButton");
@@ -25,15 +25,23 @@ document.addEventListener("DOMContentLoaded", function(domEv){
 	if(window.location.pathname != "/"){
 		pageToShow = window.location.pathname.split("/")[1];
 	}
+	pageQuery = false;
+	if(window.location.search){
+		pageQuery = utils.decodeQuery(window.location.search);
+	}
 	//load views
 	pagesManager.preloadViews(pageToShow);
 	//display page
-	pagesManager.changePage(pageToShow);
+	pagesManager.changePage(pageToShow, {query: pageQuery});
 	//popstate
 	window.addEventListener("popstate",function(evt){
 		console.log("pop", evt);
 		if(evt.state && evt.state.pageName){
-			pagesManager.changePage(evt.state.pageName, false);
+			var popQuery = false;
+			if(evt.state.query){
+				popQuery = evt.state.query;
+			}
+			pagesManager.changePage(evt.state.pageName, {pushToHistory:false, query: popQuery});
 			return;
 		}
 		console.log("no pop state defined");

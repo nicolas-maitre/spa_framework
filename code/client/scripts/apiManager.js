@@ -30,4 +30,10 @@ function ApiManager(){
         */
         
     };
+	
+	//CONSTRUCTOR
+	function init(){
+		//initiateDataClasses();
+	}
+	init();
 }

@@ -4,8 +4,27 @@ function PagesManager(){
     this.pages = {};
     this.currentPage = false;
     var viewsCache = {};
-    this.changePage = function(pageName, pushToHistory = true){
+    this.changePage = function(pageName, options){
+		/*
+			pageName string
+			options{
+				pushToHistory bool (true)
+				query{
+					paramName:value
+				}
+			}
+		*/
         console.log("change page to " + pageName);
+		//options
+		if(typeof options != "object"){
+			options = {};
+		}
+		if(typeof options.pushToHistory != "bool"){
+			options.pushToHistory = true;
+		}
+		if(!options.query){
+			options.query = false;
+		}
         //page already displayed
         if(_this.currentPage == pageName){
             console.log("page already shown");
@@ -40,9 +59,22 @@ function PagesManager(){
         _this.pages[pageName].container.classList.remove('none');
         _this.currentPage = pageName;
 
+		//query
+		var queryUrl = "";
+		if(options.query){
+			queryUrl = "?";
+			for(var indQuery in options.query){
+				queryUrl += encodeURIComponent(indQuery);
+				queryUrl += "=";
+				queryUrl += encodeURIComponent(options.query[indQuery]);
+				queryUrl += "&"
+			}
+			queryUrl = queryUrl.slice(0, -1);
+			console.log("queryUrl", queryUrl);
+		}
         //push to history
-        if(pushToHistory && !DEV_PREVENT_HISTORY){
-            history.pushState({pageName: pageName}, "kaphoot - " + pageName, "/" + pageName);
+        if(options.pushToHistory && !DEV_PREVENT_HISTORY){
+            history.pushState({pageName: pageName, query: options.query}, "kaphoot - " + pageName, "/" + pageName + queryUrl);
         }
 
         //title
@@ -82,6 +114,8 @@ function PagesManager(){
             _this.pages[pageName].container.innerHTML = view.htmlString;
             //loaded
             _this.pages[pageName].isLoaded = true;
+			//add dynamic links
+			utils.setDynamicLinks(_this.pages[pageName].container);
             //evt
             if(actions.onPageLoad[pageName]){
                 actions.onPageLoad[pageName]();
