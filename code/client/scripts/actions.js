@@ -20,7 +20,7 @@ function Actions(){
     this.onPageDisplay.manage = function(){
         //add dragondrop on the page
         var dragAndDropManage = new DragAndDrop();
-        dragAndDropManage.buildDragAndDrop("quizzQuestionsContainer", "droped");
+        dragAndDropManage.buildDragAndDrop("quizzList", "droped");
         console.log("drag and drop added to manage");
     }
 }
