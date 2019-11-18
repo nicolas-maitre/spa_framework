@@ -4,7 +4,7 @@ function PagesManager(){
     this.pages = {};
     this.currentPage = false;
     var viewsCache = {};
-    this.changePage = function(pageName, options){
+    this.changePage = function(pageName, {pushToHistory=true, query=false} = {}){
 		/*
 			pageName string
 			options{
@@ -15,16 +15,7 @@ function PagesManager(){
 			}
 		*/
         console.log("change page to " + pageName);
-		//options
-		if(typeof options != "object"){
-			options = {};
-		}
-		if(typeof options.pushToHistory != "bool"){
-			options.pushToHistory = true;
-		}
-		if(!options.query){
-			options.query = false;
-		}
+		
         //page already displayed
         if(_this.currentPage == pageName){
             console.log("page already shown");
@@ -41,6 +32,9 @@ function PagesManager(){
             _this.changePage("error");
             return;
         }
+		
+		//page config
+		var pageConfig = pagesConfig[pageName];
 
         //page not built
         if(!_this.pages[pageName]){
@@ -49,7 +43,7 @@ function PagesManager(){
                 container: false
             };
             //build container
-            _this.pages[pageName].container = elements.pagesContainer.addElement('div', 'pageContainer ' + pageName + 'PageContainer none');
+            _this.pages[pageName].container = elements.pagesContainer.addElement('div', `pageContainer ${pageName}PageContainer none`);
         }
 
         //display page
@@ -61,29 +55,31 @@ function PagesManager(){
 
 		//query
 		var queryUrl = "";
-		if(options.query){
+		if(query){
 			queryUrl = "?";
-			for(var indQuery in options.query){
+			for(var indQuery in query){
 				queryUrl += encodeURIComponent(indQuery);
 				queryUrl += "=";
-				queryUrl += encodeURIComponent(options.query[indQuery]);
+				queryUrl += encodeURIComponent(query[indQuery]);
 				queryUrl += "&"
 			}
 			queryUrl = queryUrl.slice(0, -1);
 			console.log("queryUrl", queryUrl);
 		}
+		
+		//title
+		var documentTitle = config.pageTitlePrefix + (pageConfig.title || pageName);
+        document.title = documentTitle;
+		
         //push to history
-        if(options.pushToHistory && !DEV_PREVENT_HISTORY){
-            history.pushState({pageName: pageName, query: options.query}, "kaphoot - " + pageName, "/" + pageName + queryUrl);
+        if(pushToHistory && !DEV_PREVENT_HISTORY){
+            history.pushState({pageName: pageName, query: query}, documentTitle, "/" + pageName + queryUrl);
         }
 
-        //title
-        document.title = config.pageTitlePrefix + (pagesConfig[pageName].title || pageName);
-
         //button config (TO MOVE)
-        if(pagesConfig[pageName].headButton){
-            elements.topMenuButton.innerText = pagesConfig[pageName].headButton.text;
-            globalMemory.headButtonTarget = pagesConfig[pageName].headButton.target;
+        if(pageConfig.headButton){
+            elements.topMenuButton.innerText = pageConfig.headButton.text;
+            globalMemory.headButtonTarget = pageConfig.headButton.target;
             elements.topMenuButton.classList.remove("none");
         }else{
             elements.topMenuButton.classList.add("none");
@@ -91,6 +87,9 @@ function PagesManager(){
 
         //already loaded
         if(this.pages[pageName].isLoaded){
+			if(pageConfig.refreshDataOnDisplay){ //reload data
+				builder.applyDataAdapters(pageName);
+			}
             if(actions.onPageDisplay[pageName]){
                 actions.onPageDisplay[pageName]();
             }
@@ -116,6 +115,8 @@ function PagesManager(){
             _this.pages[pageName].isLoaded = true;
 			//add dynamic links
 			utils.setDynamicLinks(_this.pages[pageName].container);
+			//apply data adapters / show data
+			builder.applyDataAdapters(pageName);
             //evt
             if(actions.onPageLoad[pageName]){
                 actions.onPageLoad[pageName]();
@@ -124,7 +125,6 @@ function PagesManager(){
                 actions.onPageDisplay[pageName]();
             }
         });
-
     }
     this.preloadViews = function(priority){
         _this.loadView(priority, function(){ //load priority view

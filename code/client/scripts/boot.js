@@ -10,6 +10,7 @@ var pagesManager = new PagesManager();
 var apiManager = new ApiManager();
 var builder = new Builder();
 var actions = new Actions();
+var dataSources = new DataSources();
 
 document.addEventListener("DOMContentLoaded", function(domEvt){
 	//elements
@@ -19,6 +20,9 @@ document.addEventListener("DOMContentLoaded", function(domEvt){
 
 	//other init (TO MOVE)
 	elements.topMenuButton.addEventListener("click", actions.onHeadButtonClick);
+	document.querySelector(".pizza").addEventListener("click", function(ev){
+		pagesManager.changePage("home");
+	});
 	//load dataClasses
 	DataClass.initClasses();
 	

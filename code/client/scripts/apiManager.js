@@ -1,5 +1,5 @@
 function ApiManager(){	
-    this.call = async function(url = "", {method = "GET", urlParams = false, bodyParams = false}){
+    this.call = async function(url = "", {method = "GET", urlParams = false, bodyParams = false} = {}){
         /*
         url: string (from api endpoint)
         options: {

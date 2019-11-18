@@ -53,3 +53,14 @@ body {
     opacity: 0;
     z-index: 20;
 }
+
+/*content loader*/
+.contentLoader {
+    min-height: 50px;
+    width: 100%;
+    background-image: url(/images/loader.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-top: 20px;
+}

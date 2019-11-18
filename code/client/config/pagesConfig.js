@@ -11,7 +11,13 @@ var pagesConfig = {
         headButton:{
             text: "Manage",
             target: "manage"
-        }
+        },
+		refreshDataOnDisplay: true,
+		data:[{
+			source: "allAvailibleQuizzes",
+			container: ".ListQuizz", //querySelector synthax
+			adapter: "quizzLine"
+		}]
     },
     create:{
         headButton:{
