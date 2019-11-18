@@ -126,7 +126,10 @@ function PagesManager(){
             }
         });
     }
-    this.preloadViews = function(priority){
+    this.refreshCurrentPage = function(){
+		builder.applyDataAdapters(_this.currentPage);
+	};
+	this.preloadViews = function(priority){
         _this.loadView(priority, function(){ //load priority view
             for(var viewName in pagesConfig){
                 _this.loadView(viewName, function(){});//load other views

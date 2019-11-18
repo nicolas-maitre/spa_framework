@@ -4,7 +4,7 @@
 </div>
 <div class="questionAnswerContainerSearch" >
     <input class="questionAnswer questionAnswerSingleLine" id="test" type="text" placeholder="Search"/>
-    <i class="fas fa-sync-alt"></i>                       
+    <i class="fas fa-sync-alt refreshButton"></i>                       
 </div>
 <div class="ListQuizz">
     <a class="linkQuizz" href="/quizz">

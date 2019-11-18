@@ -15,8 +15,9 @@ function Actions(){
         dragAndDropManage.buildDragAndDrop("quizzList", "droped");
         console.log("drag and drop added to manage");
     }
-	this.onPageLoad.test = function(){
-		
+	this.onPageLoad.home = function(){
+		var refreshButton = document.querySelector(".homePageContainer .questionAnswerContainerSearch .refreshButton");
+		refreshButton.addEventListener("click", pagesManager.refreshCurrentPage);
 	}
 
     //page actions on display
