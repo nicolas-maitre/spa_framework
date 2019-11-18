@@ -1,6 +1,15 @@
-function DataClass(){
+function DataClass(dataType){
+	var _this = this;
+	this.dataType = dataType;
 	
+	this.get = async function({id}){
+		
+	};
+	this.getAll = async function(){
+		
+	}
 }
+
 //_static methods
 DataClass.initClasses = function(){
 	for(var indDC = 0; indDC < config.dataClasses; indDC++){
@@ -8,7 +17,7 @@ DataClass.initClasses = function(){
 		initiateDataClass(DCName);
 	}
 }
-DataClass.initClass(name){
+DataClass.initClass = function(name){
 	var DCName = name.capitalise();
 	//test for overwrite
 	if(window[DCName]){
@@ -17,8 +26,5 @@ DataClass.initClass(name){
 	}
 	
 	//create class with the right name
-	window[DCName] = function(){}
-	currentClass = window[DCName];
-	//modify prototype
-
+	window[DCName] = new DataClass(name);
 }

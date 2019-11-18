@@ -56,8 +56,7 @@
             $this->returndata(array("id" => $uuid));
         }
 
-        function getQuizzes()
-        {
+        function getQuizzes(){
             $query = "SELECT * FROM $this->quizTable";
             $response = array();
             $result = mysqli_query($this->dbConnect, $query);
@@ -73,8 +72,7 @@
             $this->returndata($response);
         }
 
-        function getQuiz($id=0)
-        {
+        function getQuiz($id=0){
             $query = "SELECT * FROM $this->quizTable";
             if($id != 0)
             {
@@ -99,8 +97,7 @@
          *
          *
          */
-        function updateQuiz($id)
-        {
+        function updateQuiz($id){
 
             $query='UPDATE tblquizzes SET name=?, description=? WHERE idQuizzes=?';
 
@@ -123,8 +120,7 @@
          * @param $data
          */
 
-        function deleteQuiz($id)
-        {
+        function deleteQuiz($id){
             $query='DELETE FROM tblquizzes WHERE idQuizzes=?';
 
             $pquery = $this->dbConnect->prepare($query);
@@ -138,8 +134,7 @@
         }
 
 
-        private function returndata($data)
-        {
+        private function returndata($data){
             header('Content-Type: application/json');
             echo json_encode($data,JSON_PRETTY_PRINT);
 			// if this method fails without throwing an error, 

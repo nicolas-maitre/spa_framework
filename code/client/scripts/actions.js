@@ -9,6 +9,15 @@ function Actions(){
     this.onPageLoad.error = function(){
         
     }
+    this.onPageLoad.manage = function(){
+        //add dragondrop on the page
+        var dragAndDropManage = new DragAndDrop();
+        dragAndDropManage.buildDragAndDrop("quizzList", "droped");
+        console.log("drag and drop added to manage");
+    }
+	this.onPageLoad.test = function(){
+		
+	}
 
     //page actions on display
     this.onPageDisplay = {};
@@ -16,11 +25,5 @@ function Actions(){
         errorStatusCode.innerText = globalMemory.error.code;
         errorClientMsg.innerText = globalMemory.error.msg;
     }
-    //action when mange page is displayed
-    this.onPageDisplay.manage = function(){
-        //add dragondrop on the page
-        var dragAndDropManage = new DragAndDrop();
-        dragAndDropManage.buildDragAndDrop("quizzList", "droped");
-        console.log("drag and drop added to manage");
-    }
+    
 }

@@ -1,23 +1,9 @@
-function ApiManager(){
-    //direct call
-    this.get = {};
-    this.put = {};
-    this.update = {};
-    this.delete = {};
-
-    //create self properties tree
-    fetch("/views/manage.php")
-    .then(function(response){
-        return response.text();
-    })
-    .then(function(text){
-        //console.log("fetch test", text);
-    });
-
-    this.call = function(url, options){
+function ApiManager(){	
+    this.call = async function(url = "", {method = "GET", urlParams = false, bodyParams = false}){
         /*
-        url: string
+        url: string (from api endpoint)
         options: {
+			method: [GET(default), PUT, POST, DELETE]
             urlParams: array of {
                 name: string,
                 value: any
@@ -28,7 +14,22 @@ function ApiManager(){
             }
         }
         */
-        
+        var requestHeaders = new Headers();
+		var requestInit = { 
+			method: method,
+			headers: requestHeaders,
+		};
+
+		var apiResponse = await fetch(`${config.apiPath}/${url}`, requestInit);
+		
+		if(!apiResponse.ok){
+			console.warn("api error", apiResponse.status);
+			return {ok:false, error:apiResponse.status}
+		}
+		
+		var jsonResponse = await apiResponse.json();
+		
+		return {ok:true, data:jsonResponse};
     };
 	
 	//CONSTRUCTOR

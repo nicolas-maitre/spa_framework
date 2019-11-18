@@ -19,7 +19,9 @@ document.addEventListener("DOMContentLoaded", function(domEvt){
 
 	//other init (TO MOVE)
 	elements.topMenuButton.addEventListener("click", actions.onHeadButtonClick);
-
+	//load dataClasses
+	DataClass.initClasses();
+	
 	//manage landing page
 	var pageToShow = config.landingPage;
 	if(window.location.pathname != "/"){

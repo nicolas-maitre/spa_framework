@@ -32,6 +32,10 @@ var pagesConfig = {
         headButton:{
             text: "Home",
             target: "home"
-        }
-    }
+        },
+		reloadData: true
+    },
+	test:{
+		
+	}
 };
