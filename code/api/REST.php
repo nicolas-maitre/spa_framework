@@ -84,9 +84,9 @@
             {
                 $response[] = [
                     "id" => $row['idQuizzes'],
-                    "name" => $row['1'],
-                    "description" => $row['2'],
-                    "datecreation" => $row['3']
+                    "name" => $row['name'],
+                    "description" => $row['description'],
+                    "datecreation" => $row['datecreation']
                 ];
             }
 
@@ -136,6 +136,7 @@
 
         private function returndata($data){
             header('Content-Type: application/json');
+			header('Access-Control-Allow-Origin: *');
             echo json_encode($data,JSON_PRETTY_PRINT);
 			// if this method fails without throwing an error, 
 			// it is probably because there are unsupoorted chars inside the data.
