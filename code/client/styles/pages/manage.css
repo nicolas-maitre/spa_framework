@@ -32,10 +32,10 @@
     cursor: pointer;
 }
 .imgEdit{
-    background-image: url(../images/edit.png);
+    background-image: url(/images/edit.png);
 }
 .imgTrash{
-    background-image: url(../images/trash.png);
+    background-image: url(/images/trash.png);
 }
 .imgEdit, .imgTrash{
     background-size: cover;
