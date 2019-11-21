@@ -31,7 +31,8 @@ var pagesConfig = {
             text: "Home",
             target: "home"
         },
-        view: "quizz"
+        view: "quizz",
+        reloadData: true,
     },
     manage:{
         title: "Manage",

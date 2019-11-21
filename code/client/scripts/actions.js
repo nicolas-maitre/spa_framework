@@ -3,8 +3,9 @@ function Actions(){
     this.onHeadButtonClick = function(evt){
         pagesManager.changePage(globalMemory.headButtonTarget);
     };
-
+    //-------------------------------------------------------------------------------------
     //page actions on load
+    //-------------------------------------------------------------------------------------
     this.onPageLoad = {};
     this.onPageLoad.error = function(){
         
@@ -14,7 +15,6 @@ function Actions(){
         //load all quizzes
         dataSources.allQuizzes().then(function(datas){
             datas.forEach(quizz => {
-                console.log(quizz);
                 builder.adapters.quizzLine(document.querySelector(".quizzList"), quizz);
             });
             //add dragondrop on the page
@@ -26,8 +26,9 @@ function Actions(){
 		var refreshButton = document.querySelector(".homePageContainer .questionAnswerContainerSearch .refreshButton");
 		refreshButton.addEventListener("click", pagesManager.refreshCurrentPage);
 	}
-
+    //-------------------------------------------------------------------------------------
     //page actions on display
+    //-------------------------------------------------------------------------------------
     this.onPageDisplay = {};
     this.onPageDisplay.error = function(){
         errorStatusCode.innerText = globalMemory.error.code;

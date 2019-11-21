@@ -3,6 +3,7 @@ function DataSources(){
 	//get
 	/**
 	 * get all quizz availible
+	 * @returns {array} 
 	 */
 	this.allAvailibleQuizzes = async function(){
 		var res = await apiManager.call("quizzes");
@@ -10,6 +11,7 @@ function DataSources(){
 	};
 	/**
 	 * get all quizzes
+	 * @returns {array}
 	 */
 	this.allQuizzes = async function(){
 		var res = await apiManager.call("quizzes");
@@ -17,54 +19,11 @@ function DataSources(){
 	};
 	/**
 	 * get 1 quizz
+	 * @param {string} id id of quizz
+	 * @return {array}
 	 */
 	this.quizz = async function(id){
-		var res = await apiManager.call("quizzes/"+id);
-		return res.ok ? res.data : [];//return only if data
+		return apiManager.getData("quizzes", id)
 	}
-	//post
-	/**
-	 * create quizz
-	 * @param {object{name: "", description: ""}} data 
-	 */
-	this.addQuizz = async function(data){
-		var options = {
-			method: "POST",
-			bodyParams: data
-		}
-		var res = await apiManager.call("quizzes", options);
-		return res.ok ? res.data : [];//return only if data
-	}
-	/**
-	 * 
-	 * @param {int} id id of quizz to add questions
-	 * @param {object{title: "", type:""}} data
-	 */
-	this.addQuestion = async function(id, data){
-		var options = {
-			method: "POST",
-			bodyParams: data
-		}
-		var res = await apiManager.call("questions/"+id, options);
-		return res.ok ? res.data : [];//return only if data
-	}
-	//put
-	this.updateQuizz = async function(id, data){
-		var options = {
-			method: "PUT",
-			bodyParams: data
-		}
-		var res = await apiManager.call("quizzes/"+id, options);
-		return res.ok ? res.data : [];//return only if data
-	}
-	this.updateQuestion = async function(id, data){
-		var options = {
-			method: "PUT",
-			bodyParams: data
-		}
-		var res = await apiManager.call("questions/"+id, options);
-		return res.ok ? res.data : [];//return only if data
-	}
-	//delete
 
 }
