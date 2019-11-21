@@ -1,0 +1,50 @@
+.ListeQuizz{
+    margin-top: 20px;
+}
+
+.ContainerAnswer:nth-child(2n){
+    background-color: whitesmoke;
+}
+
+.ContainerQuestion, .ContainerAnswer{
+    display: flex;
+}
+
+.ContainerQuestion > div , .ContainerAnswer > div {
+    width: 100%;
+    padding: 15px;
+}
+
+.ContainerQuestion{
+    text-align: center;
+    font-weight:bold;
+}
+
+.QuestionTake{
+    text-align: left;
+}
+
+.Question, .Name{
+    color: #F15454;
+}
+
+.Question:hover, .Name:hover{
+    color: blue;
+    cursor: pointer;
+}
+
+.Name, .QuestionTake{
+    width: 150px;
+}
+
+.Answer{
+    text-align: center;
+}
+
+.fa-check, .fa-check-double{
+    color: #60B911;
+}
+
+.fa-times{
+    color: red;
+}
