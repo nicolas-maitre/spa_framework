@@ -1,3 +1,4 @@
+"use strict";
 function DataSources(){
 	this.allAvailibleQuizzes = async function(){
 		var res = await apiManager.call("quizzes");

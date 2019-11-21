@@ -1,6 +1,6 @@
 var config = {
     viewsLocation: "/views",
-    apiPath: "/api",
+    apiPath: "http://kaphoot.mycpnv.ch/api",
     landingPage: "home",
     viewsExtension: ".php",
     pageTitlePrefix: "Kaphoot - ",
