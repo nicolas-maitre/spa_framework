@@ -74,6 +74,36 @@ function Builder(){
 		quizzDescr.innerText = data.description;
 		link.setAttribute("href", `/quizz/${data.id}`);
 	}
+	this.adapters.quizzManage = function(container, data){
+		//elems
+		var droped = container.addElement("div", "droped");
+		droped.draggable = true;
+		`
+		<div class="droped" draggable="true">
+			<div class="quizzListInfos">
+				<div class="titreQuizz" style="display: inline">
+					<div class="questionTitle">la conditions IF ?1</div>
+				</div>
+				<div class="dateQuizz" style="display: inline"> 
+				</div>
+				<div class="DescriptionQuizz">
+					<div class="questionTitle">Tous savoir sur la conditions IF</div>
+					<div class="questionAnswerContainer">
+						<div class="dateQuizz" style="display: inline"></div>
+					</div>
+				</div>
+			</div>
+			<div class="quizzListActions">
+				<div class="imgEdit"></div>
+				<div class="imgTrash"></div>
+			</div>
+		</div>`
+		//data
+		quizzTitle.innerText = data.name;
+		quizzDate.innerText = data.datecreation;
+		quizzDescr.innerText = data.description;
+		link.setAttribute("href", `/quizz/${data.id}`);
+	}
 	
 	//other
 	this.addContentLoader = function(container, className = ""){

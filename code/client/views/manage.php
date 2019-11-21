@@ -3,6 +3,7 @@
     <!--  Building-->
     <div class="quizzList">
         <div class="quizzTitleManage"><div>Building</div><i class="fas fa-plus-square"></i></div>
+        
         <div class="droped" draggable="true">
             <div class="quizzListInfos">
                 <div class="titreQuizz" style="display: inline">
@@ -22,6 +23,7 @@
                 <div class="imgTrash"></div>
             </div>
         </div>
+        
     </div>
     <!-- Active -->
     <div class="quizzList">

@@ -10,10 +10,17 @@ function Actions(){
         
     }
     this.onPageLoad.manage = function(){
-        //add dragondrop on the page
         var dragAndDropManage = new DragAndDrop();
-        dragAndDropManage.buildDragAndDrop("quizzList", "droped");
-        console.log("drag and drop added to manage");
+        //load all quizzes
+        dataSources.allQuizzes().then(function(datas){
+            datas.forEach(quizz => {
+                console.log(quizz);
+                builder.adapters.quizzLine(document.querySelector(".quizzList"), quizz);
+            });
+            //add dragondrop on the page
+            dragAndDropManage.buildDragAndDrop("quizzList", "droped");
+            console.log("drag and drop added to manage");
+        });
     }
 	this.onPageLoad.home = function(){
 		var refreshButton = document.querySelector(".homePageContainer .questionAnswerContainerSearch .refreshButton");
