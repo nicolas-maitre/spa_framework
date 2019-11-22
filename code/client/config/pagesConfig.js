@@ -1,46 +1,50 @@
 var pagesConfig = {
-	error:{
+    error: {
         title: "Erreur",
-        headButton:{
+        headButton: {
             text: "Home",
             target: "home"
         }
     },
-    home:{
+    home: {
         title: "Accueil",
-        headButton:{
+        headButton: {
             text: "Manage",
             target: "manage"
         },
-		refreshDataOnDisplay: true,
-		data:[{
-			source: "allAvailibleQuizzes",
-			container: ".ListQuizz", //querySelector synthax
-			adapter: "quizzLine"
-		}]
+        refreshDataOnDisplay: true,
+        data: [{
+            source: "allAvailibleQuizzes",
+            container: ".ListQuizz", //querySelector synthax
+            adapter: "quizzLine"
+        }]
     },
-    create:{
-        headButton:{
+    create: {
+        headButton: {
             text: "Home",
             target: "home"
         },
         view: "create"
     },
-    quizz:{
-        headButton:{
+    quizz: {
+        headButton: {
             text: "Home",
             target: "home"
         },
-        view: "quizz"
+        view: "quizz",
+        reloadData: true,
     },
-    manage:{
+    manage: {
         title: "Manage",
-        headButton:{
+        headButton: {
             text: "Home",
             target: "home"
         },
     },
-	test:{
-		
-	}
+    statistics: {
+        headButton: {
+            text: "Home",
+            target: "home"
+        }
+    }
 };

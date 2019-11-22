@@ -3,8 +3,9 @@ function Actions(){
     this.onHeadButtonClick = function(evt){
         pagesManager.changePage(globalMemory.headButtonTarget);
     };
-
+    //-------------------------------------------------------------------------------------
     //page actions on load
+    //-------------------------------------------------------------------------------------
     this.onPageLoad = {};
     this.onPageLoad.error = function(){
         
@@ -13,8 +14,9 @@ function Actions(){
 		var refreshButton = document.querySelector(".homePageContainer .questionAnswerContainerSearch .refreshButton");
 		refreshButton.addEventListener("click", pagesManager.refreshCurrentPage);
 	}
-
+    //-------------------------------------------------------------------------------------
     //page actions on display
+    //-------------------------------------------------------------------------------------
     this.onPageDisplay = {};
     this.onPageDisplay.error = function(){
         errorStatusCode.innerText = globalMemory.error.code;
