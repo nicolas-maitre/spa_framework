@@ -39,7 +39,6 @@ var pagesConfig = {
             text: "Home",
             target: "home"
         },
-		reloadData: true
     },
 	test:{
 		
