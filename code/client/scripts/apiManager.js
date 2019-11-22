@@ -33,8 +33,20 @@ function ApiManager(){
 			requestBody = requestBody.slice(0, -1);
 			requestInit.body = requestBody;
 		}
+		//url params
+		var requestUrlParams = "";
+		if(urlParams){
+			requestUrlParams = "?";
+			for(var indParam in urlParams){
+				requestUrlParams += encodeURIComponent(indParam);
+				requestUrlParams += "=";
+				requestUrlParams += encodeURIComponent(urlParams[indParam]);
+				requestUrlParams += "&";
+			}
+			requestUrlParams = requestUrlParams.slice(0, -1);
+		}
 
-		var apiResponse = await fetch(`${config.apiPath}/${url}`, requestInit);
+		var apiResponse = await fetch(`${config.apiPath}/${url}${requestUrlParams}`, requestInit);
 		
 		if(!apiResponse.ok){
 			console.warn("api error", apiResponse.status);
