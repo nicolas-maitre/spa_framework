@@ -23,34 +23,14 @@ document.addEventListener("DOMContentLoaded", function(domEvt){
 	document.querySelector(".pizza").addEventListener("click", function(ev){
 		pagesManager.changePage("home");
 	});
-	//load dataClasses
-	DataClass.initClasses();
 	
 	//manage landing page
-	var pageToShow = config.landingPage;
-	if(window.location.pathname != "/"){
-		pageToShow = window.location.pathname.split("/")[1];
-	}
-	pageQuery = false;
-	if(window.location.search){
-		pageQuery = utils.decodeQuery(window.location.search);
-	}
+	var landingRes = pagesManager.manageLanding();
+	
 	//load views
-	pagesManager.preloadViews(pageToShow);
-	//display page
-	pagesManager.changePage(pageToShow, {query: pageQuery});
+	pagesManager.preloadViews();
+
 	//popstate
-	window.addEventListener("popstate",function(evt){
-		console.log("pop", evt);
-		if(evt.state && evt.state.pageName){
-			var popQuery = false;
-			if(evt.state.query){
-				popQuery = evt.state.query;
-			}
-			pagesManager.changePage(evt.state.pageName, {pushToHistory:false, query: popQuery});
-			return;
-		}
-		console.log("no pop state defined");
-	});
+	window.addEventListener("popstate", pagesManager.managePopState);
 	console.log("init completed");
 });

@@ -32,28 +32,15 @@ function ApiManager(){
 		};
 		//body of request
 		if(bodyParams){
-			var requestBody = "";
-			for(var indParam in bodyParams){
-				requestBody += encodeURIComponent(indParam);
-				requestBody += "=";
-				requestBody += encodeURIComponent(bodyParams[indParam]);
-				requestBody += "&";
-			}
-			requestBody = requestBody.slice(0, -1);
+			var requestBody = utils.encodeQuery(bodyParams);
 			requestInit.body = requestBody;
 		}
 		//url params
 		var requestUrlParams = "";
 		if(urlParams){
-			requestUrlParams = "?";
-			for(var indParam in urlParams){
-				requestUrlParams += encodeURIComponent(indParam);
-				requestUrlParams += "=";
-				requestUrlParams += encodeURIComponent(urlParams[indParam]);
-				requestUrlParams += "&";
-			}
-			requestUrlParams = requestUrlParams.slice(0, -1);
+			requestUrlParams = "?" + utils.encodeQuery(urlParams);
 		}
+		console.log("fetch params", `${config.apiPath}/${url}${requestUrlParams}`, requestInit);
 		//call api
 		var apiResponse = await fetch(`${config.apiPath}/${url}${requestUrlParams}`, requestInit);
 		//if http error

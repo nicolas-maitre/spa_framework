@@ -4,17 +4,18 @@ function PagesManager(){
     this.pages = {};
     this.currentPage = false;
     var viewsCache = {};
-    this.changePage = function(pageName, {pushToHistory=true, query=false} = {}){
+    this.changePage = function(pageName, {pushToHistory=true, query=false, path=false} = {}){
 		/*
 			pageName string
 			options{
 				pushToHistory bool (true)
 				query{
 					paramName:value
-				}
+                }
+                path array of name
 			}
 		*/
-        console.log("change page to " + pageName);
+        console.log("change page to " + pageName, arguments[1]);
 		
         //page already displayed
         if(_this.currentPage == pageName){
@@ -56,34 +57,34 @@ function PagesManager(){
 		//query
 		var queryUrl = "";
 		if(query){
-			queryUrl = "?";
-			for(var indQuery in query){
-				queryUrl += encodeURIComponent(indQuery);
-				queryUrl += "=";
-				queryUrl += encodeURIComponent(query[indQuery]);
-				queryUrl += "&"
-			}
-			queryUrl = queryUrl.slice(0, -1);
+			queryUrl = "?" + utils.encodeQuery(query);	
 			console.log("queryUrl", queryUrl);
 		}
-		
+        
+        //path
+        var pathUrl = `/${pageName}`;
+        if(path){
+            for(var indPath=0; indPath < path.length; indPath++){
+                queryUrl += `/${path[indPath]}`
+            }
+        }
+        
 		//title
 		var documentTitle = config.pageTitlePrefix + (pageConfig.title || pageName);
         document.title = documentTitle;
 		
         //push to history
-        if(pushToHistory && !DEV_PREVENT_HISTORY){
-            history.pushState({pageName: pageName, query: query}, documentTitle, "/" + pageName + queryUrl);
+        if(!DEV_PREVENT_HISTORY){
+            var stateSaveObject = {pageName, query, path}
+            if(pushToHistory){
+                history.pushState(stateSaveObject, documentTitle, pathUrl + queryUrl);
+            } else {
+                history.replaceState(stateSaveObject, documentTitle, pathUrl + queryUrl);
+            }
         }
 
-        //button config (TO MOVE)
-        if(pageConfig.headButton){
-            elements.topMenuButton.innerText = pageConfig.headButton.text;
-            globalMemory.headButtonTarget = pageConfig.headButton.target;
-            elements.topMenuButton.classList.remove("none");
-        }else{
-            elements.topMenuButton.classList.add("none");
-        }
+        //any page display action
+        actions.onAnyPageDisplay({pageName, pageConfig});
 
         //already loaded
         if(this.pages[pageName].isLoaded){
@@ -126,16 +127,55 @@ function PagesManager(){
             }
         });
     }
+
+    this.manageLanding = function(){
+        var pageToShow = config.landingPage;
+        var pageOptions = {};
+        pageOptions.pushToHistory = false;
+
+        if(window.location.pathname != "/"){
+            var fullPathArray = window.location.pathname.split("/");
+
+            //page to show
+            pageToShow = fullPathArray[1]; //only gets fist path entry, so the page name
+
+            //path
+            pageOptions.path = fullPathArray.slice(2); //only get the path after the page name
+        }
+
+        //search
+        if(window.location.search){
+            pageOptions.query = utils.decodeQuery(window.location.search);
+        }
+
+        //display page
+        pagesManager.changePage(pageToShow, pageOptions);
+    };
+    this.managePopState = function(evt){
+        console.log("pop", evt);
+        if(!evt.state || !evt.state.pageName){
+            console.log("no pop state defined");
+            return;
+        }
+        var pageOptions = evt.state;
+        pageOptions.pushToHistory = false;
+        pagesManager.changePage(evt.state.pageName, pageOptions);		
+    }
+
     this.refreshCurrentPage = function(){
 		builder.applyDataAdapters(_this.currentPage);
 	};
-	this.preloadViews = function(priority){
-        _this.loadView(priority, function(){ //load priority view
-            for(var viewName in pagesConfig){
-                _this.loadView(viewName, function(){});//load other views
-            }
-        });
-       
+	this.preloadViews = async function(priority = false){
+        //load priority view
+        if(priority){ 
+            await new Promise(resolve => {
+                _this.loadView(priority, resolve)
+            });
+        }
+        //load other views
+        for(var viewName in pagesConfig){
+            _this.loadView(viewName, function(){});
+        }
     }
     this.loadView = function(view, callBack){
         console.log("loadView", view);
