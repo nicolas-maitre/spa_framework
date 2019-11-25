@@ -91,6 +91,7 @@ function Builder(){
 		//data
 		console.log(data);
 		quizzTitle.innerText = data.name;
+		quizzDate.innerText = data.datecreation;
 	};
 	
 	//other
