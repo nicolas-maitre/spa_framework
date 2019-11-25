@@ -1,0 +1,6 @@
+INSERT INTO kaphoot_db.tblquizzes (`idQuizzes`,`name`, `description`, `date`, `status`) VALUES ('318dd08b-d07a-4013-8331-5b388c21460c ','test 1', 'Je suis la description du test 1', '2019-12-12', 'ACTIVE');
+INSERT INTO kaphoot_db.tblquizzes (`idQuizzes`,`name`, `description`, `date`, `status`) VALUES ('cfd673be-1caa-4e05-896e-d23b392581b1','test 2', 'Je suis la description du test 2', '1999-12-10', 'ACTIVE');
+INSERT INTO kaphoot_db.tblquizzes (`idQuizzes`,`name`, `description`, `date`, `status`) VALUES ('9d6382d8-875e-495a-8f78-2dfab226ffdb','test 3', 'je suis la description du test 3', '2018-04-04', 'CLOS');
+INSERT INTO kaphoot_db.tblquizzes (`idQuizzes`,`name`, `description`, `date`, `status`) VALUES ('51a39822-fb98-4546-9c95-8e6f8661c372','test 4', 'je suis la description du test 4', '2015-05-10', 'CLOS');
+INSERT INTO kaphoot_db.tblquizzes (`idQuizzes`,`name`, `description`, `date`) VALUES ('8d877639-68bc-43e2-81d3-3996947cd523','test 5', 'je suis la description du test 5', '2016-05-05');
+INSERT INTO kaphoot_db.tblquizzes (`idQuizzes`,`name`, `description`, `date`) VALUES ('af5257c0-bc16-49f0-98e6-0f69225697ce','test 6', 'je suis la descrioton du test 6', '1896-04-04');
