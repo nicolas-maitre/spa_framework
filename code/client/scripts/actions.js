@@ -13,7 +13,8 @@ function Actions(){
 	this.onPageLoad.home = function(){
 		var refreshButton = document.querySelector(".homePageContainer .questionAnswerContainerSearch .refreshButton");
 		refreshButton.addEventListener("click", pagesManager.refreshCurrentPage);
-	}
+    }
+    this
     //-------------------------------------------------------------------------------------
     //page actions on display
     //-------------------------------------------------------------------------------------
@@ -45,7 +46,10 @@ function Actions(){
             });
 
             //add dragondrop on the page
-            dragAndDropManage.buildDragAndDrop("quizzList", "droped");
+            dragAndDropManage.buildDragAndDrop("quizzList", "droped", function(elem){
+                //to do to update status
+                console.log(elem);
+            });
             console.log("drag and drop added to manage");
         });
     }

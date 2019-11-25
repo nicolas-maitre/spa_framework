@@ -16,10 +16,12 @@ var DragAndDrop = function(){
      * Methode to build drag and drop
      * @param classListToDrop define elements where to drop moving element
      * @param classElementToDrag define elements are possible to move
+     * @param functionWhereDrop(element) function to execute when element is drop, 
      */
-    this.buildDragAndDrop = function(classListToDrop, classElementToDrag){
+    this.buildDragAndDrop = function(classListToDrop, classElementToDrag, functionWhereDrop){
         _this.addDrop(classListToDrop);
-        _this.addDrag(classElementToDrag);
+        _this.addDrag(classElementToDrag, functionWhereDrop);
+        
     }
     /**
      * Methode to add possibility to drop
@@ -41,7 +43,7 @@ var DragAndDrop = function(){
      * Methode to add possibility to move
      * @param classToDrag define elements are possible to move
      */
-    this.addDrag = function(classToDrag){
+    this.addDrag = function(classToDrag, callbackWhereDrop){
         //add event dragstart to allow on element to drag and display where is dropped and add event to remove the effect
         Array.prototype.forEach.call(document.getElementsByClassName(classToDrag), function(elem){
             elem.classList.add("toDrag");
@@ -54,6 +56,7 @@ var DragAndDrop = function(){
             });
             elem.addEventListener("dragend", function(event){
                 draggedElem.classList.remove("hovered");
+                callbackWhereDrop(event.target);
             });
         });
     }
