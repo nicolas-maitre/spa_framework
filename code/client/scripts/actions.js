@@ -54,4 +54,16 @@ function Actions(){
 
         });
     }
+
+    //page action on any page display
+    this.onAnyPageDisplay = function({pageName = false, pageConfig = false}){
+        //button config
+        if(pageConfig.headButton){
+            elements.topMenuButton.innerText = pageConfig.headButton.text;
+            globalMemory.headButtonTarget = pageConfig.headButton.target;
+            elements.topMenuButton.classList.remove("none");
+        }else{
+            elements.topMenuButton.classList.add("none");
+        }
+    }
 }
