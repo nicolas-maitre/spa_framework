@@ -8,6 +8,17 @@ Element.prototype.addElement = function(type, className, options){
 	}
 	return newElement;
 }
+
+Element.prototype.removeChilds = function(elemQuery = false){
+	if(elemQuery){
+		var elemsToRemove = [...this.querySelectorAll(elemQuery)]
+	} else {
+		var elemsToRemove = [...this.childNodes];
+	}
+	elemsToRemove.forEach((elem) => {
+		elem.remove();
+	});
+};
 //capitalise first letter
 String.prototype.capitalise = function(){
 	return this[0].toUpperCase() + this.slice(1);

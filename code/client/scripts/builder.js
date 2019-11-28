@@ -36,9 +36,7 @@ function Builder(){
 			return;
 		}
 		//remove all content from container
-		while(adaptersContainer.firstChild) {
-			adaptersContainer.removeChild(adaptersContainer.firstChild);
-		}
+		adaptersContainer.removeChilds();
 		//show loader
 		var contentLoader = _this.addContentLoader(adaptersContainer);
 		
