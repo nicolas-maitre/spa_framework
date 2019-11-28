@@ -83,7 +83,7 @@ utils.decodeQuery = function(queryString){
 	if(!queryString){
 		return false;
 	}
-	var cleanQuery = queryString.split("?")[1];
+	var cleanQuery = (queryString.split("?")[1] || queryString); //cleans query if it contains a `?` char
 	var queryStringArray = cleanQuery.split("&");
 	var queryObject = {};
 	for(var indQuery in queryStringArray){
@@ -96,6 +96,16 @@ utils.decodeQuery = function(queryString){
 	}
 	return queryObject;
 };
+utils.encodeQuery = function(queryData){
+	var encodedStr = ""
+	for(var indQuery in queryData){
+		encodedStr += encodeURIComponent(indQuery);
+		encodedStr += "=";
+		encodedStr += encodeURIComponent(queryData[indQuery]);
+		encodedStr += "&"
+	}
+	return encodedStr.slice(0, -1);
+}
 
 utils.setDynamicLinks = function(parent){
 	var linksList = parent.getElementsByTagName("a");
@@ -105,18 +115,20 @@ utils.setDynamicLinks = function(parent){
 	}
 };
 utils.setDynamicLink = function(elem){
-    console.log("setDynamicLink", elem);
-    var href = elem.pathname;
-    var page = href.split("/")[1];
+	var href = elem.pathname;
+	var hrefArray = href.split("/");
+    var page = hrefArray[1];
 	var query = utils.decodeQuery(elem.search)
-    if(pagesConfig[page]){//only adds event if the page exists
+	var path = (hrefArray.slice(2) || false); //get path
+	console.log("setDynamicLink", elem, {query}, {path});
+	if(pagesConfig[page]){//only adds event if the page exists
         //add event
         elem.addEventListener("click", function(evt){
 			evt.preventDefault();
 			//remove href
             elem.removeAttribute("href");
             //change page
-			pagesManager.changePage(page, {query: query});
+			pagesManager.changePage(page, {query, path});
             //put back href
             requestAnimationFrame(function(frameTime){
                 elem.setAttribute("href", href);
