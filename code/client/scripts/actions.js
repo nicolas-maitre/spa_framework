@@ -11,10 +11,17 @@ function Actions(){
         
     }
 	this.onPageLoad.home = function(){
-		var refreshButton = document.querySelector(".homePageContainer .questionAnswerContainerSearch .refreshButton");
+        var refreshButton = document.querySelector(".homePageContainer .questionAnswerContainerSearch .refreshButton");
 		refreshButton.addEventListener("click", pagesManager.refreshCurrentPage);
     }
-    this
+    this.onPageLoad.manage = function(){
+        //add dragondrop on the page
+        dragAndDropManage.buildDragAndDrop("quizzList", "droped", function(elem){
+            //TODO to update status
+            console.log(elem);
+        });
+        console.log("drag and drop added to manage");
+    }
     //-------------------------------------------------------------------------------------
     //page actions on display
     //-------------------------------------------------------------------------------------
@@ -45,12 +52,6 @@ function Actions(){
                 builder.adapters.quizzManage(container1, quizz);
             });
 
-            //add dragondrop on the page
-            dragAndDropManage.buildDragAndDrop("quizzList", "droped", function(elem){
-                //to do to update status
-                console.log(elem);
-            });
-            console.log("drag and drop added to manage");
         });
     }
 }
