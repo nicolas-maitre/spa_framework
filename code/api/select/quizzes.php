@@ -104,7 +104,6 @@ class Quizzes
        echo json_encode($response,JSON_PRETTY_PRINT);
     }
 
-
     static private function gen_uuid() {
         return sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
             // 32 bits for "time_low"
