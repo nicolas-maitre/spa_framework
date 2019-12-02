@@ -35,6 +35,8 @@ switch ($method) {
     case 'PUT':
 		//Update du nom et de la description d'un quiz
         Router::put("/quiz/id/", "update/quizzes@updateQuiz");
+        //Update du nom et de la description d'un quiz
+        Router::put("/quiz/id/updateStatus", "update/quizzes@updateQuizStatus");
         break;
 
     case 'DELETE':
