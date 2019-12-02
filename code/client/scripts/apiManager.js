@@ -40,6 +40,7 @@ function ApiManager(){
 		if(urlParams){
 			requestUrlParams = "?" + utils.encodeQuery(urlParams);
 		}
+		//TODO remove
 		console.log("fetch params", `${config.apiPath}/${url}${requestUrlParams}`, requestInit);
 		//call api
 		var apiResponse = await fetch(`${config.apiPath}/${url}${requestUrlParams}`, requestInit);
@@ -75,8 +76,8 @@ function ApiManager(){
 	 * @param {string} element quizzes, questions or answers
 	 * @returns {array} data return by api
 	 */
-	this.updateData = async function(element, id, data){
-		var res = callApi(element+"/"+id, "PUT", data);
+	this.updateData = async function(url, data){
+		var res = callApi(url, "PUT", data);
 		return res.ok ? res.data : [];//return only if data
 	}
 	/**

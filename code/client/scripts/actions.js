@@ -15,11 +15,10 @@ function Actions(){
 		refreshButton.addEventListener("click", pagesManager.refreshCurrentPage);
     }
     this.onPageLoad.manage = function(){
-        //add dragondrop on the page
+        //add drop on the page
         globalMemory.dragAndDropManage = new DragAndDrop();
-        globalMemory.dragAndDropManage.buildDragAndDrop("quizzList", "droped", function(elem){
-            //TODO to update status
-        });
+        globalMemory.dragAndDropManage.addDrop("quizzList");
+        console.log("drag and drop added to manage");   
     }
     //-------------------------------------------------------------------------------------
     //page actions on display
@@ -30,37 +29,31 @@ function Actions(){
         errorClientMsg.innerText = globalMemory.error.msg;
     }
     this.onPageDisplay.manage = function(){
-        //show loaders
-        var container1 = document.querySelectorAll(".quizzList")[0];
-        var container2 = document.querySelectorAll(".quizzList")[1];
-        var container3 = document.querySelectorAll(".quizzList")[2];
-        
-        container1.removeChilds(".droped");
-        container2.removeChilds(".droped");
-        container3.removeChilds(".droped");
+        //show loaders        
+        listQuizzesBuild.removeChilds(".droped");
+        listQuizzesActive.removeChilds(".droped");
+        listQuizzesClos.removeChilds(".droped");
 
-        var loader1 = builder.addContentLoader(container1);
-        var loader2 = builder.addContentLoader(container2);
-        var loader3 = builder.addContentLoader(container3);
+        var loaderQuizzesBuild = builder.addContentLoader(listQuizzesBuild);
+        var loaderQuizzesActive = builder.addContentLoader(listQuizzesActive);
+        var loaderQuizzesClos = builder.addContentLoader(listQuizzesClos);
         //load all quizzes
         dataSources.allQuizzes().then(function(datas){
             //hide loaders
-            loader1.remove();
-            loader2.remove();
-            loader3.remove();
+            loaderQuizzesBuild.remove();
+            loaderQuizzesActive.remove();
+            loaderQuizzesClos.remove();
             
             //build adapters
             datas.forEach(quizz => {
-                console.log(quizz);
-                builder.adapters.quizzManage(container1, quizz);
+                var list = document.getElementById("listQuizzes" + quizz.status.capitalise());
+                builder.adapters.quizzManage(list, quizz);
             });
             //add drop possibility on quizz
             globalMemory.dragAndDropManage.addDrag("droped", function(elem){
-                //TODO to update status
-                console.log(elem);
+                var url = `quiz/${elem.getAttribute("quizzid")}/updateStatus`;
+                apiManager.updateData(url, {status: elem.parentElement.getAttribute("name")})
             });
-            console.log("drag and drop added to manage");
-            
         });
     }
     
