@@ -50,21 +50,17 @@ class Router {
 
         $url = parse_url($_SERVER['REQUEST_URI'])['path'];
         $api = '/api';
-		
-        //A modifier afin d'avoir l'url à api et mettre le numero a 4
         $urlcut = substr(stristr ($url, '/api/'), strlen($api) );
 		
 
-   
         foreach (self::$routes as $route)
         {
+			
             //Sécurité afin de pouvoir laisser l'utilisateur mettre un / ou non à la fin de l'url
             if(substr($urlcut,-1)!="/")
             $urlcut.="/";
 
             $regex='^'.str_replace(array("/","id"),array("\/",$idRegex),$route['path']).'$';
-			
-			
 			
 
             if(preg_match(strtolower("#".$regex."#"),strtolower($urlcut),$matches))
@@ -78,14 +74,11 @@ class Router {
 				
                 exit;
             }
-			else
-			{
-				http_response_code(400);
-				exit;
-			}
 			
         }
-
+				
+				http_response_code(400);
+				exit;
         //self::execute(self::$dirController."/controller@error",(object)array("error"=>"Error 404 | page not found","message"=>$_SERVER['HTTP_HOST'].$url));
     }
 
@@ -111,25 +104,18 @@ class Router {
         
     }
 
-    private static function execute($function,$param){
-
+    private static function execute($function,$param)
+	{
+		
         $controller=explode('@',$function); 
 		
-
-        $class=explode('/', $controller[0])[1];
-		
-		
+        $class=explode('/', $controller[0])[1];		
         $controller[0]=$controller[0].'.php';
 		
-	
         require_once("./$controller[0]");		
-		
-
 
         $method=$controller[1];
-			
 		
-
         if( !empty($param) || count($param)>=1 )
             //convert $parm to object for easier use
             
