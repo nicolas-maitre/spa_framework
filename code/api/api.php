@@ -18,12 +18,8 @@ switch ($method) {
 		//Récupère une question en fonction de l'id
 		Router::get("/questions/id/", "select/questions@getQuiz");
 		//Récupère toutes les réponses d'une question en fonction de l'id de la question
-        Router::get("/questions/id/answers/", "select/questions/quizzes@getAnswers");
+        Router::get("/questions/id/answers/", "select/questions@getAllAnswersFromAllQuestionsFromAQuiz");
 		
-		//Récupère toutes les réponses
-		Router::get("/answers/", "select/answers@getAnswers");
-		//Récupère une réponse en fonction de l'id
-		Router::get("/answers/id/", "select/answers@getAnswer");
         break;
 
     case 'POST':
@@ -35,8 +31,6 @@ switch ($method) {
     case 'PUT':
 		//Update du nom et de la description d'un quiz
         Router::put("/quiz/id/", "update/quizzes@updateQuiz");
-        //Update du nom et de la description d'un quiz
-        Router::put("/quiz/id/updateStatus", "update/quizzes@updateQuizStatus");
         break;
 
     case 'DELETE':

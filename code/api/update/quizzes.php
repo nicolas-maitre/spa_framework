@@ -20,14 +20,7 @@ class Quizzes
 
     private $conn;
 
-	
-
-	private $name;
-
-	private $description;
-
 	private $id;
-
 
 
 
@@ -50,36 +43,30 @@ class Quizzes
 		parse_str(file_get_contents('php://input'), $_PUT);
 
 		//query
-		$query = "UPDATE
+		$query = "UPDATE $this->quizTable SET";
+		foreach($_PUT as $index=>$param){
+			$query .= " ".$index. "= :".$index.",";
+		}
+		//Supprime la dernière virgule
+		$query = substr($query,0,-1);
 
-					 $this->quizTable
-				SET
-					name = :name,
-					description = :description
-				WHERE
-					idQuizzes = :id";
-
-		
+		$query .= " WHERE idQuizzes = :id";
 
 		//prepare de la query
 		$stmt = $this->conn->prepare($query);
 
-	 
-
-		//Filtre de nettoyage
-		$this->name=htmlspecialchars(strip_tags($_PUT['name']));
-		$this->description=htmlspecialchars(strip_tags($_PUT['description']));
 		$this->id=htmlspecialchars(strip_tags($id->quiz));
 
-		//bind des valeurs
-		$stmt->bindParam(':name', $this->name);
-		$stmt->bindParam(':description', $this->description);
+		foreach($_PUT as $index=>$param)
+		{
+			$this->bindParam($stmt, $index, $param);
+		}
+		
 		$stmt->bindParam(':id', $id->quiz);
 
 	 
 
 		// Execution
-
 		if($stmt->execute()){
 			return true;
 		}
@@ -87,39 +74,9 @@ class Quizzes
 
 	}
 
-	function updateQuizStatus($id){
-
-		//Récupération des infos envoyées par la méthode PUT
-		parse_str(file_get_contents('php://input'), $_PUT);
-
-		//query
-		$query = "UPDATE
-					 $this->quizTable
-				SET
-					status = :status
-				WHERE
-					idQuizzes = :id";
-
-		
-
-		//prepare de la query
-		$stmt = $this->conn->prepare($query);
-
-		//Filtre de nettoyage
-		$this->status=htmlspecialchars(strip_tags($_PUT['status']));
-		$this->id=htmlspecialchars(strip_tags($id->quiz));
-
-		//bind des valeurs
-		$stmt->bindParam(':status', $this->status);
-		$stmt->bindParam(':id', $id->quiz);
-
-		// Execution
-
-		if($stmt->execute()){
-			return true;
-		}
-		return false;
-
+	function bindParam($stmt, $index, $param){
+		htmlspecialchars(strip_tags($index));
+		$stmt->bindParam(':'.$index, $param);
 	}
 
 }
