@@ -55,6 +55,16 @@ function Actions(){
         });
     }
 
+    //-------------------------------------------------------------------------------------
+    //page actions on data
+    //-------------------------------------------------------------------------------------
+
+    this.onPageData = {};
+    this.onPageData.quizz = function(data, dataName){
+        console.log("onPageData quizz!", data, dataName);
+        document.querySelector(".quizzTitle").innerText = data[0].name;
+    }
+
     //page action on any page display
     this.onAnyPageDisplay = function({pageName = false, pageConfig = false}){
         //button config
