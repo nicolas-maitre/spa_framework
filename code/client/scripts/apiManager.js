@@ -67,7 +67,7 @@ function ApiManager(){
 	 * @returns {array} data return by api
 	 */
 	this.getData = async function(element, id){
-		var res = callApi(element+"/"+id, "GET");
+		var res = await callApi(element+"/"+id, "GET");
 		return res.ok ? res.data : [];//return only if data
 	}
 	/**
@@ -76,7 +76,7 @@ function ApiManager(){
 	 * @returns {array} data return by api
 	 */
 	this.updateData = async function(element, id, data){
-		var res = callApi(element+"/"+id, "PUT", data);
+		var res = await callApi(element+"/"+id, "PUT", data);
 		return res.ok ? res.data : [];//return only if data
 	}
 	/**
