@@ -75,13 +75,10 @@ function Builder(){
 	this.adapters.quizzManage = function(container, data){
 		//elems
 		var droped = container.addElement("div", "droped");
-
 		var quizzTitle = droped.addElement("p", "quizzListTitle");
-
 		var quizzActions = droped.addElement("div", "quizzListActions");
 		var quizzEdit = quizzActions.addElement("div", "quizzListActionsEdit imgEdit");
 		var quizzDelete = quizzActions.addElement("div", "quizzListActionsDelete imgTrash")
-
 		var quizzDate = droped.addElement("quizzListDate");
 
 		droped.setAttribute('draggable',  true);
@@ -89,6 +86,7 @@ function Builder(){
 		//data
 		console.log(data);
 		quizzTitle.innerText = data.name;
+		droped.setAttribute("quizzid", data.id);
 		quizzDate.innerText = data.datecreation;
 	};
 	
