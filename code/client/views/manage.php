@@ -1,7 +1,7 @@
 <div class="quizzTitle">Gestion des Quizz</div>
 <div class="quizzLists flex-container">
     <!--  Building-->
-    <div class="quizzList">
+    <div id="listQuizzesBuild" name="build" class="quizzList">
         <div class="quizzTitleManage"><div>Building</div><i class="fas fa-plus-square"></i></div>
         
         <div class="droped" draggable="true">
@@ -26,11 +26,11 @@
         
     </div>
     <!-- Active -->
-    <div class="quizzList">
+    <div id="listQuizzesActive" name="active" class="quizzList">
         <div class="quizzTitleManage">Active</div>
     </div>
     <!-- Closed -->
-    <div class="quizzList">
+    <div id="listQuizzesClos" name="clos" class="quizzList">
         <div class="quizzTitleManage">Closed</div>
     </div>
 </div>

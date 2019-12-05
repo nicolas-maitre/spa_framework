@@ -18,7 +18,7 @@ class Quizzes
 
     public function getQuizzes()
     {
-        $query = "SELECT * FROM $this->quizTable";
+        $query = "SELECT * FROM $this->quizTable where active = '1'";
         $response = array();
         $sth = $this->conn->prepare($query);
         
@@ -31,7 +31,7 @@ class Quizzes
                 "name" => $row['name'],
                 "description" => $row['description'],
                 "datecreation" => $row['datecreation'],
-                "active" => $row['active']
+                "status" => $row['status']
             ];
         }
 		
