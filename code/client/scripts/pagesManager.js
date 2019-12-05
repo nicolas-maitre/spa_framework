@@ -41,7 +41,8 @@ function PagesManager(){
         if(!_this.pages[pageName]){
             _this.pages[pageName] = {
                 isLoaded: false,
-                container: false
+                container: false,
+                data: {}
             };
             //build container
             _this.pages[pageName].container = elements.pagesContainer.addElement('div', `pageContainer ${pageName}PageContainer none`);
@@ -72,10 +73,11 @@ function PagesManager(){
 		//title
 		var documentTitle = config.pageTitlePrefix + (pageConfig.title || pageName);
         document.title = documentTitle;
-		
+        var stateSaveObject = {pageName, query, path};
+        _this.pages[_this.currentPage].location = stateSaveObject;
+
         //push to history
         if(!DEV_PREVENT_HISTORY){
-            var stateSaveObject = {pageName, query, path}
             if(pushToHistory){
                 history.pushState(stateSaveObject, documentTitle, pathUrl + queryUrl);
             } else {
@@ -116,8 +118,8 @@ function PagesManager(){
             _this.pages[pageName].isLoaded = true;
 			//add dynamic links
 			utils.setDynamicLinks(_this.pages[pageName].container);
-			//apply data adapters / show data
-			builder.applyDataAdapters(pageName);
+			//apply data / show data
+			_this.manageData(pageName);
             //evt
             if(actions.onPageLoad[pageName]){
                 actions.onPageLoad[pageName]();
@@ -161,9 +163,104 @@ function PagesManager(){
         pageOptions.pushToHistory = false;
         pagesManager.changePage(evt.state.pageName, pageOptions);		
     }
+    this.manageData = function(pageName){
+		if(!pagesConfig[pageName] || !pagesConfig[pageName].data){
+			return;
+		}
+		var allDataConfigs = pagesConfig[pageName].data;
+		for(var indDataConfig = 0; indDataConfig < allDataConfigs.length; indDataConfig++){
+            var dataConfig = allDataConfigs[indDataConfig];
+            _this.applyDataConfig(dataConfig, pageName);
+		}
+    };
+    this.applyDataConfig = function(dataConfig, pageName){
+        //data source
+        if(!dataSources[dataConfig.source]){
+			console.warn(`data source ${dataConfig.source} doesn't exist`);
+			return;
+		}
+        var dataSource = dataSources[dataConfig.source];
+
+        //data adapter check
+        var adapter = false;
+        var adaptersContainer = false;
+        if(builder.adapters[dataConfig.adapter]){
+            adapter = builder.adapters[dataConfig.adapter];
+            adaptersContainer = _this.pages[pageName].container.querySelector(dataConfig.container);
+            if(!adaptersContainer){
+                console.warn(`data container for ${dataConfig.container} selector, doesn't exist`);
+                return;
+            }
+            //remove all content from container
+            while(adaptersContainer.firstChild) {
+                adaptersContainer.removeChild(adaptersContainer.firstChild);
+            }
+            //add loader
+            var contentLoader = builder.addContentLoader(adaptersContainer);
+        }
+
+        //data params (path template)
+        var dataParams = false;
+        if(dataConfig.pathTemplate){
+            dataParams = {};
+            console.log("pathTemplate", dataConfig.pathTemplate);
+            console.log({pathEntities});
+
+            //extract param name and values from url
+            var pathEntities = dataConfig.pathTemplate.split("/").slice(1);
+            var pathArray = _this.pages[pageName].location.path;
+            for (let indPath = 0; indPath < pathEntities.length; indPath++) {
+                var templateEntity = pathEntities[indPath];
+                var paramValue = pathArray[indPath];
+                if(!pathArray[indPath]){
+                    console.warn("missing parameter in url");
+                    return;
+                }
+                if(!templateEntity.includes("{{") || !templateEntity.includes("}}")){
+                    //template doesn't correspond to url
+                    if(templateEntity !== paramValue){
+                        console.warn("url path doesnt apply to template. aborting.", {templateEntity, paramValue});
+                        return;
+                    }
+
+                    console.log("no template found for entry", {templateEntity, paramValue})
+                    //no template found, skip to next
+                    continue;
+                }
+                //extract param name and set value
+                var paramName = templateEntity.split("{{")[1].split("}}")[0];
+                console.log(paramName, paramValue);
+                dataParams[paramName] = paramValue;
+            }
+        }
+
+        dataSource(dataParams)
+		.then(function(data){
+            if(adapter){ //adapter data
+                builder.applyDataAdapter({
+                    container: adaptersContainer, 
+                    adapter, data, contentLoader
+                });
+            } else {
+                var dataName = false;
+                //get dataName
+                if(dataConfig.dataName){
+                    dataName = dataConfig.dataName;
+                    //add to page data
+                    _this.pages[pageName].data[dataName] = data;
+                }
+                //onData callBack
+                if(actions.onPageData[pageName]){
+                    actions.onPageData[pageName](data, dataName);
+                }
+            }
+            //TODO add onPageData callBack
+        });
+        
+    }
 
     this.refreshCurrentPage = function(){
-		builder.applyDataAdapters(_this.currentPage);
+		_this.manageData(_this.currentPage);
 	};
 	this.preloadViews = async function(priority = false){
         //load priority view

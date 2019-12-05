@@ -68,7 +68,7 @@ function ApiManager(){
 	 * @returns {array} data return by api
 	 */
 	this.getData = async function(element, id){
-		var res = callApi(element+"/"+id, "GET");
+		var res = await callApi(element+"/"+id, "GET");
 		return res.ok ? res.data : [];//return only if data
 	}
 	/**
@@ -77,7 +77,7 @@ function ApiManager(){
 	 * @returns {array} data return by api
 	 */
 	this.updateData = async function(url, data){
-		var res = callApi(url, "PUT", data);
+		var res = await callApi(url, "PUT", data);
 		return res.ok ? res.data : [];//return only if data
 	}
 	/**
@@ -86,7 +86,7 @@ function ApiManager(){
 	 * @returns {array} data return by api
 	 */
 	this.createData = async function(element, data){
-		var res = callApi(element, "POST", data);
+		var res = await callApi(element, "POST", data);
 		return res.ok ? res.data : [];//return only if data
 	}
 	/**

@@ -1,60 +1,18 @@
 function Builder(){
     var _this = this;
-    this.prebuildPage = function(){
-        
-    }
 	
-	this.applyDataAdapters = function(pageName){
-		if(!pagesConfig[pageName] || !pagesConfig[pageName].data){
-			return;
-		}
-		var allDataConfigs = pagesConfig[pageName].data;
-		for(var indDataConfig = 0; indDataConfig < allDataConfigs.length; indDataConfig++){
-			_this.applyDataAdapter(allDataConfigs[indDataConfig], `.${pageName}PageContainer`);
-		}
-	};
-	
-	this.applyDataAdapter = function(dataConfig, parentSelector = "body"){
-		//test for data source
-		if(!dataSources[dataConfig.source]){
-			console.warn(`data source ${dataConfig.source} doesn't exist`);
-			return;
-		}
-		var dataSource = dataSources[dataConfig.source];
+	this.applyDataAdapter = function({container, adapter, data, contentLoader}){
+		//hide loader
+		contentLoader.remove();
 		
-		//test for adapter
-		if(!_this.adapters[dataConfig.adapter]){
-			console.warn(`data adapter ${dataConfig.adapter} doesn't exist`);
-			return;
+		//loop over data
+		for(var indData = 0; indData < data.length; indData++){
+			//display adapter
+			adapter(container, data[indData]);
 		}
-		var adapter = _this.adapters[dataConfig.adapter];
 		
-		//get container (inside page container)
-		var adaptersContainer = document.querySelector(`${parentSelector} ${dataConfig.container}`);
-		if(!adaptersContainer){
-			console.warn(`data container for ${dataConfig.container} selector, doesn't exist`);
-			return;
-		}
-		//remove all content from container
-		adaptersContainer.removeChilds();
-		//show loader
-		var contentLoader = _this.addContentLoader(adaptersContainer);
-		
-		//get data
-		dataSource()
-		.then(function(data){
-			//hide loader
-			contentLoader.remove();
-			
-			//loop over data
-			for(var indData = 0; indData < data.length; indData++){
-				//display adapter
-				adapter(adaptersContainer, data[indData]);
-			}
-			
-			//apply links
-			utils.setDynamicLinks(adaptersContainer);
-		});
+		//apply links
+		utils.setDynamicLinks(container);
 	};
 	
 	//ADAPTERS
