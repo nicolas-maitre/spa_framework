@@ -103,15 +103,6 @@ class Quizzes
        echo json_encode($response,JSON_PRETTY_PRINT);
     }
 
-    /*public function InsertQuizze(){
-        $query = "INSERT INTO tblquizzes (`idQuizzes`, `name`, `description`, `datecreation`, `active`)
-         VALUES ('022d1a39-eb5f-4394-b227-95f6d136b958', 'titre de la question', 'descripotion du quizzes', '2018-12-02', '1')";
-
-        $response = array();
-        $sth = $this->conn->prepare($query);
-        $sth->execute(); 
-    }*/
-
     static private function gen_uuid() {
         return sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
             // 32 bits for "time_low"

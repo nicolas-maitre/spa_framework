@@ -16,36 +16,6 @@ class Questions
         $this->conn = $database->getConnection();
     }
 
-    public function getQuizzes()
-    {
-        $query = "SELECT * FROM $this->quizTable where active = '1'";
-        $response = array();
-        $sth = $this->conn->prepare($query);
-        
-        $sth->execute();
-
-        while($row = $sth->fetch(PDO::FETCH_ASSOC))
-        {
-            $response[] = [
-                "id" => $row['idQuizzes'],
-                "name" => $row['name'],
-                "description" => $row['description'],
-                "datecreation" => $row['datecreation'],
-                "status" => $row['status']
-            ];
-        }
-            
-      
-
-        // show products data in json format
-        header('Content-Type: application/json');
-            header('Access-Control-Allow-Origin: *');
-            
-        echo json_encode($response,JSON_PRETTY_PRINT);
-    }
-
-     
-
     public function getAllAnswersFromAllQuestionsFromAQuiz($id){
         $query = "SELECT tblquizzes.idQuizzes, tblquizzes.name, tblquestions.statement,tblquestions.idQuestions, tblanswers.idAnswers, tblanswers.dataAnswers FROM tblquizzes
         INNER JOIN tblquestions ON tblquestions.fk_Quizzes = tblquizzes.idQuizzes
