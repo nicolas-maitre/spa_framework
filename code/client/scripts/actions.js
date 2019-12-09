@@ -113,9 +113,11 @@ function Actions(){
 				break;
 			case "clos":
                 quizzActions.addElement("div", "quizzListActionsDelete imgTrash");
-                quizzActions.addEventListener("clic", function(){
-                    var url = `quiz/${this.getAttribute("quizzid")}`;
+                quizzActions.addEventListener("click", function(event){
+                    var url = `quiz/${quizzActions.parentElement.getAttribute("quizzid")}`;
+                    console.log(118, quizzActions.parentElement, url);
                     apiManager.deleteData(url);
+                    quizzActions.parentElement.remove();
                 })
                 break;
             default:break;
