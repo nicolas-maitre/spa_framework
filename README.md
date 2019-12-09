@@ -7,8 +7,12 @@ The backend is developped in php and the fronted in JavaScript.
 
 ## Api call
 
-### from js
-`Questions.get("abcd-egef-hakd-kaak")`  
-Response:   
-`{id:"...", name:"...", quizz: {quizzObject}}`
 
+## Questions
+### Types
+implemented:
+- single_line_text
+- text
+not implemented
+- qcm
+- answer_text
