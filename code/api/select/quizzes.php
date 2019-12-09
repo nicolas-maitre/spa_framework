@@ -1,5 +1,6 @@
 <?php 
 require_once 'database/database.php';
+
 class Quizzes
 {
     //Définition des tables dans la bdd
@@ -94,36 +95,7 @@ class Quizzes
                 "type" => $row['type']
                
             ];
-        }
-    
-
-       // show products data in json format
-       header('Content-Type: application/json');
-	   header('Access-Control-Allow-Origin: *');
-       echo json_encode($response,JSON_PRETTY_PRINT);
-    }
-
-	public function getQuestion($id)
-    {
-        $query = "SELECT * FROM $this->quesTable 
-        WHERE idQuestions='$id->questions'";
-        
-        
-        $response = array();
-        $sth = $this->conn->prepare($query);
-        $sth->execute();
-     
-        while($row = $sth->fetch(PDO::FETCH_ASSOC))
-        {
-            $response[] = [
-                "id" => $row['idQuestions'],
-                "dataQuestions" => $row['dataQuestions'],
-                "statement" => $row['statement'],
-                "type" => $row['type']
-               
-            ];
-        }
-    
+        }   
 
        // show products data in json format
        header('Content-Type: application/json');
