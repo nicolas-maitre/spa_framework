@@ -104,10 +104,14 @@ function Actions(){
             child = quizzActions.firstChild; 
         }
         //add button corresponding to status
+        var buttonStats = quizzActions.addElement("div", "imgStats");
+        buttonStats.addEventListener("click", function(event){
+            pagesManager.changePage("statistics", {path:[quizzActions.parentElement.getAttribute("quizzid")]});
+        })
 		switch(status){
 			case "build": 
-                quizzActions.addElement("div", "quizzListActionsEdit imgEdit");
-                quizzActions.addEventListener("click", function(event){
+                var buttonEdit = quizzActions.addElement("div", "quizzListActionsEdit imgEdit");
+                buttonEdit.addEventListener("click", function(event){
                     pagesManager.changePage("update", {path:[quizzActions.parentElement.getAttribute("quizzid")]});
                 })
 				break;
@@ -115,9 +119,8 @@ function Actions(){
 				
 				break;
 			case "clos":
-                quizzActions.addElement("div", "quizzListActionsDelete imgTrash");
-                quizzActions.addEventListener("click", function(event){
-                    event.stopPropagation();
+                var buttonTrash = quizzActions.addElement("div", "quizzListActionsDelete imgTrash");
+                buttonTrash.addEventListener("click", function(event){
                     var url = `quiz/${quizzActions.parentElement.getAttribute("quizzid")}`;
                     apiManager.deleteData(url);
                     quizzActions.parentElement.remove();
