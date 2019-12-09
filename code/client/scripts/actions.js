@@ -47,12 +47,12 @@ function Actions(){
             //build adapters
             datas.forEach(quizz => {
                 var list = document.getElementById("listQuizzes" + quizz.status.capitalise());
-                builder.adapters.quizzManage(list, quizz);
+                dropped = builder.adapters.quizzManage(list, quizz);
+                dropped.updateManageButton(dropped.parentElement.getAttribute("name"));
             });
             //add drop possibility on quizz
             globalMemory.dragAndDropManage.addDrag("droped", function(elem){
-                var url = `quiz/${elem.getAttribute("quizzid")}/updateStatus`;
-                apiManager.updateData(url, {status: elem.parentElement.getAttribute("name")})
+                elem.changeStatus(elem.parentElement.getAttribute("name"));
             });
         });
     }
@@ -77,5 +77,48 @@ function Actions(){
         }else{
             elements.topMenuButton.classList.add("none");
         }
+    }
+    /**
+     * To change status of element
+     * @param {string} newStatus status to udate elem
+     */
+    Element.prototype.changeStatus = function(newStatus){
+        this.updateManageButton(newStatus);
+        var url = `quiz/${this.getAttribute("quizzid")}`;
+        apiManager.updateData(url, {status: newStatus});
+    }
+    /**
+     * To change button on manage
+     * @param {string} status status to define button
+     */
+    Element.prototype.updateManageButton = function(status){
+        //get quizz actions div
+        var quizzActions = this.firstChild;
+        while(!quizzActions.classList.contains("quizzListActions")){
+            quizzActions = quizzActions.nextSibling;
+        }
+        //remove all actions buttons
+        var child = quizzActions.firstChild;  
+        while (child) { 
+            quizzActions.removeChild(child); 
+            child = quizzActions.firstChild; 
+        }
+        //add button corresponding to status
+		switch(status){
+			case "build": 
+				quizzActions.addElement("div", "quizzListActionsEdit imgEdit");
+				break;
+			case "active":
+				
+				break;
+			case "clos":
+                quizzActions.addElement("div", "quizzListActionsDelete imgTrash");
+                quizzActions.addEventListener("clic", function(){
+                    var url = `quiz/${this.getAttribute("quizzid")}`;
+                    apiManager.deleteData(url);
+                })
+                break;
+            default:break;
+		}
     }
 }
