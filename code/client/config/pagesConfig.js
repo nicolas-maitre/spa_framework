@@ -34,10 +34,9 @@ var pagesConfig = {
         view: "quizz",
         reloadData: true,
         data: [{
-            source: "allAvailibleQuizzes",
-            paramsFromPath: {},
-            container: ".ListQuizz", //querySelector synthax
-            isGlobalData: true
+            source: "quizz",
+            pathTemplate: "/{{id}}", 
+            dataName: "quizz"//use as global data
         }]
     },
     manage: {

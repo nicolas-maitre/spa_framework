@@ -147,3 +147,10 @@ utils.setDynamicLink = function(elem){
         });
     }
 };
+
+
+//garbage
+function $(){
+	alert("nul! enlève ça de ton code!");
+	throw new Error("oskur le jquery");
+}

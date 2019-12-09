@@ -6,8 +6,7 @@ function DataSources(){
 	 * @returns {array} 
 	 */
 	this.allAvailibleQuizzes = async function(){
-		var res = await apiManager.call("quizzes");
-		return res.ok ? res.data : [];//return only if data
+		return apiManager.getDatas("quizzes");
 	};
 	/**
 	 * get all quizzes
@@ -22,7 +21,8 @@ function DataSources(){
 	 * @param {string} id id of quizz
 	 * @return {array}
 	 */
-	this.quizz = async function(id){
+	this.quizz = async function({id}){
+		console.log("getQuizzData", {id})
 		return apiManager.getData("quizzes", id)
 	}
 
