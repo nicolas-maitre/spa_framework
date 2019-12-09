@@ -1,7 +1,7 @@
 <?php 
 require_once 'database/database.php';
 
-class Quizzes
+class Questions
 {
     //Définition des tables dans la bdd
     private $ansTable = 'tblanswers';
@@ -18,19 +18,20 @@ class Quizzes
         $this->conn = $database->getConnection();
     }
 
-    public function insertQuiz()
+    public function insertQuestion($id)
     {
     
-        $query = "INSERT INTO $this->quizTable (`idQuizzes`, `name`, `description`, `datecreation`, `active`)
+        $query = "INSERT INTO $this->quesTable (`idQuestions`, `fk_Quizzes`, `statement`, `type`, `order`)
         VALUES (?, ?, ?, ?, ?)";
 
+    
         $sth = $this->conn->prepare($query);
 
         $uuid = $this->gen_uuid();
         
-        $sth->execute(array($uuid, $_POST['name'], $_POST['description'], date("Y-m-d"),1)); 
+        $sth->execute(array($uuid, $id->quizzes, $_POST['statement'], $_POST['type'], $_POST['idOrder'])); 
 
-        $query2 = "SELECT * FROM $this->quizTable where active = '1' AND idQuizzes = '$uuid'";
+        $query2 = "SELECT * FROM $this->quesTable where active = '1' AND idQuestions = '$uuid'";
 
         $response = array();
 
@@ -41,15 +42,15 @@ class Quizzes
         while($row = $sth->fetch(PDO::FETCH_ASSOC))
         {
             $response[] = [
-                "id" => $row['idQuizzes'],
-                "name" => $row['name'],
-                "description" => $row['description'],
-                "datecreation" => $row['datecreation'],
-                "status" => $row['status']
+                "id_Quesiton" => $row['idQuestions'],
+                "dataQuestions" => $row['dataQuestions'],
+                "id_Quizzes" => $row['fk_Quizzes'],
+                "statement" => $row['statement'],
+                "type" => $row['type'],
+                "active" => $row['active'],
+                "order" => $row['order']
             ];
         }
-    
-
        // show products data in json format
        header('Content-Type: application/json');
 	   header('Access-Control-Allow-Origin: *');
