@@ -68,6 +68,7 @@ class Quizzes
 
 		// Execution
 		if($stmt->execute()){
+			header('Access-Control-Allow-Origin: *'); 
 			return true;
 		}
 		return false;

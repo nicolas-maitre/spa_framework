@@ -36,6 +36,11 @@ switch ($method) {
     case 'DELETE':
 
          break;
+    case 'OPTIONS':
+        header('Access-Control-Allow-Origin: *'); 
+		header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+		echo '';
+        exit;
     
     default:
         header("HTTP/1.0 404 Not Found");
