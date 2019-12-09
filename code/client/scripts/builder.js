@@ -44,6 +44,11 @@ function Builder(){
 		droped.setAttribute("quizzid", data.id);
 		quizzDate.innerText = data.datecreation;
 
+		//TODO use ?
+		/*droped.addEventListener("click", function(event){
+			pagesManager.changePage("quizz", {path:[data.id]});
+		})*/
+
 		return droped;
 	};
 	

@@ -106,7 +106,10 @@ function Actions(){
         //add button corresponding to status
 		switch(status){
 			case "build": 
-				quizzActions.addElement("div", "quizzListActionsEdit imgEdit");
+                quizzActions.addElement("div", "quizzListActionsEdit imgEdit");
+                quizzActions.addEventListener("click", function(event){
+                    pagesManager.changePage("update", {path:[quizzActions.parentElement.getAttribute("quizzid")]});
+                })
 				break;
 			case "active":
 				
@@ -114,8 +117,8 @@ function Actions(){
 			case "clos":
                 quizzActions.addElement("div", "quizzListActionsDelete imgTrash");
                 quizzActions.addEventListener("click", function(event){
+                    event.stopPropagation();
                     var url = `quiz/${quizzActions.parentElement.getAttribute("quizzid")}`;
-                    console.log(118, quizzActions.parentElement, url);
                     apiManager.deleteData(url);
                     quizzActions.parentElement.remove();
                 })
