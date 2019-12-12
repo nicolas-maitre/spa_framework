@@ -56,6 +56,13 @@ function Actions(){
             });
         });
     }
+    this.onPageDisplay.create = function(){
+        //add event
+        createQuizz.addEventListener("click", function(event){
+            var data = {title:createQuizzTitle.value, description:createQuizzDescription.value};
+            console.log(data);
+        })
+    }
 
     //-------------------------------------------------------------------------------------
     //page actions on data
