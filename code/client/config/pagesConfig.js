@@ -14,7 +14,7 @@ var pagesConfig = {
         },
         refreshDataOnDisplay: true,
         data: [{
-            source: "allAvailibleQuizzes",
+            source: "allActiveQuizzes",
             container: ".ListQuizz", //querySelector synthax
             adapter: "quizzLine"
         }]
