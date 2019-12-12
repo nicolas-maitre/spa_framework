@@ -18,7 +18,7 @@ class Quizzes
 
     public function getQuizzes()
     {
-        $query = "SELECT * FROM $this->quizTable where active = '1'";
+        $query = "SELECT * FROM $this->quizTable where active = '1' ORDER BY datecreation DESC";
         $response = array();
         $sth = $this->conn->prepare($query);
         

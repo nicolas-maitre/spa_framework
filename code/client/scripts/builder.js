@@ -47,6 +47,31 @@ function Builder(){
 		droped.setAttribute("quizzid", data.id);
 		quizzDate.innerText = data.datecreation;
 	};
+	this.adapters.questionInputLine = function(container, data){
+		console.log("questionInputLine data", data);
+
+		var questionsContainer = container.addElement("div", "quizzQuestionsContainer");
+		var statement = questionsContainer.addElement("p", "questionTitle");
+		var answerContainer = questionsContainer.addElement("div", "questionAnswerContainer");
+		
+		//question data type
+		var answer = false;
+		switch(data.type){
+			case "single_line_text":
+				answer = answerContainer.addElement("input", "questionAnswer questionAnswerSingleLine");
+				answer.setAttribute("type", "text");
+				answer.setAttribute("placeholder", "Entrez votre réponse ici");
+				break;
+			case "text":
+			default:
+				answer = answerContainer.addElement("textarea", "questionAnswer questionAnswerMultiLines");
+				answer.setAttribute("placeholder", "Entrez votre réponse ici");
+				break;
+		}
+
+		//data
+		statement.innerText = data.statement;
+	}
 	
 	//other
 	this.addContentLoader = function(container, className = ""){
