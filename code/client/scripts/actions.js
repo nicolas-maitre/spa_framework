@@ -63,8 +63,8 @@ function Actions(){
 
     this.onPageData = {};
     this.onPageData.quizz = function(data, dataName){
-        console.log("onPageData quizz!", data, dataName);
-        document.querySelector(".quizzTitle").innerText = data[0].name;
+            //console.log("onPageData quizz!", data, dataName);
+        pagesManager.pages.quizz.container.querySelector(".quizzTitle").innerText = data[0].name;
     }
 
     //page action on any page display

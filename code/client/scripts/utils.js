@@ -57,14 +57,14 @@ utils.getGlobalLoader = function(){
 		elements.globalLoader.loader = elements.globalLoader.container.addElement("div", "globalLoaderImage");
 		
 		elements.globalLoader.show = function(){
-			console.log("show global loader");
+			//console.log("show global loader");
 			elements.globalLoader.container.classList.remove("none");
 			requestAnimationFrame(function(){
 				elements.globalLoader.container.style.opacity = 1;
 			});
 		}
 		elements.globalLoader.hide = function(){
-			console.log("hide global loader");
+			//console.log("hide global loader");
 			requestAnimationFrame(function(){
 				elements.globalLoader.container.style.opacity = 0;
 				setTimeout(function(){
