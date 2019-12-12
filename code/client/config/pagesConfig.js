@@ -32,12 +32,20 @@ var pagesConfig = {
             target: "home"
         },
         view: "quizz",
-        reloadData: true,
-        data: [{
-            source: "quizz",
-            pathTemplate: "/{{id}}", 
-            dataName: "quizz"//use as global data
-        }]
+        refreshDataOnDisplay: true,
+        data: [
+            {
+                source: "quizz",
+                pathTemplate: "/{{id}}", 
+                dataName: "quizz" //use as global data
+            },
+            {
+                source: "questionsForQuizz",
+                pathTemplate: "/{{quizzId}}",
+                container: ".quizzQuestionsContainer",
+                adapter: "questionInputLine"
+            }
+        ]
     },
     manage: {
         title: "Manage",
