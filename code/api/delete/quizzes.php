@@ -37,12 +37,10 @@ class Quizzes
 
     //Update active to 0
     public function deleteQuiz($id){
-        //Récupération des infos envoyées par la méthode PUT
-		parse_str(file_get_contents('php://input'), $_DELETE);
-
+     
 		//query
-		$query = "UPDATE $this->quizTable SET active = '0' WHERE idQuizzes = $id;";
-		
+		$query = "UPDATE $this->quizTable SET active = '0' WHERE idQuizzes = '$id->quiz'";
+			
 		//prepare de la query
 		$stmt = $this->conn->prepare($query);
 
