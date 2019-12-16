@@ -41,21 +41,21 @@ class Questions
 		//Récupération des infos envoyées par la méthode PUT
 		parse_str(file_get_contents('php://input'), $_PUT);
 		//query
-		$query = "UPDATE $this->quizTable SET";
+		$query = "UPDATE $this->quesTable SET";
 		foreach($_PUT as $index=>$param){
 			$query .= " ".$index. "= :".$index.",";
 		}
 		//Supprime la dernière virgule
 		$query = substr($query,0,-1);
-		$query .= " WHERE idQuizzes = :id";
+		$query .= " WHERE idQuestions = :id";
 		//prepare de la query
 		$stmt = $this->conn->prepare($query);
-		$this->id=htmlspecialchars(strip_tags($id->quiz));
+		$this->id=htmlspecialchars(strip_tags($id->question));
 		foreach($_PUT as $index=>$param)
 		{
 			$this->bindParam($stmt, $index, $param);
 		}
-		$stmt->bindParam(':id', $id->quiz);
+		$stmt->bindParam(':id', $id->question);
 		// Execution
 		if($stmt->execute()){
 			header('Access-Control-Allow-Origin: *'); 

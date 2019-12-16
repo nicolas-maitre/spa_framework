@@ -42,7 +42,7 @@ class Questions
         while($row = $sth->fetch(PDO::FETCH_ASSOC))
         {
             $response[] = [
-                "id_Quesiton" => $row['idQuestions'],
+                "id" => $row['idQuestions'],
                 "dataQuestions" => $row['dataQuestions'],
                 "id_Quizzes" => $row['fk_Quizzes'],
                 "statement" => $row['statement'],
