@@ -24,6 +24,10 @@ p{
     text-align: center;
     font-size: 25px;
 }
+.underligne{
+    width: 100%;
+    border-bottom: solid 1px gray;
+}
 /*loader*/
 .globalLoaderContainer {
     position: fixed;

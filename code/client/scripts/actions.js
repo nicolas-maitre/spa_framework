@@ -18,7 +18,6 @@ function Actions(){
         //add drop on the page
         globalMemory.dragAndDropManage = new DragAndDrop();
         globalMemory.dragAndDropManage.addDrop("quizzList");
-        console.log("drag and drop added to manage");   
     }
     this.onPageLoad.create = function(){
         //add event
