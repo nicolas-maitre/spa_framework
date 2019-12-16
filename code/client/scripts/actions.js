@@ -92,9 +92,10 @@ function Actions(){
             //console.log("onPageData quizz!", data, dataName);
         pagesManager.pages.quizz.container.querySelector(".quizzTitle").innerText = data[0].name;
     }
-
+    //when data return on edit page
     this.onPageData.edit = function(data){
         data = data[0];
         quizzTitle.innerText = data.name;
+        quizzDescription.innerText = data.description;
     }
 }

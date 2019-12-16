@@ -10,7 +10,7 @@
     </div>
     <div>
         <div>Description</div>
-        <textarea id="quizzDescription" class="largeInputMultiline" placeholder="Entrez votre description ici"></textarea>
+        <textarea id="createQuizzDescription" class="largeInputMultiline" placeholder="Entrez votre description ici"></textarea>
     </div>
     <button id="createQuizz">Créer le quizz</button>
 </div>

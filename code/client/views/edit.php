@@ -2,10 +2,11 @@
 <div id="quizzTitle" class="quizzTitle"></div>
 <!-- Quizz -->
 <div class="createQuizzContainer">
-    <div>Description</div>
+    <div><b>Description</b></div>
+    <div id="quizzDescription"></div>
     <!-- Questions -->
     <div class="sectionTitle">Questions</div>
-    <div class="createQuestion"> 
+    <div class="editQuestionsList"> 
         <div>Enoncé</div>
         <input class="largeInput" type="text"/>
         <!-- to change answer type

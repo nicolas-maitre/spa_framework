@@ -46,6 +46,24 @@ function Builder(){
 		droped.setAttribute("quizzid", data.id);
 		quizzDate.innerText = data.datecreation;
 	};
+	this.adapters.createQuestionsLine = function(container, data){
+		//elements
+		var question = container.addElement("div", "editQuestion");
+		var label = question.addElement("div", "lblQuestion");
+		var inputQuestion = question.addElement("input", "largeInput");
+		var btnRemove = question.addElement("button", "");
+		//data
+		label.innerText = "Enoncé";
+		inputQuestion.type = "text";
+		inputQuestion.value = data.statement
+		btnRemove.innerText = "Supprimer";
+		//event
+		btnRemove.addEventListener("click", function(event){
+			event.preventDefault();
+			apiManager.deleteData(`question/${data.id}`);
+			question.remove();
+		})
+	}
 	this.adapters.questionInputLine = function(container, data){
 
 		var questionsContainer = container.addElement("div", "quizzQuestionsContainer");

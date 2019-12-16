@@ -37,6 +37,12 @@ var pagesConfig = {
             source: "quizz",
             pathTemplate: "/{{id}}", 
             dataName: "quizzEdit" //use as global data
+        },
+        {
+            source: "questionsForQuizz",
+            pathTemplate: "/{{quizzId}}",
+            container: ".editQuestionsList",
+            adapter: "createQuestionsLine"
         }]
     },
     quizz: {
