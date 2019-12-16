@@ -35,7 +35,7 @@ switch ($method) {
         break;
 
     case 'DELETE':
-        Router::delete("/question/id/", "delete/questions@deleteQuestion");
+        Router::delete("/question/id/", "update/questions@deleteQuestion");
         break;
     case 'OPTIONS':
         header('Access-Control-Allow-Origin: *'); 
