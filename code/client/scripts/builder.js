@@ -42,13 +42,11 @@ function Builder(){
 		droped.setAttribute('draggable',  true);
 
 		//data
-		console.log(data);
 		quizzTitle.innerText = data.name;
 		droped.setAttribute("quizzid", data.id);
 		quizzDate.innerText = data.datecreation;
 	};
 	this.adapters.questionInputLine = function(container, data){
-		console.log("questionInputLine data", data);
 
 		var questionsContainer = container.addElement("div", "quizzQuestionsContainer");
 		var statement = questionsContainer.addElement("p", "questionTitle");

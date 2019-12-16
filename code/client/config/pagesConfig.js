@@ -24,7 +24,20 @@ var pagesConfig = {
             text: "Home",
             target: "home"
         },
-        view: "create"
+        view: "create",
+        refreshDataOnDisplay: true
+    },
+    edit: {
+        headButton:{
+            text: "Home",
+            target: "home"
+        },
+        view: "edit",
+        data: [{
+            source: "quizz",
+            pathTemplate: "/{{id}}", 
+            dataName: "quizzEdit" //use as global data
+        }]
     },
     quizz: {
         headButton: {

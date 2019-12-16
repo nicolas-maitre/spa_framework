@@ -20,6 +20,21 @@ function Actions(){
         globalMemory.dragAndDropManage.addDrop("quizzList");
         console.log("drag and drop added to manage");   
     }
+    this.onPageLoad.create = function(){
+        //add event
+        createQuizz.addEventListener("click", async function(event){
+            //check if field is empty
+            createQuizzTitle.classList.remove('errorField');
+            if(createQuizzTitle.value == ''){
+                createQuizzTitle.classList.add('errorField');
+            }else{
+                var data = {name:createQuizzTitle.value, description:createQuizzDescription.value};
+                var newQuizz = await apiManager.createData(`quizzes`, data);
+                createQuizz.remove();
+                pagesManager.changePage("edit", {path: [newQuizz[0].id]});
+            }
+        })
+    }
     //-------------------------------------------------------------------------------------
     //page actions on display
     //-------------------------------------------------------------------------------------
@@ -56,12 +71,16 @@ function Actions(){
             });
         });
     }
-    this.onPageDisplay.create = function(){
-        //add event
-        createQuizz.addEventListener("click", function(event){
-            var data = {title:createQuizzTitle.value, description:createQuizzDescription.value};
-            console.log(data);
-        })
+    //page action on any page display
+    this.onAnyPageDisplay = function({pageName = false, pageConfig = false}){
+        //button config
+        if(pageConfig.headButton){
+            elements.topMenuButton.innerText = pageConfig.headButton.text;
+            globalMemory.headButtonTarget = pageConfig.headButton.target;
+            elements.topMenuButton.classList.remove("none");
+        }else{
+            elements.topMenuButton.classList.add("none");
+        }
     }
 
     //-------------------------------------------------------------------------------------
@@ -74,15 +93,8 @@ function Actions(){
         pagesManager.pages.quizz.container.querySelector(".quizzTitle").innerText = data[0].name;
     }
 
-    //page action on any page display
-    this.onAnyPageDisplay = function({pageName = false, pageConfig = false}){
-        //button config
-        if(pageConfig.headButton){
-            elements.topMenuButton.innerText = pageConfig.headButton.text;
-            globalMemory.headButtonTarget = pageConfig.headButton.target;
-            elements.topMenuButton.classList.remove("none");
-        }else{
-            elements.topMenuButton.classList.add("none");
-        }
+    this.onPageData.edit = function(data){
+        data = data[0];
+        quizzTitle.innerText = data.name;
     }
 }

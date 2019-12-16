@@ -40,3 +40,6 @@ a{
     text-decoration: none;
     color: black;
 }
+.errorField{
+    border: solid 1px red;
+}
