@@ -26,7 +26,7 @@ switch ($method) {
 		//Ajoute un quiz
         Router::post("/quizzes/", "insert/quizzes@insertQuiz");
         //Ajouter une question
-        Router::post("/quizzes/id/questions/", "insert/quizzes@insertQuestion");		
+        Router::post("/quizzes/id/questions/", "insert/questions@insertQuestion");		
         break;
 
     case 'PUT':
