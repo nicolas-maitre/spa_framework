@@ -65,7 +65,7 @@ function Builder(){
 			question.remove();
 		})
 		inputQuestion.addEventListener("change", function(event){
-			apiManager.updateData("question/id", {statement: inputQuestion.value});
+			apiManager.updateData(`question/${inputQuestion.id}`, {statement: inputQuestion.value});
 		})
 
 	}
