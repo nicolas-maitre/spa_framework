@@ -4,7 +4,7 @@ trait MonTrait
 {
     function getQuestions()
     {
-        $query = "SELECT * FROM $this->quesTable";
+        $query = "SELECT * FROM $this->quesTable WHERE active=1";
         $response = array();
         $result = mysqli_query($this->dbConnect, $query);
      
@@ -30,7 +30,7 @@ trait MonTrait
         $query = "SELECT * FROM $this->quesTable";
         if($id != 0)
         {
-            $query .= " WHERE idQuestions=".$id." LIMIT 1";
+            $query .= " WHERE idQuestions=".$id." AND active=1 LIMIT 1";
         }
         $response = array();
         $result = mysqli_query($this->dbConnect, $query);

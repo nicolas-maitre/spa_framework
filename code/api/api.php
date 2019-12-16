@@ -3,7 +3,7 @@ require_once 'router.php';
 
 // Check la méthode afin de rediriger
 $method = $_SERVER['REQUEST_METHOD'];
-
+header('Access-Control-Allow-Origin: *'); 
 switch ($method) {
     case 'GET':
 		//Récupère tous les quiz
@@ -38,7 +38,6 @@ switch ($method) {
         Router::delete("/question/id/", "update/questions@deleteQuestion");
         break;
     case 'OPTIONS':
-        header('Access-Control-Allow-Origin: *'); 
 		header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
 		echo '';
         exit;

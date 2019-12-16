@@ -1,7 +1,7 @@
 <?php
 require_once 'database/database.php';
 
-class Quizzes
+class Questions
 {
 	//Définition des tables dans la bdd
 	private $ansTable = 'tblanswers';
@@ -20,12 +20,16 @@ class Quizzes
 	public function deleteQuestion($id)
 	{
 		//query
-		$query = "UPDATE $this->quesTable SET active = '0' WHERE idQuestions = ?";
+		$query = "UPDATE $this->quesTable SET active = '0' WHERE idQuestions = :id";
 		//prepare de la query
 		$stmt = $this->conn->prepare($query);
+		
 		$this->id = htmlspecialchars(strip_tags($id->question));
+		
+		$stmt->bindParam(':id',$this->id);
+		
 		// Execution
-		if ($stmt->execute($this->id)) {
+		if ($stmt->execute()) {
 			header('Access-Control-Allow-Origin: *');
 			return true;
 		}

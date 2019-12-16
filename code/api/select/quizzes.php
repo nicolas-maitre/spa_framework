@@ -78,7 +78,7 @@ class Quizzes
     {
         $query = "SELECT * FROM $this->quesTable 
         INNER JOIN $this->quizTable on idQuizzes = fk_Quizzes
-        WHERE idQuizzes='$id->quizzes'";
+        WHERE idQuizzes='$id->quizzes' AND $this->quesTable.active=1";
         
     
         $response = array();
