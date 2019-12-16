@@ -37,7 +37,7 @@ class Quizzes
 		//Récupération des infos envoyées par la méthode PUT
 		parse_str(file_get_contents('php://input'), $_PUT);
 		//query
-		$query = "UPDATE $this->quizTable SET";
+		$query = "UPDATE $this->quesTable SET";
 		foreach($_PUT as $index=>$param){
 			$query .= " ".$index. "= :".$index.",";
 		}
