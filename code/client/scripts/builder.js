@@ -55,7 +55,8 @@ function Builder(){
 		//data
 		label.innerText = "Enoncé";
 		inputQuestion.type = "text";
-		inputQuestion.value = data.statement
+		inputQuestion.value = data.statement;
+		inputQuestion.id = data.id;
 		btnRemove.innerText = "Supprimer";
 		//event
 		btnRemove.addEventListener("click", function(event){
@@ -63,6 +64,10 @@ function Builder(){
 			apiManager.deleteData(`question/${data.id}`);
 			question.remove();
 		})
+		inputQuestion.addEventListener("change", function(event){
+			apiManager.updateData("question/id", {statement: inputQuestion.value});
+		})
+
 	}
 	this.adapters.questionInputLine = function(container, data){
 

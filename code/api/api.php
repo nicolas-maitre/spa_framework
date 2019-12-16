@@ -32,10 +32,12 @@ switch ($method) {
     case 'PUT':
 		//Update du nom et de la description d'un quiz
         Router::put("/quiz/id/", "update/quizzes@updateQuiz");
+        Router::put("/question/id/", "update/questions@updateQuestion");
         break;
 
     case 'DELETE':
         Router::delete("/question/id/", "update/questions@deleteQuestion");
+        
         break;
     case 'OPTIONS':
         header('Access-Control-Allow-Origin: *'); 
