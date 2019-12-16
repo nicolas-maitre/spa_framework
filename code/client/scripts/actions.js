@@ -20,6 +20,27 @@ function Actions(){
         globalMemory.dragAndDropManage.addDrop("quizzList");
         console.log("drag and drop added to manage");   
     }
+    this.onPageLoad.create = function(){
+        //add event
+        createQuizz.addEventListener("click", async function(event){
+            //check if field is empty
+            createQuizzTitle.classList.remove('errorField');
+            if(createQuizzTitle.value == ''){
+                createQuizzTitle.classList.add('errorField');
+            }else{
+                var data = {name:createQuizzTitle.value, description:createQuizzDescription.value};
+                var newQuizz = await apiManager.createData(`quizzes`, data);
+                createQuizz.remove();
+                pagesManager.changePage("edit", {path: [newQuizz[0].id]});
+            }
+        })
+    }
+    this.onPageLoad.edit = function(){
+        addQuestion.addEventListener("click", async function(){
+            var newQuestion = await apiManager.createData(`quizzes/${pagesManager.pages.edit.data.quizzEdit[0].id}/questions/`);
+            builder.adapters.createQuestionsLine(document.querySelector(".editQuestionsList"), newQuestion[0]);
+        })
+    }
     //-------------------------------------------------------------------------------------
     //page actions on display
     //-------------------------------------------------------------------------------------
@@ -56,17 +77,6 @@ function Actions(){
             });
         });
     }
-
-    //-------------------------------------------------------------------------------------
-    //page actions on data
-    //-------------------------------------------------------------------------------------
-
-    this.onPageData = {};
-    this.onPageData.quizz = function(data, dataName){
-            //console.log("onPageData quizz!", data, dataName);
-        pagesManager.pages.quizz.container.querySelector(".quizzTitle").innerText = data[0].name;
-    }
-
     //page action on any page display
     this.onAnyPageDisplay = function({pageName = false, pageConfig = false}){
         //button config
@@ -77,5 +87,21 @@ function Actions(){
         }else{
             elements.topMenuButton.classList.add("none");
         }
+    }
+
+    //-------------------------------------------------------------------------------------
+    //page actions on data
+    //-------------------------------------------------------------------------------------
+
+    this.onPageData = {};
+    this.onPageData.quizz = function(data, dataName){
+            //console.log("onPageData quizz!", data, dataName);
+        pagesManager.pages.quizz.container.querySelector(".quizzTitle").innerText = data[0].name;
+    }
+    //when data return on edit page
+    this.onPageData.edit = function(data){
+        data = data[0];
+        quizzTitle.innerText = data.name;
+        quizzDescription.innerText = data.description;
     }
 }

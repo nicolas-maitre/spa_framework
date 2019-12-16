@@ -72,8 +72,8 @@ function ApiManager(){
 		return res.ok ? res.data : [];//return only if data
 	}
 	/**
-	 * get 1 data
-	 * @param {string} element quizzes, questions or answers
+	 * update data
+	 * @param {string} url quizzes, questions or answers
 	 * @returns {array} data return by api
 	 */
 	this.updateData = async function(url, data){
@@ -81,21 +81,21 @@ function ApiManager(){
 		return res.ok ? res.data : [];//return only if data
 	}
 	/**
-	 * get 1 data
-	 * @param {string} element quizzes, questions or answers
+	 * create data
+	 * @param {string} url quizzes, questions or answers
 	 * @returns {array} data return by api
 	 */
-	this.createData = async function(element, data){
-		var res = await callApi(element, "POST", data);
+	this.createData = async function(url, data){
+		var res = await callApi(url, "POST", data);
 		return res.ok ? res.data : [];//return only if data
 	}
 	/**
-	 * get 1 data
-	 * @param {string} element quizzes, questions or answers
+	 * delete data
+	 * @param {string} url quizzes, questions or answers
 	 * @returns {array} data return by api
 	 */
-	this.deleteData = async function(element, id){
-		var res = await callApi(element+"/"+id, "DELETE");
+	this.deleteData = async function(url){
+		var res = await callApi(url, "DELETE");
 		return res.ok ? res.data : [];//return only if data
 	}
 	/**
