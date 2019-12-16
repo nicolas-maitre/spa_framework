@@ -37,7 +37,10 @@
 .imgTrash{
     background-image: url(/images/trash.png);
 }
-.imgEdit, .imgTrash{
+.imgStats{
+    background-image: url(/images/stats.png);
+}
+.imgEdit, .imgTrash, .imgStats{
     background-size: cover;
     background-repeat: no-repeat;
     height: 20px;
@@ -45,6 +48,6 @@
     margin: 5px;
     border-radius: 5px;
 }
-.imgEdit:hover, .imgTrash:hover{
+.imgEdit:hover, .imgTrash:hover, .imgStats:hover{
     background-color: orange;
 }
