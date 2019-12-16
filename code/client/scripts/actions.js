@@ -51,7 +51,7 @@ function Actions(){
             });
             //add drop possibility on quizz
             globalMemory.dragAndDropManage.addDrag("droped", function(elem){
-                var url = `quiz/${elem.getAttribute("quizzid")}/updateStatus`;
+                var url = `quiz/${elem.getAttribute("quizzid")}`;
                 apiManager.updateData(url, {status: elem.parentElement.getAttribute("name")})
             });
         });
