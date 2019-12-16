@@ -35,6 +35,12 @@ function Actions(){
             }
         })
     }
+    this.onPageLoad.edit = function(){
+        addQuestion.addEventListener("click", async function(){
+            var newQuestion = await apiManager.createData(`quizzes/${pagesManager.pages.edit.data.quizzEdit[0].id}/questions/`);
+            builder.adapters.createQuestionsLine(document.querySelector(".editQuestionsList"), newQuestion[0]);
+        })
+    }
     //-------------------------------------------------------------------------------------
     //page actions on display
     //-------------------------------------------------------------------------------------

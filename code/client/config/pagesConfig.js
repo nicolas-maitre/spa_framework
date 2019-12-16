@@ -43,7 +43,8 @@ var pagesConfig = {
             pathTemplate: "/{{quizzId}}",
             container: ".editQuestionsList",
             adapter: "createQuestionsLine"
-        }]
+        }],
+        refreshDataOnDisplay: true
     },
     quizz: {
         headButton: {

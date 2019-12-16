@@ -20,6 +20,6 @@
         -->
         <button>Supprimer</button>
     </div>
-    <button>Ajouter une question</button>
+    <button id="addQuestion">Ajouter une question</button>
     <button>Enregistrer les questions</button>
 </div>
