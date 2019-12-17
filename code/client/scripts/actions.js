@@ -150,7 +150,7 @@ function Actions(){
 			case "clos":
                 var buttonTrash = quizzActions.addElement("div", "quizzListActionsDelete imgTrash");
                 buttonTrash.addEventListener("click", function(event){
-                    var url = `quiz/${quizzActions.parentElement.getAttribute("quizzid")}`;
+                    var url = `quizz/${quizzActions.parentElement.getAttribute("quizzid")}`;
                     apiManager.deleteData(url);
                     quizzActions.parentElement.remove();
                 })

@@ -36,6 +36,7 @@ switch ($method) {
         break;
 
     case 'DELETE':
+        Router::delete("/quizz/id/", "update/quizzes@deleteQuizz");
         Router::delete("/question/id/", "update/questions@deleteQuestion");
         
         break;
@@ -48,6 +49,5 @@ switch ($method) {
         header("HTTP/1.0 404 Not Found");
         break;
 }
-
 
 Router::run();

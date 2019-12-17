@@ -40,16 +40,18 @@ function ApiManager(){
 		if(urlParams){
 			requestUrlParams = "?" + utils.encodeQuery(urlParams);
 		}
-		//TODO remove
-		console.log("fetch params", `${config.apiPath}/${url}${requestUrlParams}`, requestInit);
 		//call api
 		var apiResponse = await fetch(`${config.apiPath}/${url}${requestUrlParams}`, requestInit);
 		//if http error
 		if(!apiResponse.ok){
-			console.warn("api error", apiResponse.status);
+			console.warn("api error : ", apiResponse.status);
 			return {ok:false, error:apiResponse.status}
 		}
-		var jsonResponse = await apiResponse.json();
+		try{
+			var jsonResponse = await apiResponse.json();
+		}catch(e){
+			return {ok:false, error:e};
+		}
 		//if no http error
 		return {ok:true, data:jsonResponse};
     };
