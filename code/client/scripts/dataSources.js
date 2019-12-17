@@ -15,10 +15,7 @@ function DataSources(){
 		filteredQuizzes.sort(function(quizz1, quizz2){
 			var date1 = new Date(quizz1.datecreation);
 			var date2 = new Date(quizz2.datecreation);
-			if(date1 > date2){
-				return 1
-			}
-			return - 1;
+			return (date1 > date2)?1:-1;
 		});
 
 		return filteredQuizzes;
@@ -31,6 +28,11 @@ function DataSources(){
 		return apiManager.getData("quizzes", id)
 	};
 	this.questionsForQuizz = async function({quizzId}){
-		return apiManager.getDatas(`quizzes/${quizzId}/questions`);
+		var questions = await apiManager.getDatas(`quizzes/${quizzId}/questions`);
+		//sort by desc date
+		questions.sort(function(question1, question2){
+			return (question1.order > question2.order)?1:-1;
+		});
+		return questions;
 	};
 }
