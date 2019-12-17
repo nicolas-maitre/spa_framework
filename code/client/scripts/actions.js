@@ -35,9 +35,12 @@ function Actions(){
         })
     }
     this.onPageLoad.edit = function(){
+        globalMemory.dragAndDropEdit = new DragAndDrop();
+        globalMemory.dragAndDropEdit.addDrop("editQuestionsList");
         addQuestion.addEventListener("click", async function(){
             var newQuestion = await apiManager.createData(`quizzes/${pagesManager.pages.edit.data.quizzEdit[0].id}/questions/`);
             builder.adapters.createQuestionsLine(document.querySelector(".editQuestionsList"), newQuestion[0]);
+            apiManager.updateData(`question/${newQuestion[0].id}`, {order:document.getElementsByClassName("editQuestion").length-1});
         })
     }
     //-------------------------------------------------------------------------------------
@@ -103,6 +106,7 @@ function Actions(){
         data = data[0];
         quizzTitle.innerText = data.name;
         quizzDescription.innerText = data.description;
+    };
     /**
      * To change status of element
      * @param {string} newStatus status to udate elem
@@ -137,7 +141,7 @@ function Actions(){
 			case "build": 
                 var buttonEdit = quizzActions.addElement("div", "quizzListActionsEdit imgEdit");
                 buttonEdit.addEventListener("click", function(event){
-                    pagesManager.changePage("update", {path:[quizzActions.parentElement.getAttribute("quizzid")]});
+                    pagesManager.changePage("edit", {path:[quizzActions.parentElement.getAttribute("quizzid")]});
                 })
 				break;
 			case "active":
