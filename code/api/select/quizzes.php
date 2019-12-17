@@ -92,8 +92,8 @@ class Quizzes
                 "dataQuestions" => $row['dataQuestions'],
                 "name quiz" => $row['name'],
                 "statement" => $row['statement'],
-                "type" => $row['type']
-               
+                "type" => $row['type'],
+				"order" => $row['order']               
             ];
         }
     

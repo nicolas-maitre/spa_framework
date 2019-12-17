@@ -43,7 +43,7 @@ class Questions
 		//query
 		$query = "UPDATE $this->quesTable SET";
 		foreach($_PUT as $index=>$param){
-			$query .= " ".$index. "= :".$index.",";
+			$query .= " `$index` = :$index,";
 		}
 		//Supprime la dernière virgule
 		$query = substr($query,0,-1);
@@ -56,6 +56,7 @@ class Questions
 			$this->bindParam($stmt, $index, $param);
 		}
 		$stmt->bindParam(':id', $id->question);
+		var_dump($index, $stmt);
 		// Execution
 		if($stmt->execute()){
 			header('Access-Control-Allow-Origin: *'); 
