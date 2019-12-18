@@ -26,7 +26,9 @@ switch ($method) {
 		//Ajoute un quiz
         Router::post("/quizzes/", "insert/quizzes@insertQuiz");
         //Ajouter une question
-        Router::post("/quizzes/id/questions/", "insert/questions@insertQuestion");		
+        Router::post("/quizzes/id/questions/", "insert/questions@insertQuestion");
+		//Ajouter une submission
+		Router::post("/quizzes/id/submission/", "insert/submissions@insertSubmission");
         break;
 
     case 'PUT':
@@ -36,7 +38,7 @@ switch ($method) {
         break;
 
     case 'DELETE':
-        Router::delete("/quizz/id/", "update/quizzes@deleteQuizz");
+        Router::delete("/quiz/id/", "update/quizzes@deleteQuizz");
         Router::delete("/question/id/", "update/questions@deleteQuestion");
         
         break;
@@ -49,5 +51,6 @@ switch ($method) {
         header("HTTP/1.0 404 Not Found");
         break;
 }
+
 
 Router::run();

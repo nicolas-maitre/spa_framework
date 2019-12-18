@@ -52,17 +52,18 @@ class Router {
         $api = '/api';
         $urlcut = substr(stristr ($url, '/api/'), strlen($api) );
 		
-
+		
+		
         foreach (self::$routes as $route)
         {
-			
             //Sécurité afin de pouvoir laisser l'utilisateur mettre un / ou non à la fin de l'url
             if(substr($urlcut,-1)!="/")
             $urlcut.="/";
 
-            $regex='^'.str_replace(array("/","id"),array("\/",$idRegex),$route['path']).'$';
 			
+            $regex='^'.str_replace(array("/","id"),array("\/",$idRegex),$route['path']).'$';
 
+		
             if(preg_match(strtolower("#".$regex."#"),strtolower($urlcut),$matches))
             {
 				
@@ -76,6 +77,7 @@ class Router {
             }
 			
         }
+				echo 'route incorrect';
 				
 				http_response_code(400);
 				exit;
