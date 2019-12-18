@@ -58,7 +58,7 @@ DROP TABLE IF EXISTS `kaphoot_db`.`tblSubmissions` ;
 
 CREATE TABLE IF NOT EXISTS `kaphoot_db`.`tblSubmissions` (
   `idSubmissions` VARCHAR(36) NOT NULL,
-  `datecreation` DATE NULL,
+  `datecreation` DATETIME NULL,
   `fk_Quizzes` VARCHAR(36) NOT NULL,
   PRIMARY KEY (`idSubmissions`),
   CONSTRAINT `fk_tblSubmissions_tblQuizzes1`

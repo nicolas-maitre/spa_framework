@@ -28,7 +28,7 @@ function Builder(){
 		quizzTitle.innerText = data.name;
 		quizzDate.innerText = data.datecreation;
 		quizzDescr.innerText = data.description;
-		link.setAttribute("href", `/quizz/${data.id}`);
+		//link.setAttribute("href", `/quizz/${data.id}`);
 	}
 	this.adapters.quizzManage = function(container, data){
 		//elems
