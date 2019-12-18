@@ -4,9 +4,9 @@ require_once 'database/database.php';
 class Questions
 {
 	//Définition des tables dans la bdd
-	private $ansTable = 'tblanswers';
-	private $quesTable = 'tblquestions';
-	private $quizTable = 'tblquizzes';
+    private $ansTable = 'tblAnswers';
+    private $quesTable = 'tblQuestions';
+    private $quizTable = 'tblQuizzes';
 	private $conn;
 	private $id;
 
@@ -56,7 +56,6 @@ class Questions
 			$this->bindParam($stmt, $index, $param);
 		}
 		$stmt->bindParam(':id', $id->question);
-		var_dump($index, $stmt);
 		// Execution
 		if($stmt->execute()){
 			header('Access-Control-Allow-Origin: *'); 

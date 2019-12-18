@@ -5,9 +5,9 @@ require_once 'database/database.php';
 class Quizzes
 {
     //Définition des tables dans la bdd
-    private $ansTable = 'tblanswers';
-    private $quesTable = 'tblquestions';
-    private $quizTable = 'tblquizzes';
+    private $ansTable = 'tblAnswers';
+    private $quesTable = 'tblQuestions';
+    private $quizTable = 'tblQuizzes';
     private $conn;
 	private $id;
     public function __construct(){
