@@ -40,7 +40,10 @@
 .imgStats{
     background-image: url(/images/stats.png);
 }
-.imgEdit, .imgTrash, .imgStats{
+.imgRefresh{
+    background-image: url(/images/refresh.png);
+}
+.imgEdit, .imgTrash, .imgStats, .imgAdd, .imgRefresh{
     background-size: cover;
     background-repeat: no-repeat;
     height: 20px;
@@ -48,6 +51,11 @@
     margin: 5px;
     border-radius: 5px;
 }
-.imgEdit:hover, .imgTrash:hover, .imgStats:hover{
+.imgAdd{
+    background-image: url(/images/add.png);
+    height: 30;
+    width: 30;
+}
+.imgEdit:hover, .imgTrash:hover, .imgStats:hover, .imgAdd:hover, .imgRefresh:hover{
     background-color: orange;
 }

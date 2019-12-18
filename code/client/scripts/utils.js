@@ -147,7 +147,8 @@ utils.setDynamicLink = function(elem){
         });
     }
 };
-
+//other
+HTMLCollection.prototype.forEach = Array.prototype.forEach;
 
 //garbage
 function $(){

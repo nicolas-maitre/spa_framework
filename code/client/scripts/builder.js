@@ -37,22 +37,43 @@ function Builder(){
 		var quizzActions = droped.addElement("div", "quizzListActions");
 		var quizzDate = droped.addElement("quizzListDate");
 
-		droped.setAttribute('draggable',  true);
-
 		//data
 		quizzTitle.innerText = data.name;
 		droped.setAttribute("quizzid", data.id);
 		quizzDate.innerText = data.datecreation;
 
-		//TODO use ?
-		/*droped.addEventListener("click", function(event){
-			pagesManager.changePage("quizz", {path:[data.id]});
-		})*/
-
 		return droped;
 	};
+	this.adapters.createQuestionsLine = function(container, data){
+		//elements
+		var question = container.addElement("div", "editQuestion");
+		var label = question.addElement("div", "lblQuestion");
+		var inputQuestion = question.addElement("input", "largeInput");
+		var action = question.addElement("div", "actionEdit");
+		var btnRemove = action.addElement("button", "");
+		var grap = action.addElement("div", "imgGrap");
+		//data
+		label.innerText = "Enoncé";
+		inputQuestion.type = "text";
+		inputQuestion.value = data.statement;
+		question.id = data.id;
+		btnRemove.innerText = "Supprimer";
+		//event
+		btnRemove.addEventListener("click", function(event){
+			event.preventDefault();
+			apiManager.deleteData(`question/${question.id}`);
+			question.remove();
+		})
+		inputQuestion.addEventListener("change", function(event){
+			apiManager.updateData(`question/${question.id}`, {statement: inputQuestion.value});
+		})
+		globalMemory.dragAndDropEdit.addDrag("editQuestion", function(elem){
+			document.getElementsByClassName("editQuestion").forEach(function(elem, index){
+                apiManager.updateData(`question/${elem.id}`, {order:index});
+            })
+		});
+	}
 	this.adapters.questionInputLine = function(container, data){
-		console.log("questionInputLine data", data);
 
 		var questionsContainer = container.addElement("div", "quizzQuestionsContainer");
 		var statement = questionsContainer.addElement("p", "questionTitle");

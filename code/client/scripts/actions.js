@@ -18,7 +18,30 @@ function Actions(){
         //add drop on the page
         globalMemory.dragAndDropManage = new DragAndDrop();
         globalMemory.dragAndDropManage.addDrop("quizzList");
-        console.log("drag and drop added to manage");   
+    }
+    this.onPageLoad.create = function(){
+        //add event
+        createQuizz.addEventListener("click", async function(event){
+            //check if field is empty
+            createQuizzTitle.classList.remove('errorField');
+            if(createQuizzTitle.value == ''){
+                createQuizzTitle.classList.add('errorField');
+            }else{
+                var data = {name:createQuizzTitle.value, description:createQuizzDescription.value};
+                var newQuizz = await apiManager.createData(`quizzes`, data);
+                createQuizz.remove();
+                pagesManager.changePage("edit", {path: [newQuizz[0].id]});
+            }
+        })
+    }
+    this.onPageLoad.edit = function(){
+        globalMemory.dragAndDropEdit = new DragAndDrop();
+        globalMemory.dragAndDropEdit.addDrop("editQuestionsList");
+        addQuestion.addEventListener("click", async function(){
+            var newQuestion = await apiManager.createData(`quizzes/${pagesManager.pages.edit.data.quizzEdit[0].id}/questions/`);
+            builder.adapters.createQuestionsLine(document.querySelector(".editQuestionsList"), newQuestion[0]);
+            apiManager.updateData(`question/${newQuestion[0].id}`, {order:document.getElementsByClassName("editQuestion").length-1});
+        })
     }
     //-------------------------------------------------------------------------------------
     //page actions on display
@@ -46,27 +69,20 @@ function Actions(){
             
             //build adapters
             datas.forEach(quizz => {
-                var list = document.getElementById("listQuizzes" + quizz.status.capitalise());
-                dropped = builder.adapters.quizzManage(list, quizz);
-                dropped.updateManageButton(dropped.parentElement.getAttribute("name"));
+                if(quizz.status!=null && quizz.status.match(/^(build|active|clos)$/)){
+                    var list = document.getElementById("listQuizzes" + quizz.status.capitalise());
+                    dropped = builder.adapters.quizzManage(list, quizz);
+                    dropped.updateManageButton(dropped.parentElement.getAttribute("name"));
+                }
             });
             //add drop possibility on quizz
             globalMemory.dragAndDropManage.addDrag("droped", function(elem){
-                elem.changeStatus(elem.parentElement.getAttribute("name"));
+                var url = `quiz/${elem.getAttribute("quizzid")}`;
+                apiManager.updateData(url, {status: elem.parentElement.getAttribute("name")})
+                elem.updateManageButton(elem.parentElement.getAttribute("name"));
             });
         });
     }
-
-    //-------------------------------------------------------------------------------------
-    //page actions on data
-    //-------------------------------------------------------------------------------------
-
-    this.onPageData = {};
-    this.onPageData.quizz = function(data, dataName){
-            //console.log("onPageData quizz!", data, dataName);
-        pagesManager.pages.quizz.container.querySelector(".quizzTitle").innerText = data[0].name;
-    }
-
     //page action on any page display
     this.onAnyPageDisplay = function({pageName = false, pageConfig = false}){
         //button config
@@ -78,6 +94,27 @@ function Actions(){
             elements.topMenuButton.classList.add("none");
         }
     }
+
+    //-------------------------------------------------------------------------------------
+    //page actions on data
+    //-------------------------------------------------------------------------------------
+
+    this.onPageData = {};
+    this.onPageData.quizz = function(data, dataName){
+        pagesManager.pages.quizz.container.querySelector(".quizzTitle").innerText = data[0].name;
+    }
+    //when data return on edit page
+    this.onPageData.edit = function(data){
+        data = data[0];
+        quizzTitle.value = data.name;
+        quizzTitle.addEventListener("change", function(event){
+            apiManager.updateData(`quiz/${data.id}`, {name: quizzTitle.value});
+        })
+        quizzDescription.value = data.description;
+        quizzDescription.addEventListener("change", function(event){
+            apiManager.updateData(`quiz/${data.id}`, {description: quizzDescription.value});
+        })
+    };
     /**
      * To change status of element
      * @param {string} newStatus status to udate elem
@@ -92,6 +129,7 @@ function Actions(){
      * @param {string} status status to define button
      */
     Element.prototype.updateManageButton = function(status){
+        console.log(status);
         //get quizz actions div
         var quizzActions = this.firstChild;
         while(!quizzActions.classList.contains("quizzListActions")){
@@ -112,7 +150,7 @@ function Actions(){
 			case "build": 
                 var buttonEdit = quizzActions.addElement("div", "quizzListActionsEdit imgEdit");
                 buttonEdit.addEventListener("click", function(event){
-                    pagesManager.changePage("update", {path:[quizzActions.parentElement.getAttribute("quizzid")]});
+                    pagesManager.changePage("edit", {path:[quizzActions.parentElement.getAttribute("quizzid")]});
                 })
 				break;
 			case "active":
@@ -121,7 +159,7 @@ function Actions(){
 			case "clos":
                 var buttonTrash = quizzActions.addElement("div", "quizzListActionsDelete imgTrash");
                 buttonTrash.addEventListener("click", function(event){
-                    var url = `quiz/${quizzActions.parentElement.getAttribute("quizzid")}`;
+                    var url = `quizz/${quizzActions.parentElement.getAttribute("quizzid")}`;
                     apiManager.deleteData(url);
                     quizzActions.parentElement.remove();
                 })

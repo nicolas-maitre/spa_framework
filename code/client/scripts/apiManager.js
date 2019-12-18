@@ -40,16 +40,18 @@ function ApiManager(){
 		if(urlParams){
 			requestUrlParams = "?" + utils.encodeQuery(urlParams);
 		}
-		//TODO remove
-		console.log("fetch params", `${config.apiPath}/${url}${requestUrlParams}`, requestInit);
 		//call api
 		var apiResponse = await fetch(`${config.apiPath}/${url}${requestUrlParams}`, requestInit);
 		//if http error
 		if(!apiResponse.ok){
-			console.warn("api error", apiResponse.status);
+			console.warn("api error : ", apiResponse.status);
 			return {ok:false, error:apiResponse.status}
 		}
-		var jsonResponse = await apiResponse.json();
+		try{
+			var jsonResponse = await apiResponse.json();
+		}catch(e){
+			return {ok:false, error:e};
+		}
 		//if no http error
 		return {ok:true, data:jsonResponse};
     };
@@ -72,7 +74,7 @@ function ApiManager(){
 		return res.ok ? res.data : [];//return only if data
 	}
 	/**
-	 * get 1 data
+	 * update data
 	 * @param {string} url quizzes, questions or answers
 	 * @returns {array} data return by api
 	 */
@@ -81,7 +83,7 @@ function ApiManager(){
 		return res.ok ? res.data : [];//return only if data
 	}
 	/**
-	 * get 1 data
+	 * create data
 	 * @param {string} url quizzes, questions or answers
 	 * @returns {array} data return by api
 	 */
@@ -90,7 +92,7 @@ function ApiManager(){
 		return res.ok ? res.data : [];//return only if data
 	}
 	/**
-	 * get 1 data
+	 * delete data
 	 * @param {string} url quizzes, questions or answers
 	 * @returns {array} data return by api
 	 */

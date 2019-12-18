@@ -3,7 +3,7 @@ require_once 'router.php';
 
 // Check la méthode afin de rediriger
 $method = $_SERVER['REQUEST_METHOD'];
-
+header('Access-Control-Allow-Origin: *'); 
 switch ($method) {
     case 'GET':
 		//Récupère tous les quiz
@@ -25,19 +25,22 @@ switch ($method) {
     case 'POST':
 		//Ajoute un quiz
         Router::post("/quizzes/", "insert/quizzes@insertQuiz");
-		
+        //Ajouter une question
+        Router::post("/quizzes/id/questions/", "insert/questions@insertQuestion");		
         break;
 
     case 'PUT':
 		//Update du nom et de la description d'un quiz
         Router::put("/quiz/id/", "update/quizzes@updateQuiz");
+        Router::put("/question/id/", "update/questions@updateQuestion");
         break;
 
     case 'DELETE':
-        Router::delete("/quiz/id/", "delete/quizzes@deleteQuiz");
+        Router::delete("/quizz/id/", "update/quizzes@deleteQuizz");
+        Router::delete("/question/id/", "update/questions@deleteQuestion");
+        
         break;
     case 'OPTIONS':
-        header('Access-Control-Allow-Origin: *'); 
 		header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
 		echo '';
         exit;
@@ -46,6 +49,5 @@ switch ($method) {
         header("HTTP/1.0 404 Not Found");
         break;
 }
-
 
 Router::run();

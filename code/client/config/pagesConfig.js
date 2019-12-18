@@ -14,7 +14,7 @@ var pagesConfig = {
         },
         refreshDataOnDisplay: true,
         data: [{
-            source: "allAvailibleQuizzes",
+            source: "allActiveQuizzes",
             container: ".ListQuizz", //querySelector synthax
             adapter: "quizzLine"
         }]
@@ -24,7 +24,27 @@ var pagesConfig = {
             text: "Home",
             target: "home"
         },
-        view: "create"
+        view: "create",
+        refreshDataOnDisplay: true
+    },
+    edit: {
+        headButton:{
+            text: "Home",
+            target: "home"
+        },
+        view: "edit",
+        data: [{
+            source: "quizz",
+            pathTemplate: "/{{id}}", 
+            dataName: "quizzEdit" //use as global data
+        },
+        {
+            source: "questionsForQuizz",
+            pathTemplate: "/{{quizzId}}",
+            container: ".editQuestionsList",
+            adapter: "createQuestionsLine"
+        }],
+        refreshDataOnDisplay: true
     },
     quizz: {
         headButton: {
@@ -53,11 +73,13 @@ var pagesConfig = {
             text: "Home",
             target: "home"
         },
+        refreshDataOnDisplay: true
     },
     statistics: {
         headButton: {
             text: "Home",
             target: "home"
-        }
+        },
+        refreshDataOnDisplay: true
     }
 };

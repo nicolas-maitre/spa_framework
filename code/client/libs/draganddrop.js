@@ -46,37 +46,21 @@ var DragAndDrop = function(){
     this.addDrag = function(classToDrag, callbackWhereDrop){
         //add event dragstart to allow on element to drag and display where is dropped and add event to remove the effect
         Array.prototype.forEach.call(document.getElementsByClassName(classToDrag), function(elem){
-            elem.classList.add("toDrag");
-            elem.addEventListener("dragstart", function(event){
-                event.dataTransfer.setData("0", 0);
-                if(event.target.className.includes("toDrag")){
-                    draggedElem = event.target;
-                    draggedElem.classList.add("hovered");
-                }
-            });
-            elem.addEventListener("dragend", function(event){
-                draggedElem.classList.remove("hovered");
-                callbackWhereDrop(event.target);
-            });
-        });
-    }
-    /**
-     * Methode to remove possibility to drop
-     */
-    this.removeDrop = function(){
-        Array.prototype.forEach.call(document.getElementsByClassName("toDrop"), function(elem){
-            element.removeEventListener("dragover");
-            element.removeEventListener("drop");
-            elem.classList.remove("toDrop");
-        });
-    }
-    /**
-     * Methode to remove possibility to move
-     */
-    this.removeDrag = function(){
-        Array.prototype.forEach.call(document.getElementsByClassName("toDrag"), function(elem){
-            element.removeEventListener("dragstart");
-            elem.classList.remove("toDrag");
+            if(!elem.classList.contains("toDrag")){
+                elem.classList.add("toDrag");
+                elem.setAttribute('draggable',  true);
+                elem.addEventListener("dragstart", function(event){
+                    event.dataTransfer.setData("0", 0);
+                    if(event.target.className.includes("toDrag")){
+                        draggedElem = event.target;
+                        draggedElem.classList.add("hovered");
+                    }
+                });
+                elem.addEventListener("dragend", function(event){
+                    draggedElem.classList.remove("hovered");
+                    callbackWhereDrop(event.target);
+                });
+            }
         });
     }
     /**
