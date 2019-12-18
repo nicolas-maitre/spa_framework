@@ -5,13 +5,6 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema mydb
--- -----------------------------------------------------
--- -----------------------------------------------------
--- Schema kaphoot_db
--- -----------------------------------------------------
-
--- -----------------------------------------------------
 -- Schema kaphoot_db
 -- -----------------------------------------------------
 USE `kaphoot_db` ;
@@ -41,6 +34,7 @@ CREATE TABLE IF NOT EXISTS `kaphoot_db`.`tblquestions` (
   `statement` TEXT NULL DEFAULT NULL,
   `type` VARCHAR(20) NULL DEFAULT NULL,
   `order` INT(11) NULL DEFAULT NULL,
+  `fk_Submission` VARCHAR(36) NULL,
   `active` TINYINT(4) NULL DEFAULT '1',
   PRIMARY KEY (`idQuestions`),
   INDEX `fk_Questions_Quizzes_idx` (`fk_Quizzes` ASC),
@@ -65,8 +59,3 @@ CREATE TABLE IF NOT EXISTS `kaphoot_db`.`tblanswers` (
     REFERENCES `kaphoot_db`.`tblquestions` (`idQuestions`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
-
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

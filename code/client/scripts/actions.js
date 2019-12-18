@@ -107,7 +107,6 @@ function Actions(){
     this.onPageData.edit = function(data){
         data = data[0];
         quizzTitle.value = data.name;
-        console.warn(data);
         quizzTitle.addEventListener("change", function(event){
             apiManager.updateData(`quiz/${data.id}`, {name: quizzTitle.value});
         })
