@@ -29,6 +29,9 @@ function Builder(){
 		quizzDate.innerText = data.datecreation;
 		quizzDescr.innerText = data.description;
 		//link.setAttribute("href", `/quizz/${data.id}`);
+		link.addEventListener("click", async function(event){
+			var submission = await apiManager.createData(`quizzes/${data.id}/submission/`);
+		})
 	}
 	this.adapters.quizzManage = function(container, data){
 		//elems
@@ -74,7 +77,6 @@ function Builder(){
 		});
 	}
 	this.adapters.questionInputLine = function(container, data){
-
 		var questionsContainer = container.addElement("div", "quizzQuestionsContainer");
 		var statement = questionsContainer.addElement("p", "questionTitle");
 		var answerContainer = questionsContainer.addElement("div", "questionAnswerContainer");
@@ -96,6 +98,10 @@ function Builder(){
 
 		//data
 		statement.innerText = data.statement;
+		//event
+		answer.addEventListener("change", function(event){
+			console.log(data.id, answer.value);
+		})
 	}
 	
 	//other
