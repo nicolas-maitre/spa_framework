@@ -106,8 +106,15 @@ function Actions(){
     //when data return on edit page
     this.onPageData.edit = function(data){
         data = data[0];
-        quizzTitle.innerText = data.name;
-        quizzDescription.innerText = data.description;
+        quizzTitle.value = data.name;
+        console.warn(data);
+        quizzTitle.addEventListener("change", function(event){
+            apiManager.updateData(`quiz/${data.id}`, {name: quizzTitle.value});
+        })
+        quizzDescription.value = data.description;
+        quizzDescription.addEventListener("change", function(event){
+            apiManager.updateData(`quiz/${data.id}`, {description: quizzDescription.value});
+        })
     };
     /**
      * To change status of element
