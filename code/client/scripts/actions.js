@@ -79,6 +79,7 @@ function Actions(){
             globalMemory.dragAndDropManage.addDrag("droped", function(elem){
                 var url = `quiz/${elem.getAttribute("quizzid")}`;
                 apiManager.updateData(url, {status: elem.parentElement.getAttribute("name")})
+                elem.updateManageButton(elem.parentElement.getAttribute("name"));
             });
         });
     }
@@ -100,7 +101,6 @@ function Actions(){
 
     this.onPageData = {};
     this.onPageData.quizz = function(data, dataName){
-            //console.log("onPageData quizz!", data, dataName);
         pagesManager.pages.quizz.container.querySelector(".quizzTitle").innerText = data[0].name;
     }
     //when data return on edit page
@@ -129,6 +129,7 @@ function Actions(){
      * @param {string} status status to define button
      */
     Element.prototype.updateManageButton = function(status){
+        console.log(status);
         //get quizz actions div
         var quizzActions = this.firstChild;
         while(!quizzActions.classList.contains("quizzListActions")){
