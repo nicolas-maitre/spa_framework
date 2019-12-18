@@ -8,5 +8,5 @@
     <div class="sectionTitle">Questions</div>
     <div class="editQuestionsList"></div>
     <button id="addQuestion">Ajouter une question</button>
-    <button>Enregistrer les questions</button>
+    <button>Enregistrer les modifications</button>
 </div>
