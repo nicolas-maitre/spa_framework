@@ -101,8 +101,43 @@ function Actions(){
 
     this.onPageData = {};
     this.onPageData.quizz = function(data, dataName){
-        pagesManager.pages.quizz.container.querySelector(".quizzTitle").innerText = data[0].name;
+        switch(dataName){
+            case "quizz":
+                pagesManager.pages.quizz.container.querySelector(".quizzTitle").innerText = data[0].name;
+                break;
+            case "submission":
+                _this.pageMethods.quizz.patchQuizzWithSubmission(data);
+                break;
+        }
     }
+
+    //______________
+    //pageMethods
+    //________
+    this.pageMethods = {};
+    this.pageMethods.quizz = {};
+    this.pageMethods.quizz.patchQuizzWithSubmission = function(data){
+
+    };
+    //manages answer in submission
+    this.pageMethods.quizz.manageAnswerUpdate = async function({idQuestion, idAnswer = false, data}){
+        //already created
+        if(idAnswer){
+            apiManager.updateData(`/answers/${idAnswer}`, {data})
+            return;
+        }
+
+        //no submission
+        if(!pagesManager.pages.quizz.data.submission){
+            console.log("no submission yet");
+            var submission = await  
+        }
+    };
+
+    //_________
+    //other actions
+    //_________
+
     //when data return on edit page
     this.onPageData.edit = function(data){
         data = data[0];

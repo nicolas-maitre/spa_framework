@@ -64,7 +64,12 @@ var pagesConfig = {
                 pathTemplate: "/{{quizzId}}",
                 container: ".quizzQuestionsContainer",
                 adapter: "questionInputLine"
-            }
+            },
+            {
+                source: "submissionWithAnswers",
+                pathTemplate: "/{{quizzId}}/submission/{{submissionId}}", 
+                dataName: "submission" //use as global data
+            },
         ]
     },
     manage: {

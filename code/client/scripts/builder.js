@@ -28,10 +28,7 @@ function Builder(){
 		quizzTitle.innerText = data.name;
 		quizzDate.innerText = data.datecreation;
 		quizzDescr.innerText = data.description;
-		//link.setAttribute("href", `/quizz/${data.id}`);
-		link.addEventListener("click", async function(event){
-			var submission = await apiManager.createData(`quizzes/${data.id}/submission/`);
-		})
+		link.setAttribute("href", `/quizz/${data.id}`);
 	}
 	this.adapters.quizzManage = function(container, data){
 		//elems

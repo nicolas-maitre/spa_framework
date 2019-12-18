@@ -35,4 +35,7 @@ function DataSources(){
 		});
 		return questions;
 	};
+	this.submissionWithAnswers = async function(){
+		return ["jeje"];
+	};
 }
