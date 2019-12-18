@@ -69,9 +69,11 @@ function Actions(){
             
             //build adapters
             datas.forEach(quizz => {
-                var list = document.getElementById("listQuizzes" + quizz.status.capitalise());
-                dropped = builder.adapters.quizzManage(list, quizz);
-                dropped.updateManageButton(dropped.parentElement.getAttribute("name"));
+                if(quizz.status!=null && quizz.status.match(/^(build|active|clos)$/)){
+                    var list = document.getElementById("listQuizzes" + quizz.status.capitalise());
+                    dropped = builder.adapters.quizzManage(list, quizz);
+                    dropped.updateManageButton(dropped.parentElement.getAttribute("name"));
+                }
             });
             //add drop possibility on quizz
             globalMemory.dragAndDropManage.addDrag("droped", function(elem){
