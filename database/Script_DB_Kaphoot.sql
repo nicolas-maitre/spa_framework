@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `kaphoot_db`.`tblquizzes` (
   `name` VARCHAR(45) NULL DEFAULT NULL,
   `description` VARCHAR(255) NULL DEFAULT NULL,
   `datecreation` DATE NULL DEFAULT NULL,
-  `status` VARCHAR(20) NULL DEFAULT NULL,
+  `status` VARCHAR(20) NULL DEFAULT "build",
   `active` TINYINT(1) NULL DEFAULT NULL,
   PRIMARY KEY (`idQuizzes`))
 ENGINE = InnoDB
