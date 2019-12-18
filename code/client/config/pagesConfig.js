@@ -73,11 +73,13 @@ var pagesConfig = {
             text: "Home",
             target: "home"
         },
+        refreshDataOnDisplay: true
     },
     statistics: {
         headButton: {
             text: "Home",
             target: "home"
-        }
+        },
+        refreshDataOnDisplay: true
     }
 };

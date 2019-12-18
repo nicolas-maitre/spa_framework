@@ -69,9 +69,11 @@ function Actions(){
             
             //build adapters
             datas.forEach(quizz => {
-                var list = document.getElementById("listQuizzes" + quizz.status.capitalise());
-                dropped = builder.adapters.quizzManage(list, quizz);
-                dropped.updateManageButton(dropped.parentElement.getAttribute("name"));
+                if(quizz.status!=null && quizz.status.match(/^(build|active|clos)$/)){
+                    var list = document.getElementById("listQuizzes" + quizz.status.capitalise());
+                    dropped = builder.adapters.quizzManage(list, quizz);
+                    dropped.updateManageButton(dropped.parentElement.getAttribute("name"));
+                }
             });
             //add drop possibility on quizz
             globalMemory.dragAndDropManage.addDrag("droped", function(elem){
@@ -104,8 +106,15 @@ function Actions(){
     //when data return on edit page
     this.onPageData.edit = function(data){
         data = data[0];
-        quizzTitle.innerText = data.name;
-        quizzDescription.innerText = data.description;
+        quizzTitle.value = data.name;
+        console.warn(data);
+        quizzTitle.addEventListener("change", function(event){
+            apiManager.updateData(`quiz/${data.id}`, {name: quizzTitle.value});
+        })
+        quizzDescription.value = data.description;
+        quizzDescription.addEventListener("change", function(event){
+            apiManager.updateData(`quiz/${data.id}`, {description: quizzDescription.value});
+        })
     };
     /**
      * To change status of element
