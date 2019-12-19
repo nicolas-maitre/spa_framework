@@ -35,10 +35,10 @@ function DataSources(){
 		return questions;
 	};
 	this.submissionWithAnswers = async function({submissionId}){
-		return await apiManager.getData(`submission/${submissionId}`);
+		return await apiManager.getData(`submissions/${submissionId}`);
 	};
 	this.submissionsWithAnswers = async function({quizzId}){
-		return await apiManager.getData(`quizz/${quizzId}/submisions/`);
+		return await apiManager.getData(`quizzes/${quizzId}/submissions/`);
 	}
 	this.answersByQuestion = async function({questionId}){
 		return await apiManager.getData(`questions/${questionId}/answers/`);

@@ -77,15 +77,15 @@ function Builder(){
 		//event
 		btnRemove.addEventListener("click", function(event){
 			event.preventDefault();
-			apiManager.deleteData(`question/${question.id}`);
+			apiManager.deleteData(`questions/${question.id}`);
 			question.remove();
 		})
 		inputQuestion.addEventListener("change", function(event){
-			apiManager.updateData(`question/${question.id}`, {statement: inputQuestion.value});
+			apiManager.updateData(`questions/${question.id}`, {statement: inputQuestion.value});
 		})
 		globalMemory.dragAndDropEdit.addDrag("editQuestion", function(elem){
 			document.getElementsByClassName("editQuestion").forEach(function(elem, index){
-                apiManager.updateData(`question/${elem.id}`, {order:index});
+                apiManager.updateData(`questions/${elem.id}`, {order:index});
             })
 		});
 	}
