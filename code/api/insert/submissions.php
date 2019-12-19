@@ -23,7 +23,7 @@ class Submissions
         $query = "INSERT INTO $this->subTable (`idSubmissions`, `datecreation`, `fk_Quizzes`)
         VALUES (?, ?, ?)";
 
-		$uuid = $this->gen_uuid();
+		$uuid = Utility::gen_uuid();
 	
         $sth = $this->conn->prepare($query);
         

@@ -26,7 +26,7 @@ class Quizzes
 
         $sth = $this->conn->prepare($query);
 
-        $uuid = $this->gen_uuid();
+        $uuid = Utility::gen_uuid();
         
         $sth->execute(array($uuid, $_POST['name'], $_POST['description'], date("Y-m-d"),1)); 
 

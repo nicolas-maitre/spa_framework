@@ -46,12 +46,10 @@ class Router {
 
     public static function run(){
         $idRegex="([0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12})";
-        //$textRegex="([A-Za-z]+)";
 
         $url = parse_url($_SERVER['REQUEST_URI'])['path'];
-        $api = '/api';
-        $urlcut = substr(stristr ($url, '/api/'), strlen($api) );
-		
+        $api = '/routes.php';
+        $urlcut = substr(stristr ($url, '/routes.php/'), strlen($api) );
 		
 		
         foreach (self::$routes as $route)
@@ -66,22 +64,15 @@ class Router {
 		
             if(preg_match(strtolower("#".$regex."#"),strtolower($urlcut),$matches))
             {
-				
-				
                 $arraySorted=self::sortArray($route["path"],$matches);
-                
-				
                 self::execute($route["method"],$arraySorted);
 				
                 exit;
             }
 			
-        }
-				echo 'route incorrect';
-				
+        }		
 				http_response_code(400);
 				exit;
-        //self::execute(self::$dirController."/controller@error",(object)array("error"=>"Error 404 | page not found","message"=>$_SERVER['HTTP_HOST'].$url));
     }
 
     private static function sortArray($route,$params)

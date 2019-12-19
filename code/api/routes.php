@@ -13,10 +13,6 @@ switch ($method) {
 		//Récupère toutes les questions d'un quiz en fonction de l'id du quiz
         Router::get("/quizzes/id/questions/", "select/quizzes@getQuestions");
 
-		//Récupère toutes les questions
-        Router::get("/questions/", "select/questions@getQuestions");
-		//Récupère une question en fonction de l'id
-		Router::get("/questions/id/", "select/questions@getQuiz");
 		//Récupère toutes les réponses d'une question en fonction de l'id de la question
         Router::get("/questions/id/answers/", "select/questions@getAllAnswersFromAllQuestionsFromAQuiz");
         
@@ -53,7 +49,6 @@ switch ($method) {
         break;
     case 'OPTIONS':
 		header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
-		echo '';
         exit;
     
     default:
