@@ -130,6 +130,7 @@ function Builder(){
 		var box = container.addElement("div", "noDataContainer");
 		var text = box.addElement("p");
 		text.innerText = config.messageNoData;
+		return box;
 	};
 
 	this.adapters.questionColStats = function(container, data){
