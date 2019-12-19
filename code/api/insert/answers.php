@@ -1,13 +1,13 @@
 <?php 
 require_once 'database/database.php';
 
-class Submissions
+class Answers
 {
     //Définition des tables dans la bdd
     private $ansTable = 'tblAnswers';
     private $quesTable = 'tblQuestions';
     private $quizTable = 'tblQuizzes';
-	private $subTable = 'tblSubmissions';
+
     private $conn;
 
     private $uuid;
@@ -18,41 +18,31 @@ class Submissions
         $this->conn = $database->getConnection();
     }
 
-    public function insertSubmission($id)
-    {
-        $query = "INSERT INTO $this->subTable (`idSubmissions`, `datecreation`, `fk_Quizzes`)
-        VALUES (?, ?, ?)";
+    public function insertAnswer($params)
+    {		
+        $query = "INSERT INTO $this->ansTable (`idAnswers`, `data`, `fk_Questions`, `fk_Submissions`)
+        VALUES (?, ?, ?, ?)";
 
-		$uuid = $this->gen_uuid();
-	
         $sth = $this->conn->prepare($query);
+
+        $uuid = $this->gen_uuid();
         
-        $sth->execute(array($uuid, date("Y-m-d H:i:s"), $id->quizzes));
+        $sth->execute(array($uuid, $_POST['data'], $params->question, $params->submission)); 
 		
-        $query2 = "SELECT * FROM $this->subTable where idSubmissions = '$uuid'";
+		$response = [
+			"id" => $uuid,
+			"data" => $_POST['data'],
+			"fk_Questions" => $params->question,
+			"fk_Submissions" => $params->submission
+		];    
 
-        $response = array();
-
-        $sth = $this->conn->prepare($query2);
-        
-        $sth->execute();
-
-        while($row = $sth->fetch(PDO::FETCH_ASSOC))
-        {
-            $response[] = [
-                "id" => $row['idSubmissions'],
-                "datecreation" => $row['datecreation'],
-                "fk_Quizzes" => $row['fk_Quizzes'],
-				"answers" =>  []
-            ];
-        }
        // show products data in json format
        header('Content-Type: application/json');
 	   header('Access-Control-Allow-Origin: *');
        echo json_encode($response,JSON_PRETTY_PRINT);
     }
-	
-	static private function gen_uuid() {
+
+    static private function gen_uuid() {
         return sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
             // 32 bits for "time_low"
             mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),

@@ -50,6 +50,7 @@ function ApiManager(){
 		try{
 			var jsonResponse = await apiResponse.json();
 		}catch(e){
+			console.warn("json couldn't be parsed, error:", e)
 			return {ok:false, error:e};
 		}
 		//if no http error
@@ -57,20 +58,11 @@ function ApiManager(){
     };
 	/**
 	 * get a few data
-	 * @param {string} element quizzes, questions or answers
+	 * @param {string} url quizzes, questions or answers
 	 * @returns {array} data return by api
 	 */
-	this.getDatas = async function(element){
-		var res = await callApi(element, "GET");
-		return res.ok ? res.data : [];//return only if data
-	}
-	/**
-	 * get 1 data
-	 * @param {string} element quizzes, questions or answers
-	 * @returns {array} data return by api
-	 */
-	this.getData = async function(element, id){
-		var res = await callApi(element+"/"+id, "GET");
+	this.getData = async function(url){
+		var res = await callApi(url, "GET");
 		return res.ok ? res.data : [];//return only if data
 	}
 	/**

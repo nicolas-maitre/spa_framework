@@ -58,15 +58,13 @@ class Quizzes
 
         $sth->execute();
 
-        while($row = $sth->fetch(PDO::FETCH_ASSOC))
-        {
-            $response[] = [
-                "id" => $row['idQuizzes'],
-                "name" => $row['name'],
-                "description" => $row['description'],
-                "datecreation" => $row['datecreation']
-            ];
-        }
+        $row = $sth->fetch(PDO::FETCH_ASSOC);
+		$response = [
+			"id" => $row['idQuizzes'],
+			"name" => $row['name'],
+			"description" => $row['description'],
+			"datecreation" => $row['datecreation']
+		];
 
         // show products data in json format
         header('Content-Type: application/json');

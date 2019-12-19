@@ -1,7 +1,7 @@
 "use strict";
 function DataSources(){
 	this.allActiveQuizzes = async function(){
-		var quizzes = await apiManager.getDatas("quizzes");
+		var quizzes = await apiManager.getData("quizzes");
 
 		//only add active quizzes
 		var filteredQuizzes = [];
@@ -21,21 +21,21 @@ function DataSources(){
 		return filteredQuizzes;
 	};
 	this.allQuizzes = async function(){
-		var res = await apiManager.call("quizzes");
-		return res.ok ? res.data : [];//return only if data
+		return await apiManager.getData("quizzes");
 	};
 	this.quizz = async function({id}){
-		return apiManager.getData("quizzes", id)
+		return apiManager.getData(`quizzes/${id}`);
 	};
 	this.questionsForQuizz = async function({quizzId}){
-		var questions = await apiManager.getDatas(`quizzes/${quizzId}/questions`);
+		var questions = await apiManager.getData(`quizzes/${quizzId}/questions`);
 		//sort by desc date
 		questions.sort(function(question1, question2){
 			return (question1.order > question2.order)?1:-1;
 		});
 		return questions;
 	};
-	this.submissionWithAnswers = async function(){
-		return ["jeje"];
+	this.submissionWithAnswers = async function({submissionId}){
+		console.log("MAIS???");
+		return await apiManager.getData(`submission/${submissionId}`);
 	};
 }
