@@ -60,7 +60,6 @@ function PagesManager(){
 		var queryUrl = "";
 		if(query){
 			queryUrl = "?" + utils.encodeQuery(query);	
-			console.log("queryUrl", queryUrl);
 		}
         
         //path
@@ -108,7 +107,7 @@ function PagesManager(){
         _this.loadView(pageName, function(error, view){
             utils.getGlobalLoader().hide();
             if(error){
-                console.log("view couldn't be loaded.", error);
+                console.error("view couldn't be loaded.", error);
                 utils.infoBox("Une erreur s'est produite durant le chargement de la page");
                 return;
             }
@@ -158,7 +157,7 @@ function PagesManager(){
     this.managePopState = function(evt){
         console.log("pop", evt);
         if(!evt.state || !evt.state.pageName){
-            console.log("no pop state defined");
+            console.warn("no pop state defined");
             return;
         }
         var pageOptions = evt.state;
@@ -172,7 +171,6 @@ function PagesManager(){
 		var allDataConfigs = pagesConfig[pageName].data;
 		for(var indDataConfig = 0; indDataConfig < allDataConfigs.length; indDataConfig++){
             var dataConfig = allDataConfigs[indDataConfig];
-            console.log(dataConfig);
             _this.applyDataConfig(dataConfig, pageName);
 		}
     };
@@ -208,7 +206,6 @@ function PagesManager(){
             dataName = dataConfig.dataName;
             //clear data
             _this.pages[pageName].data[dataName] = false;
-            console.log("oskur", pagesManager.pages[pageName].data);
         }
 
         //data params (path template)
@@ -248,7 +245,6 @@ function PagesManager(){
 
         dataSource(dataParams)
 		.then(function(data){
-            console.log({data});
             if(adapter){ //adapter data
                 builder.applyDataAdapter({
                     container: adaptersContainer, 

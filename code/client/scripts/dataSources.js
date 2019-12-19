@@ -24,7 +24,7 @@ function DataSources(){
 		return await apiManager.getData("quizzes");
 	};
 	this.quizz = async function({id}){
-		return apiManager.getData(`quizzes/${id}`);
+		return await apiManager.getData(`quizzes/${id}`);
 	};
 	this.questionsForQuizz = async function({quizzId}){
 		var questions = await apiManager.getData(`quizzes/${quizzId}/questions`);
@@ -35,7 +35,9 @@ function DataSources(){
 		return questions;
 	};
 	this.submissionWithAnswers = async function({submissionId}){
-		console.log("MAIS???");
 		return await apiManager.getData(`submission/${submissionId}`);
 	};
+	this.submissionsWithAnswers = async function({quizzId}){
+		return await apiManager.getData(`quizz/${quizzId}/submisions/`);
+	}
 }

@@ -112,10 +112,30 @@ function Builder(){
 	}
 
 	this.adapters.questionColStats = function(container, data){
-		console.warn(data, container);
-		colQuestion = container.addElement("div", "");
-		colQuestion.innerText = data.statement;
-		colQuestion.id = data.id;
+		colQuestion = container.addElement("div", "questionHeadCol colQ");
+		colQuestion.title = data.statement;
+		colQuestion.setAttribute("question-id", data.id);
+		linkQuestion = colQuestion.addElement("a", "");
+		linkQuestion.innerText = `Q${container.querySelectorAll(".questionHeadCol").length}`;
+		linkQuestion.href = `/statisticsQuestion/${data.id}`;
+	}
+	this.adapters.submissionStats = function(container, data){
+		//create elems
+		submission = container.addElement("div", "rowSubmission");
+		var dateSub = submission.addElement("a", "colD");
+		var questions = document.querySelectorAll(".questionHeadCol");
+		questions.forEach(function(question){
+			var symb = "times";
+			var questionId = question.getAttribute("question-id");
+			if(questionId in data.answers){
+				symb = data.answers[questionId].data.length < config.charLongAnswer ? "check" : "check-double";
+			}
+			var answer = submission.addElement("div", "colQ");
+			answer.addElement("div", symb);
+		})
+		//add data
+		dateSub.href = `/statisticsSubmission/${data.id}`;
+		dateSub.innerText = data.datecreation;
 	}
 	
 	//other

@@ -93,7 +93,12 @@ var pagesConfig = {
                 container: ".questionCol",
                 adapter: "questionColStats",
                 dataName: "questions" //use as global data
-            }
+            },
+            {
+                source: "submissionsWithAnswers",
+                pathTemplate: "/{{quizzId}}", 
+                dataName: "submissions" //use as global data
+            },
         ],
         refreshDataOnDisplay: true
     }

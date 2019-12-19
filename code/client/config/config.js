@@ -4,5 +4,6 @@ var config = {
     landingPage: "home",
     viewsExtension: ".php",
     pageTitlePrefix: "Kaphoot - ",
-    dataClasses: ['quizzes', "questions", "answers"]
+    dataClasses: ['quizzes', "questions", "answers"],
+    charLongAnswer: 20
 };
