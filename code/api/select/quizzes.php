@@ -1,32 +1,21 @@
 <?php 
 require_once 'database/database.php';
+require_once 'utility.php';
 
 class Quizzes
 {
-    //Définition des tables dans la bdd
-    private $ansTable = 'tblAnswers';
-    private $quesTable = 'tblQuestions';
-    private $quizTable = 'tblQuizzes';
 
-    private $conn;
-
-
-    public function __construct(){
-        $database = new Database();
-        $this->conn = $database->getConnection();
-    }
-
+    public $response = array();
     public function getQuizzes()
     {
-        $query = "SELECT * FROM $this->quizTable where active = '1' ORDER BY datecreation DESC";
-        $response = array();
-        $sth = $this->conn->prepare($query);
-        
-        $sth->execute();
+        $query = "SELECT * FROM ". Utility::getTableQuizzes() ." where active = '1' ORDER BY datecreation DESC";
+    
 
-        while($row = $sth->fetch(PDO::FETCH_ASSOC))
+        $request = Utility::prepareRequest(Database::getConnection(), $query);
+        $request->execute();
+        while($row = $request->fetch(PDO::FETCH_ASSOC))
         {
-            $response[] = [
+            $this->response[] = [
                 "id" => $row['idQuizzes'],
                 "name" => $row['name'],
                 "description" => $row['description'],
@@ -34,58 +23,45 @@ class Quizzes
                 "status" => $row['status']
             ];
         }
-		
-	
+        
+	    Utility::returnJSON($this->response);
 
-        // show products data in json format
-        header('Content-Type: application/json');
-		header('Access-Control-Allow-Origin: *');
-		
-        echo json_encode($response,JSON_PRETTY_PRINT);
     }
 
      public function getQuiz($id)
     {
       
-        $query = "SELECT * FROM $this->quizTable";
+        $query = "SELECT * FROM ". Utility::getTableQuizzes();
+
         if(isset($id->quizzes))
         {
-        
             $query .= " WHERE idQuizzes='".$id->quizzes."' LIMIT 1";
         }
-        $response = array();
-        $sth = $this->conn->prepare($query);
 
-        $sth->execute();
-
-        $row = $sth->fetch(PDO::FETCH_ASSOC);
-		$response = [
+        $request = Utility::prepareRequest(Database::getConnection(), $query);
+        $request->execute();
+        $row = $request->fetch(PDO::FETCH_ASSOC);
+		$this->response = [
 			"id" => $row['idQuizzes'],
 			"name" => $row['name'],
 			"description" => $row['description'],
 			"datecreation" => $row['datecreation']
 		];
 
-        // show products data in json format
-        header('Content-Type: application/json');
-		header('Access-Control-Allow-Origin: *');
-        echo json_encode($response,JSON_PRETTY_PRINT);
+        Utility::returnJSON($this->response);
     }
 
-    public function getQuestions($id)
+    public function getQuestions($params)
     {
-        $query = "SELECT * FROM $this->quesTable 
-        INNER JOIN $this->quizTable on idQuizzes = fk_Quizzes
-        WHERE idQuizzes='$id->quizzes' AND $this->quesTable.active=1";
-        
-    
-        $response = array();
-        $sth = $this->conn->prepare($query);
-        $sth->execute();
-     
-        while($row = $sth->fetch(PDO::FETCH_ASSOC))
+        $query = "SELECT * FROM ". Utility::getTableQuestions() ."
+        INNER JOIN ". Utility::getTableQuizzes() ." on idQuizzes = fk_Quizzes 
+        WHERE idQuizzes='$params->quizzes' AND ". Utility::getTableQuestions() .".active=1";
+
+        $request = Utility::prepareRequest(Database::getConnection(), $query);
+        $request->execute();
+        while($row = $request->fetch(PDO::FETCH_ASSOC))
         {
-            $response[] = [
+            $this->response[] = [
                 "id" => $row['idQuestions'],
                 "dataQuestions" => $row['dataQuestions'],
                 "name_quiz" => $row['name'],
@@ -96,33 +72,6 @@ class Quizzes
             ];
         }
     
-
-       // show products data in json format
-       header('Content-Type: application/json');
-	   header('Access-Control-Allow-Origin: *');
-       echo json_encode($response,JSON_PRETTY_PRINT);
-    }
-
-
-    static private function gen_uuid() {
-        return sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
-            // 32 bits for "time_low"
-            mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
-
-            // 16 bits for "time_mid"
-            mt_rand( 0, 0xffff ),
-
-            // 16 bits for "time_hi_and_version",
-            // four most significant bits holds version number 4
-            mt_rand( 0, 0x0fff ) | 0x4000,
-
-            // 16 bits, 8 bits for "clk_seq_hi_res",
-            // 8 bits for "clk_seq_low",
-            // two most significant bits holds zero and one for variant DCE1.1
-            mt_rand( 0, 0x3fff ) | 0x8000,
-
-            // 48 bits for "node"
-            mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff )
-        );
+        Utility::returnJSON($this->response);
     }
 }

@@ -1,64 +1,30 @@
 <?php 
 
 require_once 'database/database.php';
-
+require_once 'utility.php';
 
 
 class Quizzes
 
 {
-
-    //Définition des tables dans la bdd
-
-    private $ansTable = 'tblanswers';
-
-    private $quesTable = 'tblquestions';
-
-    private $quizTable = 'tblquizzes';
-
-
-
-    private $conn;
-
 	private $id;
 
-
-
-
-    public function __construct(){
-
-        $database = new Database();
-
-        $this->conn = $database->getConnection();
-
-    }
-
-	
-
     //Update active to 0
-    public function deleteQuiz($id){
+    public function deleteQuiz($params){
      
 		//query
-		$query = "UPDATE $this->quizTable SET active = '0' WHERE idQuizzes = '$id->quiz'";
+		$query = "UPDATE ". Utility::getTableQuizzes() ." SET active = '0' WHERE idQuizzes = '$params->quizzes'";
 			
-		//prepare de la query
-		$stmt = $this->conn->prepare($query);
+		$request = Utility::prepareRequest(Database::getConnection(), $query);
 
-		$this->id=htmlspecialchars(strip_tags($id->quiz));	 
+		$this->id=htmlspecialchars(strip_tags($params->quizzes));	 
 
 		// Execution
-		if($stmt->execute()){
+		if($request->execute()){
 			header('Access-Control-Allow-Origin: *'); 
 			return true;
 		}
 		return false;
     }
-
-	
-
-	function bindParam($stmt, $index, $param){
-		htmlspecialchars(strip_tags($index));
-		$stmt->bindParam(':'.$index, $param);
-	}
 
 }
