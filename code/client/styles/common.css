@@ -76,3 +76,11 @@ p{
     background-position: center;
     margin-top: 20px;
 }
+
+/*noData*/
+.noDataContainer {
+    margin: 20px;
+    font-size: 20px;
+    color: 
+    #666;
+}
