@@ -234,9 +234,6 @@ function PagesManager(){
                         console.warn("url path doesnt apply to template. aborting.", {templateEntity, paramValue});
                         return;
                     }
-
-                        //console.log("no template found for entry", {templateEntity, paramValue})
-                    //no template found, skip to next
                     continue;
                 }
                 //extract param name and set value
@@ -248,7 +245,6 @@ function PagesManager(){
 
         dataSource(dataParams)
 		.then(function(data){
-            console.log({data});
             if(adapter){ //adapter data
                 builder.applyDataAdapter({
                     container: adaptersContainer, 

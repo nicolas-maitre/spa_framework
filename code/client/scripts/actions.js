@@ -40,8 +40,13 @@ function Actions(){
         globalMemory.dragAndDropEdit = new DragAndDrop();
         globalMemory.dragAndDropEdit.addDrop("editQuestionsList");
         addQuestion.addEventListener("click", async function(){
+            var adapterContainer = document.querySelector(".editQuestionsList");
+            //remove "no data" text
+            var noDataText = adapterContainer.querySelector(".noDataContainer");
+            if(noDataText) noDataText.remove();
+            //create question
             var newQuestion = await apiManager.createData(`quizzes/${pagesManager.pages.edit.data.quizzEdit.id}/questions/`);
-            builder.adapters.createQuestionsLine(document.querySelector(".editQuestionsList"), newQuestion[0]);
+            builder.adapters.createQuestionsLine(adapterContainer, newQuestion[0]);
             apiManager.updateData(`question/${newQuestion[0].id}`, {order:document.getElementsByClassName("editQuestion").length-1});
         })
     }
@@ -85,6 +90,10 @@ function Actions(){
             });
         });
     }
+    this.onPageDisplay.quizz = function(){
+        //hides save link message
+        linkSaveText.classList.add("none");
+    };
     //page action on any page display
     this.onAnyPageDisplay = function({pageName = false, pageConfig = false}){
         //button config
@@ -126,7 +135,7 @@ function Actions(){
     };
 
     //-------------------------------------------------------------------------------------
-    //pageMethods
+    //page specific methods
     //-------------------------------------------------------------------------------------
     this.pageMethods = {};
     this.pageMethods.quizz = {};
@@ -160,6 +169,9 @@ function Actions(){
             console.warn("quizz not loaded yet");
             return;
         }
+
+        //show save link message
+        linkSaveText.classList.remove("none");
 
         var quizz = pagesManager.pages.quizz.data.quizz;
         //already created
