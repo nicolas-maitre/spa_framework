@@ -15,7 +15,7 @@ switch ($method) {
 		Router::get("/questions/id/", "select/questions@getQuestion");
 		Router::get("/questions/id/answers/", "select/answers@getAnswersByQuestion");
 		
-		Router::get("/submission/id/", "select/submissions@getSubmission");
+		Router::get("/submissions/id/", "select/submissions@getSubmission");
 		
 		Router::get("/answers/id/", "select/answers@getAnswer");
         break;
@@ -23,19 +23,19 @@ switch ($method) {
     case 'POST':
         Router::post("/quizzes/", "insert/quizzes@insertQuiz");
         Router::post("/quizzes/id/questions/", "insert/questions@insertQuestion");
-		Router::post("/quizzes/id/submission/", "insert/submissions@insertSubmission");
-		Router::post("/submission/id/question/id/answers/", "insert/answers@insertAnswer");
+		Router::post("/quizzes/id/submissions/", "insert/submissions@insertSubmission");
+		Router::post("/submissions/id/questions/id/answers/", "insert/answers@insertAnswer");
         break;
 
     case 'PUT':
-        Router::put("/quiz/id/", "update/quizzes@updateQuiz");
-        Router::put("/question/id/", "update/questions@updateQuestion");
+        Router::put("/quizzes/id/", "update/quizzes@updateQuiz");
+        Router::put("/questions/id/", "update/questions@updateQuestion");
 		Router::put("/answers/id/", "update/answers@updateAnswer");
         break;
 
     case 'DELETE':
-        Router::delete("/quizz/id/", "update/quizzes@deleteQuizz");
-        Router::delete("/question/id/", "update/questions@deleteQuestion");
+        Router::delete("/quizzes/id/", "update/quizzes@deleteQuizz");
+        Router::delete("/questions/id/", "update/questions@deleteQuestion");
         break;
     case 'OPTIONS':
 		header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');

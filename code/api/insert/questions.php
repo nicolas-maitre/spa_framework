@@ -6,7 +6,7 @@ class Questions
 {
     private $uuid;
 
-    public function insertQuestion($id)
+    public function insertQuestion($params)
     {
     
         $query = "INSERT INTO ". Utility::getTableQuestions() ." (`idQuestions`, `fk_Quizzes`, `statement`, `type`, `order`)
@@ -16,7 +16,7 @@ class Questions
 
         $uuid = Utility::gen_uuid();
         
-        $request->execute(array($uuid, $id->quizzes, $_POST['statement'], $_POST['type'], $_POST['idOrder'])); 
+        $request->execute(array($uuid, $params->quizzes, $_POST['statement'], $_POST['type'], $_POST['idOrder'])); 
 
         $query2 = "SELECT * FROM ". Utility::getTableQuestions() ." where active = '1' AND idQuestions = '$uuid'";
 

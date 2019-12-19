@@ -16,13 +16,13 @@ class Answers
         
         $uuid = Utility::gen_uuid();
         
-        $request->execute(array($uuid, $_POST['data'], $params->question, $params->submission)); 
+        $request->execute(array($uuid, $_POST['data'], $params->question, $params->submissions)); 
 		
 		$this->response = [
 			"id" => $uuid,
 			"data" => $_POST['data'],
-			"fk_Questions" => $params->question,
-			"fk_Submissions" => $params->submission
+			"fk_Questions" => $params->questions,
+			"fk_Submissions" => $params->submissions
 		];    
 
         Utility::returnJSON($this->response);

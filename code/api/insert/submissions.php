@@ -8,7 +8,7 @@ class Submissions
     private $uuid;
     public $response = array();
 
-    public function insertSubmission($id)
+    public function insertSubmission($params)
     {
         $uuid = Utility::gen_uuid();
 
@@ -17,7 +17,7 @@ class Submissions
 
         $request = Utility::prepareRequest(Database::getConnection(), $query);
         
-        $request->execute(array($uuid, date("Y-m-d H:i:s"), $id->quizzes));
+        $request->execute(array($uuid, date("Y-m-d H:i:s"), $params->quizzes));
 		
         $query2 = "SELECT * FROM ". Utility::getTableSubmissions() ." where idSubmissions = '$uuid'";
 

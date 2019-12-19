@@ -24,13 +24,13 @@ class Quizzes
 		//prepare de la query
 		$request = Utility::prepareRequest(Database::getConnection(), $query);
 
-		$this->id=htmlspecialchars(strip_tags($id->quiz));
+		$this->id=htmlspecialchars(strip_tags($id->quizzes));
 
 		foreach($_PUT as $index=>$param)
 		{
 			$this->bindParam($request, $index, $param);
 		}
-		$request->bindParam(':id', $id->quiz);
+		$request->bindParam(':id', $id->quizzes);
 		// Execution
 		if($request->execute()){
 			header('Access-Control-Allow-Origin: *'); 
@@ -47,7 +47,7 @@ class Quizzes
 		//prepare de la query
 		$request = Utility::prepareRequest(Database::getConnection(), $query);
 		
-		$this->id = htmlspecialchars(strip_tags($params->quizz));
+		$this->id = htmlspecialchars(strip_tags($params->quizzes));
 		$request->bindParam(':id',$this->id);
 		// Execution
 		if ($request->execute()) {

@@ -10,14 +10,14 @@ class Quizzes
 	private $id;
 
     //Update active to 0
-    public function deleteQuiz($id){
+    public function deleteQuiz($params){
      
 		//query
-		$query = "UPDATE ". Utility::getTableQuizzes() ." SET active = '0' WHERE idQuizzes = '$id->quiz'";
+		$query = "UPDATE ". Utility::getTableQuizzes() ." SET active = '0' WHERE idQuizzes = '$params->quizzes'";
 			
 		$request = Utility::prepareRequest(Database::getConnection(), $query);
 
-		$this->id=htmlspecialchars(strip_tags($id->quiz));	 
+		$this->id=htmlspecialchars(strip_tags($params->quizzes));	 
 
 		// Execution
 		if($request->execute()){

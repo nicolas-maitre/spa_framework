@@ -8,7 +8,7 @@ class Submissions
 
 	public function getSubmissionsWithAnswers($params){
 
-		$querySub = "SELECT * FROM ". Utility::getTableSubmissions() ." where fk_Quizzes = '$params->quizz'";
+		$querySub = "SELECT * FROM ". Utility::getTableSubmissions() ." where fk_Quizzes = '$params->quizzes'";
 
 		$requestSub = Utility::prepareRequest(Database::getConnection(), $querySub);
 		
@@ -42,10 +42,10 @@ class Submissions
 		
 	}
 	
-    public function getSubmission($id)
+    public function getSubmission($params)
     {
-        $querySub = "SELECT * FROM ". Utility::getTableSubmissions() ." where idSubmissions = '$id->submission'";
-		$queryAns = "SELECT * FROM ". Utility::getTableAnswers() ." where fk_Submissions = '$id->submission'";
+        $querySub = "SELECT * FROM ". Utility::getTableSubmissions() ." where idSubmissions = '$params->submissions'";
+		$queryAns = "SELECT * FROM ". Utility::getTableAnswers() ." where fk_Submissions = '$params->submissions'";
 
 		
 		$requestSub = Utility::prepareRequest(Database::getConnection(), $querySub);

@@ -51,11 +51,11 @@ class Quizzes
         Utility::returnJSON($this->response);
     }
 
-    public function getQuestions($id)
+    public function getQuestions($params)
     {
         $query = "SELECT * FROM ". Utility::getTableQuestions() ."
         INNER JOIN ". Utility::getTableQuizzes() ." on idQuizzes = fk_Quizzes 
-        WHERE idQuizzes='$id->quizzes' AND ". Utility::getTableQuestions() .".active=1";
+        WHERE idQuizzes='$params->quizzes' AND ". Utility::getTableQuestions() .".active=1";
 
         $request = Utility::prepareRequest(Database::getConnection(), $query);
         $request->execute();

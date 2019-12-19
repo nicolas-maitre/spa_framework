@@ -14,7 +14,7 @@ class Questions
 		//prepare de la query
 		$request = Utility::prepareRequest(Database::getConnection(), $query);
 		
-		$this->id = htmlspecialchars(strip_tags($id->question));
+		$this->id = htmlspecialchars(strip_tags($id->questions));
 		
 		$request->bindParam(':id',$this->id);
 		
@@ -27,7 +27,7 @@ class Questions
 	}
 
 	//update content
-	public function updateQuestion($id){
+	public function updateQuestion($params){
 		//Récupération des infos envoyées par la méthode PUT
 		parse_str(file_get_contents('php://input'), $_PUT);
 		//query
@@ -40,12 +40,12 @@ class Questions
 		$query .= " WHERE idQuestions = :id";
 		//prepare de la query
 		$request = Utility::prepareRequest(Database::getConnection(), $query);
-		$this->id=htmlspecialchars(strip_tags($id->question));
+		$this->id=htmlspecialchars(strip_tags($params->question));
 		foreach($_PUT as $index=>$param)
 		{
 			$this->bindParam($request, $index, $param);
 		}
-		$request->bindParam(':id', $id->question);
+		$request->bindParam(':id', $params->questions);
 		// Execution
 		if($request->execute()){
 			header('Access-Control-Allow-Origin: *'); 
