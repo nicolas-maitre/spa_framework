@@ -135,7 +135,12 @@ function Actions(){
         })
     }
     this.onPageData.statisticsQuestion = function(data, dataName){
-        console.log(data, dataName);
+        if(dataName == "question"){
+            document.querySelector(".quizzTitle").innerHTML = data.statement;
+        }
+    }
+    this.onPageData.statisticsSubmission = function(data, dataName){          
+        console.log(dataName, data);
     }
     //______________
     //pageMethods

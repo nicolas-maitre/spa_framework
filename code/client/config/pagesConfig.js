@@ -111,6 +111,8 @@ var pagesConfig = {
             {
                 source: "answersByQuestion",
                 pathTemplate: "/{{questionId}}",
+                container: ".answerList",
+                adapter: "answerLine",
                 dataName: "answers" //use as global data
             },
             {
@@ -126,13 +128,19 @@ var pagesConfig = {
             text: "Home",
             target: "home"
         },
+        view: "statisticsSubmission",
+        refreshDataOnDisplay: true,
         data: [
             {
-                source: "submissionWithAnswers",
-                pathTemplate: "/{{submissionId}}",
+                source: "questionsForQuizz",
+                pathTemplate: "/{{quizzId}}",
                 dataName: "questions" //use as global data
-            }
-        ],
-        refreshDataOnDisplay: true
+            },
+            {
+                source: "submissionWithAnswers",
+                pathTemplate: "/{{quizzId}}/{{submissionId}}", 
+                dataName: "submission" //use as global data
+            },
+        ]
     }
 };

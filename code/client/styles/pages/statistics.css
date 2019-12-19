@@ -23,6 +23,17 @@
     align-items: center;
     justify-content: center;
 }
+.answerSubmission{
+    font-weight: bolder;
+    width: 200px;
+}
+.answerContainer{
+    display: flex;
+    padding: 10px 5px;
+}
+.answerContainer:nth-child(2n-1){
+    background-color: whitesmoke;
+}
 .colQ:nth-child(2n){
     background-color: whitesmoke;
 }
