@@ -7,14 +7,14 @@ class Questions
 	private $id;
 
 	//Update active to 0
-	public function deleteQuestion($id)
+	public function deleteQuestion($params)
 	{
 		//query
 		$query = "UPDATE ". Utility::getTableQuestions() ." SET active = '0' WHERE idQuestions = :id";
 		//prepare de la query
 		$request = Utility::prepareRequest(Database::getConnection(), $query);
 		
-		$this->id = htmlspecialchars(strip_tags($id->questions));
+		$this->id = htmlspecialchars(strip_tags($params->questions));
 		
 		$request->bindParam(':id',$this->id);
 		
@@ -40,7 +40,7 @@ class Questions
 		$query .= " WHERE idQuestions = :id";
 		//prepare de la query
 		$request = Utility::prepareRequest(Database::getConnection(), $query);
-		$this->id=htmlspecialchars(strip_tags($params->question));
+		$this->id=htmlspecialchars(strip_tags($params->questions));
 		foreach($_PUT as $index=>$param)
 		{
 			$this->bindParam($request, $index, $param);

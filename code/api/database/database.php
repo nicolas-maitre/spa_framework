@@ -3,8 +3,8 @@ class Database{
     // specify your own database credentials
     static $host = "localhost";
     static $db_name = "kaphoot_db";
-    static $username = "root";
-    static $password = 'root';
+    static $username = "kaphoot_db";
+    static $password = 'Pa$$w0rd';
     static $conn;
  
     // get the database connection

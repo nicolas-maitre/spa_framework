@@ -28,14 +28,14 @@ class Quizzes
 
     }
 
-     public function getQuiz($id)
+     public function getQuiz($params)
     {
       
         $query = "SELECT * FROM ". Utility::getTableQuizzes();
 
-        if(isset($id->quizzes))
+        if(isset($params->quizzes))
         {
-            $query .= " WHERE idQuizzes='".$id->quizzes."' LIMIT 1";
+            $query .= " WHERE idQuizzes='".$params->quizzes."' LIMIT 1";
         }
 
         $request = Utility::prepareRequest(Database::getConnection(), $query);

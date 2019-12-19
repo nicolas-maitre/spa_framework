@@ -16,7 +16,7 @@ class Answers
         
         $uuid = Utility::gen_uuid();
         
-        $request->execute(array($uuid, $_POST['data'], $params->question, $params->submissions)); 
+        $request->execute(array($uuid, $_POST['data'], $params->questions, $params->submissions)); 
 		
 		$this->response = [
 			"id" => $uuid,

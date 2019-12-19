@@ -219,11 +219,12 @@ function Actions(){
         if(!quizzPage.data.questions || !quizzPage.data.submission){
             return; //missing data
         }
-        quizzPage.data.submission.answers.forEach(answer => {
+		for(var indAnswer in quizzPage.data.submission.answers){
+			var answer = quizzPage.data.submission.answers[indAnswer]
             //get container
             var answerContainer = quizzPage.container.querySelector(`.quizzQuestionsContainer > .quizzQuestion[question-id="${answer.fk_Questions}"]`);
             if(!answerContainer){
-                return; //not concerned by data
+                continue; //not concerned by data
             }
             //set answer attribute
             answerContainer.setAttribute("answer-id", answer.id);
@@ -235,7 +236,7 @@ function Actions(){
                 var input = answerContainer.querySelector(".questionAnswer");
                 input.value = answer.data;
             }
-        });
+        }
     };
     //manages answer in submission
     this.pageMethods.quizz.manageAnswerUpdate = async function({idQuestion, data, idAnswer = false}){

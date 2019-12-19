@@ -47,7 +47,6 @@ class Submissions
         $querySub = "SELECT * FROM ". Utility::getTableSubmissions() ." where idSubmissions = '$params->submissions'";
 		$queryAns = "SELECT * FROM ". Utility::getTableAnswers() ." where fk_Submissions = '$params->submissions'";
 
-		
 		$requestSub = Utility::prepareRequest(Database::getConnection(), $querySub);
 		$requestAns = Utility::prepareRequest(Database::getConnection(), $queryAns);
 		

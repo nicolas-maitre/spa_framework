@@ -21,16 +21,17 @@ class Quizzes
 		//Supprime la dernière virgule
 		$query = substr($query,0,-1);
 		$query .= " WHERE idQuizzes = :id";
+		
 		//prepare de la query
 		$request = Utility::prepareRequest(Database::getConnection(), $query);
-
+		
 		$this->id=htmlspecialchars(strip_tags($params->quizzes));
 
 		foreach($_PUT as $index=>$param)
 		{
 			$this->bindParam($request, $index, $param);
 		}
-		$request->bindParam(':id', $id->quizzes);
+		$request->bindParam(':id', $params->quizzes);
 		// Execution
 		if($request->execute()){
 			header('Access-Control-Allow-Origin: *'); 
