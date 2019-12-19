@@ -64,7 +64,8 @@ class Quizzes
             $this->response[] = [
                 "id" => $row['idQuestions'],
                 "dataQuestions" => $row['dataQuestions'],
-                "name quiz" => $row['name'],
+                "name_quiz" => $row['name'],
+				"fkQuizzes" => $row['fk_Quizzes'],
                 "statement" => $row['statement'],
                 "type" => $row['type'],
 				"order" => $row['order']               

@@ -39,4 +39,32 @@ class Answers
 		
         echo json_encode($response,JSON_PRETTY_PRINT);
     }
+	
+	public function getAnswersByQuestion($params){
+		$query = "SELECT * FROM $this->ansTable where fk_Questions = '$params->questions'";
+		
+		$sth = $this->conn->prepare($query);
+		
+        $sth->execute();
+
+		while($row = $sth->fetch(PDO::FETCH_ASSOC)){
+			$idSub = $row['fk_Submissions'];
+			$query = "SELECT datecreation FROM $this->subTable where idSubmissions = '$idSub'";
+			$sthSub = $this->conn->prepare($query);
+			$sthSub->execute();
+			$rowSub = $sthSub->fetch(PDO::FETCH_ASSOC);
+			$response[] = [
+				"id" => $row['idAnswers'],
+				"data" => $row['data'],
+				"fk_Questions" => $row['fk_Questions'],
+				"fk_Submissions" => $row['fk_Submissions'],
+				"date_Submissions" => $rowSub['datecreation']
+			];
+		}
+        // show products data in json format
+        header('Content-Type: application/json');
+		header('Access-Control-Allow-Origin: *');
+		
+        echo json_encode($response,JSON_PRETTY_PRINT);
+	}
 }

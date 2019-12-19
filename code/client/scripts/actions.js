@@ -83,6 +83,9 @@ function Actions(){
             });
         });
     }
+    this.onPageDisplay.statistics = function(){
+        submissionList.removeChilds();
+    }
     //page action on any page display
     this.onAnyPageDisplay = function({pageName = false, pageConfig = false}){
         //button config
@@ -123,7 +126,17 @@ function Actions(){
             })
         }
     };
-
+    this.onPageData.statistics = function(data, dataName){
+        if(!pagesManager.pages.statistics.data.questions || !pagesManager.pages.statistics.data.submissions){
+            return; //missing data
+        }
+        pagesManager.pages.statistics.data.submissions.forEach(function(submission){
+            builder.adapters.submissionStats(submissionList, submission);
+        })
+    }
+    this.onPageData.statisticsQuestion = function(data, dataName){
+        console.log(data, dataName);
+    }
     //______________
     //pageMethods
     //________
