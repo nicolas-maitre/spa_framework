@@ -145,7 +145,7 @@ function PagesManager(){
     };
     this.managePopState = function(evt){
         if(!evt.state || !evt.state.pageName){
-            console.log("no pop state defined");
+            console.warn("no pop state defined");
             return;
         }
         var pageOptions = evt.state;

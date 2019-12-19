@@ -47,7 +47,7 @@ function Actions(){
             //create question
             var newQuestion = await apiManager.createData(`quizzes/${pagesManager.pages.edit.data.quizzEdit.id}/questions/`);
             builder.adapters.createQuestionsLine(adapterContainer, newQuestion[0]);
-            apiManager.updateData(`question/${newQuestion[0].id}`, {order:document.getElementsByClassName("editQuestion").length-1});
+            apiManager.updateData(`questions/${newQuestion[0].id}`, {order:document.getElementsByClassName("editQuestion").length-1});
         })
     }
     //-------------------------------------------------------------------------------------
@@ -84,7 +84,7 @@ function Actions(){
             });
             //add drop possibility on quizz
             globalMemory.dragAndDropManage.addDrag("droped", function(elem){
-                var url = `quiz/${elem.getAttribute("quizzid")}`;
+                var url = `quizzes/${elem.getAttribute("quizzid")}`;
                 apiManager.updateData(url, {status: elem.parentElement.getAttribute("name")})
                 actions.pageMethods.manage.updateManageButton(elem,elem.parentElement.getAttribute("name"));
             });
@@ -94,6 +94,9 @@ function Actions(){
         //hides save link message
         linkSaveText.classList.add("none");
     };
+    this.onPageDisplay.statistics = function(){
+        submissionList.removeChilds();
+    }
     //page action on any page display
     this.onAnyPageDisplay = function({pageName = false, pageConfig = false}){
         //button config
@@ -125,15 +128,32 @@ function Actions(){
         if(dataName == "quizzEdit"){
             quizzTitle.value = data.name;
             quizzTitle.addEventListener("change", function(event){
-                apiManager.updateData(`quiz/${data.id}`, {name: quizzTitle.value});
+                apiManager.updateData(`quizzes/${data.id}`, {name: quizzTitle.value});
             })
             quizzDescription.value = data.description;
             quizzDescription.addEventListener("change", function(event){
-                apiManager.updateData(`quiz/${data.id}`, {description: quizzDescription.value});
+                apiManager.updateData(`quizzes/${data.id}`, {description: quizzDescription.value});
             })
         }
     };
 
+    this.onPageData.statistics = function(data, dataName){
+        if(!pagesManager.pages.statistics.data.questions || !pagesManager.pages.statistics.data.submissions){
+            return; //missing data
+        }
+        pagesManager.pages.statistics.data.submissions.forEach(function(submission){
+            builder.adapters.submissionStats(submissionList, submission);
+        })
+    }
+    this.onPageData.statisticsQuestion = function(data, dataName){
+        if(dataName == "question"){
+            document.querySelector(".quizzTitle").innerHTML = data.statement;
+        }
+    }
+    this.onPageData.statisticsSubmission = function(data, dataName){          
+        console.log(dataName, data);
+    }
+    
     //-------------------------------------------------------------------------------------
     //page specific methods
     //-------------------------------------------------------------------------------------
@@ -184,7 +204,7 @@ function Actions(){
         //no submission
         if(!pagesManager.pages.quizz.data.submission){
             console.log("create submission");
-            var result = await apiManager.createData(`quizzes/${quizz.id}/submission`);
+            var result = await apiManager.createData(`quizzes/${quizz.id}/submissions`);
             if(!result[0]){
                 console.warn("submission not created");
                 utils.infoBox("Une erreur s'est produite. Veuillez réessayer");
@@ -202,7 +222,7 @@ function Actions(){
 
         //insert then return answer
         console.log("create answer");
-        var newAnswer = await apiManager.createData(`submission/${submission.id}/question/${idQuestion}/answers`, {data});
+        var newAnswer = await apiManager.createData(`submissions/${submission.id}/questions/${idQuestion}/answers`, {data});
         return {answerId: newAnswer.id};
     };
     this.pageMethods.manage = {};
@@ -237,8 +257,7 @@ function Actions(){
 			case "clos":
                 var buttonTrash = quizzActions.addElement("div", "quizzListActionsDelete imgTrash");
                 buttonTrash.addEventListener("click", function(event){
-                    var url = `quizz/${quizzActions.parentElement.getAttribute("quizzid")}`;
-                    apiManager.deleteData(url);
+                    apiManager.deleteData(`quizzes/${quizzActions.parentElement.getAttribute("quizzid")}`);
                     quizzActions.parentElement.remove();
                 })
                 break;

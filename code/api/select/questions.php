@@ -1,49 +1,42 @@
 <?php 
+require_once 'database/database.php';
 
-trait MonTrait
+class Questions
 {
-    function getQuestions()
-    {
-        $query = "SELECT * FROM $this->quesTable WHERE active=1";
-        $response = array();
-        $result = mysqli_query($this->dbConnect, $query);
-     
-        while($row = mysqli_fetch_array($result))
-        {
-            $response[] = [
-                "id" => $row['idQuestions'],
-                "dataQuestions" => $row['dataQuestions'],
-                "fkQuizzes" => $row['fk_Quizzes'],
-                "statement" => $row['statement'],
-                "type" => $row['type'],
-                "active" => $row['active']
-               
-            ];
-        }
-    
+    //Définition des tables dans la bdd
+    private $ansTable = 'tblAnswers';
+    private $quesTable = 'tblQuestions';
+    private $quizTable = 'tblQuizzes';
+	private $subTable = 'tblSubmissions';
 
-       $this->returndata($response);
+    private $conn;
+
+    public function __construct(){
+        $database = new Database();
+        $this->conn = $database->getConnection();
     }
 
-    function getQuestion($id=0)
+    public function getQuestion($params)
     {
-        $query = "SELECT * FROM $this->quesTable";
-        if($id != 0)
-        {
-            $query .= " WHERE idQuestions=".$id." AND active=1 LIMIT 1";
-        }
-        $response = array();
-        $result = mysqli_query($this->dbConnect, $query);
-        while($row = mysqli_fetch_array($result))
-        {
-            $response[] = [
-                "id" => $row['idQuestions'],
-                "name" => $row['1'],
-                "description" => $row['2'],
-                "datecreation" => $row['3']
-            ];
-        }
+		$query = "SELECT * FROM $this->quesTable where active = 1 AND idQuestions = '$params->questions'";
+		
+		$sth = $this->conn->prepare($query);
+		
+        $sth->execute();
 
-        $this->returndata($response);
+		$row = $sth->fetch(PDO::FETCH_ASSOC);
+		$response = [
+			"id" => $row['idQuestions'],
+			"data" => $row['dataQuestions'],
+			"fk_Quizzes" => $row['fk_Quizzes'],
+			"statement" => $row['statement'],
+			"type" => $row['type'],
+			"order" => $row['order']
+		];
+        // show products data in json format
+        header('Content-Type: application/json');
+		header('Access-Control-Allow-Origin: *');
+		
+        echo json_encode($response,JSON_PRETTY_PRINT);
     }
 }

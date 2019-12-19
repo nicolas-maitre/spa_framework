@@ -89,6 +89,61 @@ var pagesConfig = {
             text: "Home",
             target: "home"
         },
+        data: [
+            {
+                source: "questionsForQuizz",
+                pathTemplate: "/{{quizzId}}",
+                container: ".questionCol",
+                adapter: "questionColStats",
+                dataName: "questions" //use as global data
+            },
+            {
+                source: "submissionsWithAnswers",
+                pathTemplate: "/{{quizzId}}", 
+                dataName: "submissions" //use as global data
+            },
+        ],
         refreshDataOnDisplay: true
+    },
+    statisticsQuestion: {
+        headButton: {
+            text: "Home",
+            target: "home"
+        },
+        data: [
+            {
+                source: "answersByQuestion",
+                pathTemplate: "/{{questionId}}",
+                container: ".answerList",
+                adapter: "answerLine",
+                dataName: "answers" //use as global data
+            },
+            {
+                source: "question",
+                pathTemplate: "/{{questionId}}",
+                dataName: "question" //use as global data
+            }
+        ],
+        refreshDataOnDisplay: true
+    },
+    statisticsSubmission: {
+        headButton: {
+            text: "Home",
+            target: "home"
+        },
+        view: "statisticsSubmission",
+        refreshDataOnDisplay: true,
+        data: [
+            {
+                source: "questionsForQuizz",
+                pathTemplate: "/{{quizzId}}",
+                dataName: "questions" //use as global data
+            },
+            {
+                source: "submissionWithAnswers",
+                pathTemplate: "/{{quizzId}}/{{submissionId}}", 
+                dataName: "submission" //use as global data
+            },
+        ]
     }
 };
