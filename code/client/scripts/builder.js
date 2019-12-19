@@ -134,8 +134,15 @@ function Builder(){
 			answer.addElement("div", symb);
 		})
 		//add data
-		dateSub.href = `/statisticsSubmission/${data.id}`;
+		dateSub.href = `/statisticsSubmission/${data.fk_Quizzes}/${data.id}`;
 		dateSub.innerText = data.datecreation;
+	}
+	this.adapters.answerLine = function(container, data){
+		var answerContainer = container.addElement("div", "answerContainer");
+		var submission = answerContainer.addElement("div", "answerSubmission");
+		var answer = answerContainer.addElement("div", "");
+		submission.innerText = data.date_Submissions;
+		answer.innerText = data.data;
 	}
 	
 	//other
