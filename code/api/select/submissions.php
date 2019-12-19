@@ -39,7 +39,7 @@ class Submissions
 		while($row = $sthAns->fetch(PDO::FETCH_ASSOC))
         {
             $response["answers"][] = [
-                "id" => $row['idSubmissions'],
+                "id" => $row['idAnswers'],
                 "data" => $row['data'],
                 "fk_Questions" => $row['fk_Questions'],
                 "fk_Submissions" => $row['fk_Submissions']
