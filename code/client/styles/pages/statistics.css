@@ -18,18 +18,20 @@
 .colQ{
     width: 50px;  
 }
-.colQ, .colD{
+.colQ, .colD, .answerSubmission{
     display: flex;
     align-items: center;
     justify-content: center;
 }
 .answerSubmission{
     font-weight: bolder;
-    width: 200px;
+    min-width: 200px;
+    overflow-wrap: break-word;
 }
 .answerContainer{
     display: flex;
     padding: 10px 5px;
+    overflow-wrap: break-word;
 }
 .answerContainer:nth-child(2n-1){
     background-color: whitesmoke;

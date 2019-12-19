@@ -162,10 +162,19 @@ function Builder(){
 		var answerContainer = container.addElement("div", "answerContainer");
 		var submission = answerContainer.addElement("div", "answerSubmission");
 		var answer = answerContainer.addElement("div", "");
+		
 		submission.innerText = data.date_Submissions;
 		answer.innerText = data.data;
 	}
-	
+	this.adapters.questionWithAnswer = function(container, data){
+		var answerContainer = container.addElement("div", "answerContainer");
+		var question = answerContainer.addElement("div", "question answerSubmission");
+		var answer = answerContainer.addElement("div", "answerContainer");
+		
+		question.innerText = data.question;
+		answer.innerText = data.answer;
+	}
+
 	//other
 	this.addContentLoader = function(container, className = ""){
 		var elem = container.addElement("div", `contentLoader ${className}`);

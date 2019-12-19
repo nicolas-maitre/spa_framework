@@ -141,7 +141,7 @@ var pagesConfig = {
             },
             {
                 source: "submissionWithAnswers",
-                pathTemplate: "/{{quizzId}}/{{submissionId}}", 
+                pathTemplate: "/{{quizzId}}/{{submissionId}}",
                 dataName: "submission" //use as global data
             },
         ]
