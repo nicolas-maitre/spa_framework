@@ -9,7 +9,7 @@ class Quizzes
 	private $id;
    	
 	//Update du nom et de la description d'un quiz
-	function updateQuiz($id){
+	function updateQuiz($params){
 		//Récupération des infos envoyées par la méthode PUT
 		parse_str(file_get_contents('php://input'), $_PUT);
 
@@ -24,7 +24,7 @@ class Quizzes
 		//prepare de la query
 		$request = Utility::prepareRequest(Database::getConnection(), $query);
 
-		$this->id=htmlspecialchars(strip_tags($id->quizzes));
+		$this->id=htmlspecialchars(strip_tags($params->quizzes));
 
 		foreach($_PUT as $index=>$param)
 		{
