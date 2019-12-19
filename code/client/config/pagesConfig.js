@@ -29,8 +29,8 @@ var pagesConfig = {
     },
     edit: {
         headButton:{
-            text: "Home",
-            target: "home"
+            text: "Manage",
+            target: "manage"
         },
         view: "edit",
         data: [{
@@ -63,7 +63,8 @@ var pagesConfig = {
                 source: "questionsForQuizz",
                 pathTemplate: "/{{quizzId}}",
                 container: ".quizzQuestionsContainer",
-                adapter: "questionInputLine"
+                adapter: "questionInputLine",
+                dataName: "questions" //use as global data
             },
             {
                 source: "submissionWithAnswers",

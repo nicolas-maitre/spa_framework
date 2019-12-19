@@ -38,7 +38,7 @@ function Actions(){
         globalMemory.dragAndDropEdit = new DragAndDrop();
         globalMemory.dragAndDropEdit.addDrop("editQuestionsList");
         addQuestion.addEventListener("click", async function(){
-            var newQuestion = await apiManager.createData(`quizzes/${pagesManager.pages.edit.data.quizzEdit[0].id}/questions/`);
+            var newQuestion = await apiManager.createData(`quizzes/${pagesManager.pages.edit.data.quizzEdit.id}/questions/`);
             builder.adapters.createQuestionsLine(document.querySelector(".editQuestionsList"), newQuestion[0]);
             apiManager.updateData(`question/${newQuestion[0].id}`, {order:document.getElementsByClassName("editQuestion").length-1});
         })
@@ -103,53 +103,101 @@ function Actions(){
     this.onPageData.quizz = function(data, dataName){
         switch(dataName){
             case "quizz":
-                pagesManager.pages.quizz.container.querySelector(".quizzTitle").innerText = data[0].name;
+                pagesManager.pages.quizz.container.querySelector(".quizzTitle").innerText = data.name;
                 break;
+            case "questions":
             case "submission":
-                _this.pageMethods.quizz.patchQuizzWithSubmission(data);
+                _this.pageMethods.quizz.patchQuizzWithSubmission();
                 break;
         }
-    }
+    };
+    this.onPageData.edit = function(data, dataName){
+        if(dataName == "quizzEdit"){
+            quizzTitle.value = data.name;
+            quizzTitle.addEventListener("change", function(event){
+                apiManager.updateData(`quiz/${data.id}`, {name: quizzTitle.value});
+            })
+            quizzDescription.value = data.description;
+            quizzDescription.addEventListener("change", function(event){
+                apiManager.updateData(`quiz/${data.id}`, {description: quizzDescription.value});
+            })
+        }
+    };
 
     //______________
     //pageMethods
     //________
     this.pageMethods = {};
     this.pageMethods.quizz = {};
-    this.pageMethods.quizz.patchQuizzWithSubmission = function(data){
+    //adds submission data into already loaded data
+    this.pageMethods.quizz.patchQuizzWithSubmission = function(){
+        var quizzPage = pagesManager.pages.quizz;
+        if(!quizzPage.data.questions || !quizzPage.data.submission){
+            return; //missing data
+        }
+        quizzPage.data.submission.answers.forEach(answer => {
+            //get container
+            var answerContainer = quizzPage.container.querySelector(`.quizzQuestionsContainer > .quizzQuestion[question-id="${answer.fk_Questions}"]`);
+            if(!answerContainer){
+                return; //not concerned by data
+            }
+            //set answer attribute
+            answerContainer.setAttribute("answer-id", answer.id);
 
+            //TODO: add supoort for other question types
+            var questionType = answerContainer.getAttribute("question-type");
+            if(questionType == "text" || questionType == "single_line_text"){
+                //set text
+                var input = answerContainer.querySelector(".questionAnswer");
+                input.value = answer.data;
+            }
+        });
     };
     //manages answer in submission
-    this.pageMethods.quizz.manageAnswerUpdate = async function({idQuestion, idAnswer = false, data}){
+    this.pageMethods.quizz.manageAnswerUpdate = async function({idQuestion, data, idAnswer = false}){
+        if(!pagesManager.pages.quizz.data.quizz){ //quizz not loaded yet
+            console.warn("quizz not loaded yet");
+            return;
+        }
+
+        var quizz = pagesManager.pages.quizz.data.quizz;
         //already created
         if(idAnswer){
-            apiManager.updateData(`/answers/${idAnswer}`, {data})
-            return;
+            console.log("update answer");
+            await apiManager.updateData(`answers/${idAnswer}`, {data});
+            return {};
         }
 
         //no submission
         if(!pagesManager.pages.quizz.data.submission){
             console.log("no submission yet");
-            var submission = await  
+            var result = await apiManager.createData(`quizzes/${quizz.id}/submission`);
+            if(!result[0]){
+                console.warn("submission not created");
+                utils.infoBox("Une erreur s'est produite. Veuillez réessayer");
+                return false;
+            }
+            //save result
+            var newSubmission = result[0];
+            //add submission in page memory
+            pagesManager.pages.quizz.data.submission = newSubmission;
+            //add submission to url
+            pagesManager.pages.quizz.location.path = [quizz.id, "submission", newSubmission.id];
+            history.pushState(pagesManager.pages.quizz.location, false, `/quizz/${quizz.id}/submission/${newSubmission.id}`)
         }
+        var submission = pagesManager.pages.quizz.data.submission;
+
+        //insert then return answer
+        console.log("create answer");
+        var newAnswer = await apiManager.createData(`submission/${submission.id}/question/${idQuestion}/answers`, {data});
+        return {answerId: newAnswer.id};
     };
 
     //_________
     //other actions
     //_________
 
-    //when data return on edit page
-    this.onPageData.edit = function(data){
-        data = data[0];
-        quizzTitle.value = data.name;
-        quizzTitle.addEventListener("change", function(event){
-            apiManager.updateData(`quiz/${data.id}`, {name: quizzTitle.value});
-        })
-        quizzDescription.value = data.description;
-        quizzDescription.addEventListener("change", function(event){
-            apiManager.updateData(`quiz/${data.id}`, {description: quizzDescription.value});
-        })
-    };
+
     /**
      * To change status of element
      * @param {string} newStatus status to udate elem

@@ -42,7 +42,8 @@ function PagesManager(){
             _this.pages[pageName] = {
                 isLoaded: false,
                 container: false,
-                data: {}
+                data: {},
+                memory: {}
             };
             //build container
             _this.pages[pageName].container = elements.pagesContainer.addElement('div', `pageContainer ${pageName}PageContainer none`);
@@ -201,6 +202,15 @@ function PagesManager(){
             var contentLoader = builder.addContentLoader(adaptersContainer);
         }
 
+        //data name + data reset
+        var dataName = false;
+        if(dataConfig.dataName){
+            dataName = dataConfig.dataName;
+            //clear data
+            _this.pages[pageName].data[dataName] = false;
+            console.log("oskur", pagesManager.pages[pageName].data);
+        }
+
         //data params (path template)
         var dataParams = false;
         if(dataConfig.pathTemplate){
@@ -225,7 +235,7 @@ function PagesManager(){
                         return;
                     }
 
-                    console.log("no template found for entry", {templateEntity, paramValue})
+                        //console.log("no template found for entry", {templateEntity, paramValue})
                     //no template found, skip to next
                     continue;
                 }
@@ -238,25 +248,22 @@ function PagesManager(){
 
         dataSource(dataParams)
 		.then(function(data){
+            console.log({data});
             if(adapter){ //adapter data
                 builder.applyDataAdapter({
                     container: adaptersContainer, 
                     adapter, data, contentLoader
                 });
-            } else {
-                var dataName = false;
-                //get dataName
-                if(dataConfig.dataName){
-                    dataName = dataConfig.dataName;
-                    //add to page data
-                    _this.pages[pageName].data[dataName] = data;
-                }
-                //onData callBack
-                if(actions.onPageData[pageName]){
-                    actions.onPageData[pageName](data, dataName);
-                }
             }
-            //TODO add onPageData callBack
+            //get dataName
+            if(dataName){
+                //add to page data
+                _this.pages[pageName].data[dataName] = data;
+            }
+            //onData callBack
+            if(actions.onPageData[pageName]){
+                actions.onPageData[pageName](data, dataName);
+            }
         });
         
     }

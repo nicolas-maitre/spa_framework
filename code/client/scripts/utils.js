@@ -131,7 +131,7 @@ utils.setDynamicLink = function(elem){
     var page = hrefArray[1];
 	var query = utils.decodeQuery(elem.search)
 	var path = (hrefArray.slice(2) || false); //get path
-	console.log("setDynamicLink", elem, {query}, {path});
+		//console.log("setDynamicLink", elem, {query}, {path});
 	if(pagesConfig[page]){//only adds event if the page exists
         //add event
         elem.addEventListener("click", function(evt){

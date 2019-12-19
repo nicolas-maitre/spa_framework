@@ -39,6 +39,9 @@
     margin: 20px;
     width: 100%;
 }
+.quizzQuestion{
+    margin-top: 10px;
+}
 .titreQuizz > .questionAnswerContainer{
      width: 40%;
  }
