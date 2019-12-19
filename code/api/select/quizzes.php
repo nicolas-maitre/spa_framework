@@ -12,7 +12,7 @@ class Quizzes
     
 
         $request = Utility::prepareRequest(Database::getConnection(), $query);
-
+        $request->execute();
         while($row = $request->fetch(PDO::FETCH_ASSOC))
         {
             $this->response[] = [
@@ -39,7 +39,7 @@ class Quizzes
         }
 
         $request = Utility::prepareRequest(Database::getConnection(), $query);
-
+        $request->execute();
         $row = $request->fetch(PDO::FETCH_ASSOC);
 		$this->response = [
 			"id" => $row['idQuizzes'],
@@ -58,7 +58,7 @@ class Quizzes
         WHERE idQuizzes='$id->quizzes' AND ". Utility::getTableQuestions() .".active=1";
 
         $request = Utility::prepareRequest(Database::getConnection(), $query);
-    
+        $request->execute();
         while($row = $request->fetch(PDO::FETCH_ASSOC))
         {
             $this->response[] = [

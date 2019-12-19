@@ -23,22 +23,18 @@ class Utility{
     }
     
     static public function returnJSON ($response){
-
         header('Content-Type: application/json');
         header('Access-Control-Allow-Origin: *');
         echo json_encode($response,JSON_PRETTY_PRINT);
     }
 
     static public function prepareRequest($connexion, $query){
-
         $request = $connexion->prepare($query);
-        $request->execute();
-
         return $request;
     }
 
-    static private function gen_uuid() {
-        return sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+    static public function gen_uuid() {
+        return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
             // 32 bits for "time_low"
             mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
 

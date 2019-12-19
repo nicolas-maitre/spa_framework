@@ -4,56 +4,41 @@ require_once 'utility.php';
 
 class Answers
 {
-    //Définition des tables dans la bdd
-    private $ansTable = 'tblAnswers';
-    private $quesTable = 'tblQuestions';
-    private $quizTable = 'tblQuizzes';
-	private $subTable = 'tblSubmissions';
-
-    private $conn;
-
-
-    public function __construct(){
-        $database = new Database();
-        $this->conn = $database->getConnection();
-    }
-
+    public $response = array();
+    
     public function getAnswer($params)
     {
-		$query = "SELECT * FROM $this->ansTable where idAnswers = '$params->answers'";
+		$query = "SELECT * FROM ". Utility::getTableAnswers() ." where idAnswers = '$params->answers'";
+        
+        $request = Utility::prepareRequest(Database::getConnection(), $query);
 		
-		$sth = $this->conn->prepare($query);
-		
-        $sth->execute();
+        $request->execute();
 
-		$row = $sth->fetch(PDO::FETCH_ASSOC);
-		$response = [
+		$row = $request->fetch(PDO::FETCH_ASSOC);
+		$this->response = [
 			"id" => $row['idAnswers'],
 			"data" => $row['data'],
 			"fk_Questions" => $row['fk_Questions'],
 			"fk_Submissions" => $row['fk_Submissions']
-		];
-        // show products data in json format
-        header('Content-Type: application/json');
-		header('Access-Control-Allow-Origin: *');
-		
-        echo json_encode($response,JSON_PRETTY_PRINT);
+        ];
+        
+        Utility::returnJSON($this->response);
     }
 	
 	public function getAnswersByQuestion($params){
-		$query = "SELECT * FROM $this->ansTable where fk_Questions = '$params->questions'";
+		$query = "SELECT * FROM ". Utility::getTableAnswers() ." where fk_Questions = '$params->questions'";
+        
+        $request = Utility::prepareRequest(Database::getConnection(), $query);
 		
-		$sth = $this->conn->prepare($query);
-		
-        $sth->execute();
+        $request->execute();
 
-		while($row = $sth->fetch(PDO::FETCH_ASSOC)){
+		while($row = $request->fetch(PDO::FETCH_ASSOC)){
 			$idSub = $row['fk_Submissions'];
-			$query = "SELECT datecreation FROM $this->subTable where idSubmissions = '$idSub'";
-			$sthSub = $this->conn->prepare($query);
-			$sthSub->execute();
-			$rowSub = $sthSub->fetch(PDO::FETCH_ASSOC);
-			$response[] = [
+			$query = "SELECT datecreation FROM ". Utility::getTableSubmissions() ." where idSubmissions = '$idSub'";
+			$requestSub = Utility::prepareRequest(Database::getConnection(), $query);
+			$requestSub->execute();
+			$rowSub = $requestSub->fetch(PDO::FETCH_ASSOC);
+			$this->response[] = [
 				"id" => $row['idAnswers'],
 				"data" => $row['data'],
 				"fk_Questions" => $row['fk_Questions'],
@@ -61,10 +46,6 @@ class Answers
 				"date_Submissions" => $rowSub['datecreation']
 			];
 		}
-        // show products data in json format
-        header('Content-Type: application/json');
-		header('Access-Control-Allow-Origin: *');
-		
-        echo json_encode($response,JSON_PRETTY_PRINT);
+        Utility::returnJSON($this->response);
 	}
 }

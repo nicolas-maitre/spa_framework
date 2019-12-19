@@ -9,7 +9,7 @@ switch ($method) {
         Router::get("/quizzes/", "select/quizzes@getQuizzes");
         Router::get("/quizzes/id/", "select/quizzes@getQuiz");
         Router::get("/quizzes/id/questions/", "select/quizzes@getQuestions");
-		Router::get("/quizz/id/submisions/", "select/submissions@getSubmissionsWithAnswers");
+		Router::get("/quizzes/id/submissions/", "select/submissions@getSubmissionsWithAnswers");
 		
         Router::get("/questions/", "select/questions@getQuestions");
 		Router::get("/questions/id/", "select/questions@getQuestion");
