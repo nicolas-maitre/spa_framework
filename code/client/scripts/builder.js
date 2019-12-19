@@ -131,6 +131,40 @@ function Builder(){
 		var text = box.addElement("p");
 		text.innerText = config.messageNoData;
 	};
+
+	this.adapters.questionColStats = function(container, data){
+		colQuestion = container.addElement("div", "questionHeadCol colQ");
+		colQuestion.title = data.statement;
+		colQuestion.setAttribute("question-id", data.id);
+		linkQuestion = colQuestion.addElement("a", "");
+		linkQuestion.innerText = `Q${container.querySelectorAll(".questionHeadCol").length}`;
+		linkQuestion.href = `/statisticsQuestion/${data.id}`;
+	}
+	this.adapters.submissionStats = function(container, data){
+		//create elems
+		submission = container.addElement("div", "rowSubmission");
+		var dateSub = submission.addElement("a", "colD");
+		var questions = document.querySelectorAll(".questionHeadCol");
+		questions.forEach(function(question){
+			var symb = "times";
+			var questionId = question.getAttribute("question-id");
+			if(questionId in data.answers){
+				symb = data.answers[questionId].data.length < config.charLongAnswer ? "check" : "check-double";
+			}
+			var answer = submission.addElement("div", "colQ");
+			answer.addElement("div", symb);
+		})
+		//add data
+		dateSub.href = `/statisticsSubmission/${data.fk_Quizzes}/${data.id}`;
+		dateSub.innerText = data.datecreation;
+	}
+	this.adapters.answerLine = function(container, data){
+		var answerContainer = container.addElement("div", "answerContainer");
+		var submission = answerContainer.addElement("div", "answerSubmission");
+		var answer = answerContainer.addElement("div", "");
+		submission.innerText = data.date_Submissions;
+		answer.innerText = data.data;
+	}
 	
 	//other
 	this.addContentLoader = function(container, className = ""){

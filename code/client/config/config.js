@@ -8,6 +8,8 @@ var config = {
     //field sizes
     quizzNameSize: 45,
     quizzDescriptionSize: 255,
+    //answer condition
+    charLongAnswer: 20,
     //text
     messageNoData: "Rien à afficher..."
 };
