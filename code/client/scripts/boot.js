@@ -1,4 +1,4 @@
-//const
+//constants
 DEV_PREVENT_HISTORY = false;
 
 //memory
@@ -18,19 +18,18 @@ document.addEventListener("DOMContentLoaded", function(domEvt){
 	elements.topMenuButton = document.getElementById("topMenuButton");
 	elements.globalLoader = false;
 
-	//other init (TO MOVE)
+	//other init
 	elements.topMenuButton.addEventListener("click", actions.onHeadButtonClick);
-	document.querySelector(".pizza").addEventListener("click", function(ev){
-		pagesManager.changePage("home");
-	});
+	utils.setDynamicLink(document.querySelector(".pizza").parentElement);
 	
 	//manage landing page
-	var landingRes = pagesManager.manageLanding();
+	pagesManager.manageLanding();
 	
 	//load views
 	pagesManager.preloadViews();
 
-	//popstate
+	//popstate event for history manipulation
 	window.addEventListener("popstate", pagesManager.managePopState);
+
 	console.log("init completed");
 });

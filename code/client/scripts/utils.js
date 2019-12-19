@@ -1,5 +1,4 @@
 //_PROTOTYPES_METHODS_
-//create an child element to a dom element, you can specify a class name
 Element.prototype.addElement = function(type, className, options){
 	var newElement = document.createElement(type); //create
 	this.appendChild(newElement); //append to parent
@@ -24,32 +23,24 @@ String.prototype.capitalise = function(){
 	return this[0].toUpperCase() + this.slice(1);
 }
 
-/**
- * function to check if mouse is in half top of element
- * @returns true or false 
- */
-Element.prototype.checkMouseIsTop = function(){
-	return (event.clientY < this.offsetTop + (this.offsetHeight / 2)); //opti!
-}
-
-/**
- * function to add Element before ref
- * @param {DOM element} ref
- */
 Element.prototype.addElemBefore = function(ref){
 	ref.parentNode.insertBefore(this, ref);
 }
 
-/**
- * function to add Element after ref
- * @param {DOM element} ref
- */
 Element.prototype.addElemAfter = function(ref){
 	ref.parentNode.insertBefore(this, ref.nextSibling);
 }
 
+HTMLCollection.prototype.forEach = Array.prototype.forEach;
+
 //_UTILS METHODS
 var utils = {};
+
+//check if mouse is in half top of element
+utils.isMouseTop = function(element){
+	return (event.clientY < element.offsetTop + (element.offsetHeight / 2)); //opti!
+}
+
 utils.getGlobalLoader = function(){
 	if(!elements.globalLoader){
 		elements.globalLoader = {};
@@ -57,14 +48,12 @@ utils.getGlobalLoader = function(){
 		elements.globalLoader.loader = elements.globalLoader.container.addElement("div", "globalLoaderImage");
 		
 		elements.globalLoader.show = function(){
-			//console.log("show global loader");
 			elements.globalLoader.container.classList.remove("none");
 			requestAnimationFrame(function(){
 				elements.globalLoader.container.style.opacity = 1;
 			});
 		}
 		elements.globalLoader.hide = function(){
-			//console.log("hide global loader");
 			requestAnimationFrame(function(){
 				elements.globalLoader.container.style.opacity = 0;
 				setTimeout(function(){
@@ -120,7 +109,6 @@ utils.encodeQuery = function(queryData){
 
 utils.setDynamicLinks = function(parent){
 	var linksList = parent.getElementsByTagName("a");
-	//console.log(parent, linksList);
 	for(var indLink = 0; indLink < linksList.length; indLink++){
 		utils.setDynamicLink(linksList[indLink]);
 	}
@@ -131,8 +119,7 @@ utils.setDynamicLink = function(elem){
     var page = hrefArray[1];
 	var query = utils.decodeQuery(elem.search)
 	var path = (hrefArray.slice(2) || false); //get path
-		//console.log("setDynamicLink", elem, {query}, {path});
-	if(pagesConfig[page]){//only adds event if the page exists
+	if(pagesConfig[page]){//only adds event if the page target exists
         //add event
         elem.addEventListener("click", function(evt){
 			evt.preventDefault();
@@ -140,15 +127,13 @@ utils.setDynamicLink = function(elem){
             elem.removeAttribute("href");
             //change page
 			pagesManager.changePage(page, {query, path});
-            //put back href
+            //put href back on
             requestAnimationFrame(function(frameTime){
                 elem.setAttribute("href", href);
             });
         });
     }
 };
-//other
-HTMLCollection.prototype.forEach = Array.prototype.forEach;
 
 //garbage
 function $(){

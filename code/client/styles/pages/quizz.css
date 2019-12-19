@@ -1,3 +1,8 @@
 .answerbtn{
     padding: 10px;
 }
+#linkSaveText {
+    margin-top: 10px;
+    color: mediumseagreen;
+    -webkit-user-select: none;
+}

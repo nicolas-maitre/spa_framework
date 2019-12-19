@@ -35,7 +35,6 @@ function DataSources(){
 		return questions;
 	};
 	this.submissionWithAnswers = async function({submissionId}){
-		console.log("MAIS???");
 		return await apiManager.getData(`submission/${submissionId}`);
 	};
 }

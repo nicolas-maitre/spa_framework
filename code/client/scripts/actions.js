@@ -7,9 +7,6 @@ function Actions(){
     //page actions on load
     //-------------------------------------------------------------------------------------
     this.onPageLoad = {};
-    this.onPageLoad.error = function(){
-        
-    }
 	this.onPageLoad.home = function(){
         var refreshButton = document.querySelector(".homePageContainer .questionAnswerContainerSearch .refreshButton");
 		refreshButton.addEventListener("click", pagesManager.refreshCurrentPage);
@@ -20,7 +17,9 @@ function Actions(){
         globalMemory.dragAndDropManage.addDrop("quizzList");
     }
     this.onPageLoad.create = function(){
-        //add event
+        createQuizzTitle.setAttribute("maxlength", config.quizzNameSize);
+        createQuizzDescription.setAttribute("maxlength", config.quizzDescriptionSize);
+
         createQuizz.addEventListener("click", async function(event){
             //check if field is empty
             createQuizzTitle.classList.remove('errorField');
@@ -35,11 +34,19 @@ function Actions(){
         })
     }
     this.onPageLoad.edit = function(){
+        quizzTitle.setAttribute("maxlength", config.quizzNameSize);
+        quizzDescription.setAttribute("maxlength", config.quizzDescriptionSize);
+        //dragAndDrop
         globalMemory.dragAndDropEdit = new DragAndDrop();
         globalMemory.dragAndDropEdit.addDrop("editQuestionsList");
         addQuestion.addEventListener("click", async function(){
+            var adapterContainer = document.querySelector(".editQuestionsList");
+            //remove "no data" text
+            var noDataText = adapterContainer.querySelector(".noDataContainer");
+            if(noDataText) noDataText.remove();
+            //create question
             var newQuestion = await apiManager.createData(`quizzes/${pagesManager.pages.edit.data.quizzEdit.id}/questions/`);
-            builder.adapters.createQuestionsLine(document.querySelector(".editQuestionsList"), newQuestion[0]);
+            builder.adapters.createQuestionsLine(adapterContainer, newQuestion[0]);
             apiManager.updateData(`question/${newQuestion[0].id}`, {order:document.getElementsByClassName("editQuestion").length-1});
         })
     }
@@ -56,10 +63,10 @@ function Actions(){
         listQuizzesBuild.removeChilds(".droped");
         listQuizzesActive.removeChilds(".droped");
         listQuizzesClos.removeChilds(".droped");
-
         var loaderQuizzesBuild = builder.addContentLoader(listQuizzesBuild);
         var loaderQuizzesActive = builder.addContentLoader(listQuizzesActive);
         var loaderQuizzesClos = builder.addContentLoader(listQuizzesClos);
+        
         //load all quizzes
         dataSources.allQuizzes().then(function(datas){
             //hide loaders
@@ -72,17 +79,21 @@ function Actions(){
                 if(quizz.status!=null && quizz.status.match(/^(build|active|clos)$/)){
                     var list = document.getElementById("listQuizzes" + quizz.status.capitalise());
                     dropped = builder.adapters.quizzManage(list, quizz);
-                    dropped.updateManageButton(dropped.parentElement.getAttribute("name"));
+                    actions.pageMethods.manage.updateManageButton(dropped, dropped.parentElement.getAttribute("name"));
                 }
             });
             //add drop possibility on quizz
             globalMemory.dragAndDropManage.addDrag("droped", function(elem){
                 var url = `quiz/${elem.getAttribute("quizzid")}`;
                 apiManager.updateData(url, {status: elem.parentElement.getAttribute("name")})
-                elem.updateManageButton(elem.parentElement.getAttribute("name"));
+                actions.pageMethods.manage.updateManageButton(elem,elem.parentElement.getAttribute("name"));
             });
         });
     }
+    this.onPageDisplay.quizz = function(){
+        //hides save link message
+        linkSaveText.classList.add("none");
+    };
     //page action on any page display
     this.onAnyPageDisplay = function({pageName = false, pageConfig = false}){
         //button config
@@ -98,7 +109,6 @@ function Actions(){
     //-------------------------------------------------------------------------------------
     //page actions on data
     //-------------------------------------------------------------------------------------
-
     this.onPageData = {};
     this.onPageData.quizz = function(data, dataName){
         switch(dataName){
@@ -124,9 +134,9 @@ function Actions(){
         }
     };
 
-    //______________
-    //pageMethods
-    //________
+    //-------------------------------------------------------------------------------------
+    //page specific methods
+    //-------------------------------------------------------------------------------------
     this.pageMethods = {};
     this.pageMethods.quizz = {};
     //adds submission data into already loaded data
@@ -160,6 +170,9 @@ function Actions(){
             return;
         }
 
+        //show save link message
+        linkSaveText.classList.remove("none");
+
         var quizz = pagesManager.pages.quizz.data.quizz;
         //already created
         if(idAnswer){
@@ -170,7 +183,7 @@ function Actions(){
 
         //no submission
         if(!pagesManager.pages.quizz.data.submission){
-            console.log("no submission yet");
+            console.log("create submission");
             var result = await apiManager.createData(`quizzes/${quizz.id}/submission`);
             if(!result[0]){
                 console.warn("submission not created");
@@ -192,29 +205,11 @@ function Actions(){
         var newAnswer = await apiManager.createData(`submission/${submission.id}/question/${idQuestion}/answers`, {data});
         return {answerId: newAnswer.id};
     };
-
-    //_________
-    //other actions
-    //_________
-
-
-    /**
-     * To change status of element
-     * @param {string} newStatus status to udate elem
-     */
-    Element.prototype.changeStatus = function(newStatus){
-        this.updateManageButton(newStatus);
-        var url = `quiz/${this.getAttribute("quizzid")}`;
-        apiManager.updateData(url, {status: newStatus});
-    }
-    /**
-     * To change button on manage
-     * @param {string} status status to define button
-     */
-    Element.prototype.updateManageButton = function(status){
-        console.log(status);
+    this.pageMethods.manage = {};
+    //Change displayed buttons on a manage quizz cell
+    this.pageMethods.manage.updateManageButton = function(element, status){
         //get quizz actions div
-        var quizzActions = this.firstChild;
+        var quizzActions = element.firstChild;
         while(!quizzActions.classList.contains("quizzListActions")){
             quizzActions = quizzActions.nextSibling;
         }
@@ -250,4 +245,9 @@ function Actions(){
             default:break;
 		}
     }
+
+    //-------------------------------------------------------------------------------------
+    //other actions
+    //-------------------------------------------------------------------------------------
+    
 }

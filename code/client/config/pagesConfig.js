@@ -15,11 +15,12 @@ var pagesConfig = {
         refreshDataOnDisplay: true,
         data: [{
             source: "allActiveQuizzes",
-            container: ".ListQuizz", //querySelector synthax
+            container: ".ListQuizz",
             adapter: "quizzLine"
         }]
     },
     create: {
+        title: "Creation",
         headButton: {
             text: "Home",
             target: "home"
@@ -28,6 +29,7 @@ var pagesConfig = {
         refreshDataOnDisplay: true
     },
     edit: {
+        title: "Modification",
         headButton:{
             text: "Manage",
             target: "manage"
@@ -36,9 +38,8 @@ var pagesConfig = {
         data: [{
             source: "quizz",
             pathTemplate: "/{{id}}", 
-            dataName: "quizzEdit" //use as global data
-        },
-        {
+            dataName: "quizzEdit"
+        }, {
             source: "questionsForQuizz",
             pathTemplate: "/{{quizzId}}",
             container: ".editQuestionsList",
@@ -47,6 +48,7 @@ var pagesConfig = {
         refreshDataOnDisplay: true
     },
     quizz: {
+        title: "Quizz",
         headButton: {
             text: "Home",
             target: "home"
@@ -57,19 +59,19 @@ var pagesConfig = {
             {
                 source: "quizz",
                 pathTemplate: "/{{id}}", 
-                dataName: "quizz" //use as global data
+                dataName: "quizz",
             },
             {
                 source: "questionsForQuizz",
                 pathTemplate: "/{{quizzId}}",
                 container: ".quizzQuestionsContainer",
                 adapter: "questionInputLine",
-                dataName: "questions" //use as global data
+                dataName: "questions"
             },
             {
                 source: "submissionWithAnswers",
                 pathTemplate: "/{{quizzId}}/submission/{{submissionId}}", 
-                dataName: "submission" //use as global data
+                dataName: "submission"
             },
         ]
     },
@@ -82,6 +84,7 @@ var pagesConfig = {
         refreshDataOnDisplay: true
     },
     statistics: {
+        title: "Statistiques",
         headButton: {
             text: "Home",
             target: "home"

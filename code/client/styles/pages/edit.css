@@ -1,8 +1,12 @@
 .editQuestion{
     padding: 5px;
+    -webkit-user-select: none;
 }
 .editQuestion:nth-child(2n){
     background-color: whitesmoke;
+}
+.questionInput{
+    -webkit-user-select: text;
 }
 .imgGrap{
     background-image: url(/images/grap.png);
