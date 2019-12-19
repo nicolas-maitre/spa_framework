@@ -110,6 +110,13 @@ function Builder(){
 			}
 		});
 	}
+
+	this.adapters.questionColStats = function(container, data){
+		console.warn(data, container);
+		colQuestion = container.addElement("div", "");
+		colQuestion.innerText = data.statement;
+		colQuestion.id = data.id;
+	}
 	
 	//other
 	this.addContentLoader = function(container, className = ""){

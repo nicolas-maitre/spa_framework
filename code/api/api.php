@@ -22,6 +22,7 @@ switch ($method) {
         
 		//Get submision with answers
 		Router::get("/submission/id/", "select/submissions@getSubmission");
+		Router::get("/quizz/id/submisions/", "select/submissions@getSubmissionsWithAnswers");
 		
 		//Answers
 		Router::get("/answers/id/", "select/answers@getAnswer");

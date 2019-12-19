@@ -86,6 +86,15 @@ var pagesConfig = {
             text: "Home",
             target: "home"
         },
+        data: [
+            {
+                source: "questionsForQuizz",
+                pathTemplate: "/{{quizzId}}",
+                container: ".questionCol",
+                adapter: "questionColStats",
+                dataName: "questions" //use as global data
+            }
+        ],
         refreshDataOnDisplay: true
     }
 };
