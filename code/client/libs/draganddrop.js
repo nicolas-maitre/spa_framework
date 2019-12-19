@@ -13,7 +13,7 @@ var DragAndDrop = function(){
     var _this = this;
     var draggedElem;
     /**
-     * Methode to build drag and drop
+     * Method to build drag and drop
      * @param classListToDrop define elements where to drop moving element
      * @param classElementToDrag define elements are possible to move
      * @param functionWhereDrop(element) function to execute when element is drop, 
@@ -21,7 +21,6 @@ var DragAndDrop = function(){
     this.buildDragAndDrop = function(classListToDrop, classElementToDrag, functionWhereDrop){
         _this.addDrop(classListToDrop);
         _this.addDrag(classElementToDrag, functionWhereDrop);
-        
     }
     /**
      * Methode to add possibility to drop

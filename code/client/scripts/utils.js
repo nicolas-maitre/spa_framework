@@ -1,5 +1,4 @@
 //_PROTOTYPES_METHODS_
-//create an child element to a dom element, you can specify a class name
 Element.prototype.addElement = function(type, className, options){
 	var newElement = document.createElement(type); //create
 	this.appendChild(newElement); //append to parent
@@ -120,7 +119,6 @@ utils.encodeQuery = function(queryData){
 
 utils.setDynamicLinks = function(parent){
 	var linksList = parent.getElementsByTagName("a");
-	//console.log(parent, linksList);
 	for(var indLink = 0; indLink < linksList.length; indLink++){
 		utils.setDynamicLink(linksList[indLink]);
 	}
@@ -131,8 +129,7 @@ utils.setDynamicLink = function(elem){
     var page = hrefArray[1];
 	var query = utils.decodeQuery(elem.search)
 	var path = (hrefArray.slice(2) || false); //get path
-		//console.log("setDynamicLink", elem, {query}, {path});
-	if(pagesConfig[page]){//only adds event if the page exists
+	if(pagesConfig[page]){//only adds event if the page target exists
         //add event
         elem.addEventListener("click", function(evt){
 			evt.preventDefault();
@@ -140,7 +137,7 @@ utils.setDynamicLink = function(elem){
             elem.removeAttribute("href");
             //change page
 			pagesManager.changePage(page, {query, path});
-            //put back href
+            //put href back on
             requestAnimationFrame(function(frameTime){
                 elem.setAttribute("href", href);
             });
