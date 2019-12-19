@@ -48,8 +48,8 @@ class Router {
         $idRegex="([0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12})";
 
         $url = parse_url($_SERVER['REQUEST_URI'])['path'];
-        $api = '/routes.php';
-        $urlcut = substr(stristr ($url, '/routes.php/'), strlen($api) );
+        $api = '/api';
+        $urlcut = substr(stristr ($url, '/api/'), strlen($api) );
 		
 		
         foreach (self::$routes as $route)
