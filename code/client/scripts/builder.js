@@ -74,8 +74,7 @@ function Builder(){
 		});
 	}
 	this.adapters.questionInputLine = function(container, data){
-
-		var questionsContainer = container.addElement("div", "quizzQuestionsContainer");
+		var questionsContainer = container.addElement("div", "quizzQuestion");
 		var statement = questionsContainer.addElement("p", "questionTitle");
 		var answerContainer = questionsContainer.addElement("div", "questionAnswerContainer");
 		
@@ -95,7 +94,21 @@ function Builder(){
 		}
 
 		//data
+		questionsContainer.setAttribute("question-id", data.id);
+		questionsContainer.setAttribute("question-type", data.type||"text");
 		statement.innerText = data.statement;
+
+		//event
+		answer.addEventListener("change", async function(event){
+			var result = await actions.pageMethods.quizz.manageAnswerUpdate({
+				idQuestion: data.id,
+				data: answer.value,
+				idAnswer: questionsContainer.getAttribute("answer-id")
+			});
+			if(result.answerId){
+				questionsContainer.setAttribute("answer-id", result.answerId);
+			}
+		});
 	}
 	
 	//other

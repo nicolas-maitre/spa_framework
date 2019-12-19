@@ -1,7 +1,7 @@
 <?php 
 require_once 'database/database.php';
 
-class Questions
+class Answers
 {
     //Définition des tables dans la bdd
     private $ansTable = 'tblAnswers';
@@ -18,39 +18,24 @@ class Questions
         $this->conn = $database->getConnection();
     }
 
-    public function insertQuestion($id)
-    {
-    
-        $query = "INSERT INTO $this->quesTable (`idQuestions`, `fk_Quizzes`, `statement`, `type`, `order`)
-        VALUES (?, ?, ?, ?, ?)";
+    public function insertAnswer($params)
+    {		
+        $query = "INSERT INTO $this->ansTable (`idAnswers`, `data`, `fk_Questions`, `fk_Submissions`)
+        VALUES (?, ?, ?, ?)";
 
-    
         $sth = $this->conn->prepare($query);
 
         $uuid = $this->gen_uuid();
         
-        $sth->execute(array($uuid, $id->quizzes, $_POST['statement'], $_POST['type'], $_POST['idOrder'])); 
+        $sth->execute(array($uuid, $_POST['data'], $params->question, $params->submission)); 
+		
+		$response = [
+			"id" => $uuid,
+			"data" => $_POST['data'],
+			"fk_Questions" => $params->question,
+			"fk_Submissions" => $params->submission
+		];    
 
-        $query2 = "SELECT * FROM $this->quesTable where active = '1' AND idQuestions = '$uuid'";
-
-        $response = array();
-
-        $sth = $this->conn->prepare($query2);
-        
-        $sth->execute();
-
-        while($row = $sth->fetch(PDO::FETCH_ASSOC))
-        {
-            $response[] = [
-                "id" => $row['idQuestions'],
-                "dataQuestions" => $row['dataQuestions'],
-                "id_Quizzes" => $row['fk_Quizzes'],
-                "statement" => $row['statement'],
-                "type" => $row['type'],
-                "active" => $row['active'],
-                "order" => $row['order']
-            ];
-        }
        // show products data in json format
        header('Content-Type: application/json');
 	   header('Access-Control-Allow-Origin: *');

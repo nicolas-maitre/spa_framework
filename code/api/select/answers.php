@@ -1,48 +1,41 @@
 <?php 
+require_once 'database/database.php';
 
-$test = $_SERVER['REQUEST_URI'];
-$id = substr(strrchr($test, '/'), 1 );
-
-
-trait MonTrait
+class Answers
 {
-    function getQuizzes()
-    {
-        $query = "SELECT * FROM $this->quizTable";
-        $response = array();
-        $result = mysqli_query($this->dbConnect, $query);
-        while($row = mysqli_fetch_array($result))
-        {
-            $response[] = [
-                "id" => $row['idQuizzes'],
-                "name" => $row['1'],
-                "description" => $row['2'],
-                "datecreation" => $row['3']
-            ];
-        }
+    //Définition des tables dans la bdd
+    private $ansTable = 'tblAnswers';
+    private $quesTable = 'tblQuestions';
+    private $quizTable = 'tblQuizzes';
+	private $subTable = 'tblSubmissions';
 
-        $this->returndata($response);
+    private $conn;
+
+
+    public function __construct(){
+        $database = new Database();
+        $this->conn = $database->getConnection();
     }
 
-    function getQuiz($id=0)
+    public function getAnswer($params)
     {
-        $query = "SELECT * FROM $this->quizTable";
-        if($id != 0)
-        {
-            $query .= " WHERE idQuizzes=".$id." LIMIT 1";
-        }
-        $response = array();
-        $result = mysqli_query($this->dbConnect, $query);
-        while($row = mysqli_fetch_array($result))
-        {
-            $response[] = [
-                "id" => $row['idQuizzes'],
-                "name" => $row['1'],
-                "description" => $row['2'],
-                "datecreation" => $row['3']
-            ];
-        }
+		$query = "SELECT * FROM $this->ansTable where idAnswers = '$params->answers'";
+		
+		$sth = $this->conn->prepare($query);
+		
+        $sth->execute();
 
-        $this->returndata($response);
+		$row = $sth->fetch(PDO::FETCH_ASSOC);
+		$response = [
+			"id" => $row['idAnswers'],
+			"data" => $row['data'],
+			"fk_Questions" => $row['fk_Questions'],
+			"fk_Submissions" => $row['fk_Submissions']
+		];
+        // show products data in json format
+        header('Content-Type: application/json');
+		header('Access-Control-Allow-Origin: *');
+		
+        echo json_encode($response,JSON_PRETTY_PRINT);
     }
 }

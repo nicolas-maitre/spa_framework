@@ -1,13 +1,13 @@
 <?php 
 require_once 'database/database.php';
 
-class Questions
+class Submissions
 {
     //Définition des tables dans la bdd
     private $ansTable = 'tblAnswers';
     private $quesTable = 'tblQuestions';
     private $quizTable = 'tblQuizzes';
-
+	private $subTable = 'tblSubmissions';
     private $conn;
 
     private $uuid;
@@ -18,20 +18,18 @@ class Questions
         $this->conn = $database->getConnection();
     }
 
-    public function insertQuestion($id)
+    public function insertSubmission($id)
     {
-    
-        $query = "INSERT INTO $this->quesTable (`idQuestions`, `fk_Quizzes`, `statement`, `type`, `order`)
-        VALUES (?, ?, ?, ?, ?)";
+        $query = "INSERT INTO $this->subTable (`idSubmissions`, `datecreation`, `fk_Quizzes`)
+        VALUES (?, ?, ?)";
 
-    
+		$uuid = $this->gen_uuid();
+	
         $sth = $this->conn->prepare($query);
-
-        $uuid = $this->gen_uuid();
         
-        $sth->execute(array($uuid, $id->quizzes, $_POST['statement'], $_POST['type'], $_POST['idOrder'])); 
-
-        $query2 = "SELECT * FROM $this->quesTable where active = '1' AND idQuestions = '$uuid'";
+        $sth->execute(array($uuid, date("Y-m-d H:i:s"), $id->quizzes));
+		
+        $query2 = "SELECT * FROM $this->subTable where idSubmissions = '$uuid'";
 
         $response = array();
 
@@ -42,13 +40,10 @@ class Questions
         while($row = $sth->fetch(PDO::FETCH_ASSOC))
         {
             $response[] = [
-                "id" => $row['idQuestions'],
-                "dataQuestions" => $row['dataQuestions'],
-                "id_Quizzes" => $row['fk_Quizzes'],
-                "statement" => $row['statement'],
-                "type" => $row['type'],
-                "active" => $row['active'],
-                "order" => $row['order']
+                "id" => $row['idSubmissions'],
+                "datecreation" => $row['datecreation'],
+                "fk_Quizzes" => $row['fk_Quizzes'],
+				"answers" =>  []
             ];
         }
        // show products data in json format
@@ -56,8 +51,8 @@ class Questions
 	   header('Access-Control-Allow-Origin: *');
        echo json_encode($response,JSON_PRETTY_PRINT);
     }
-
-    static private function gen_uuid() {
+	
+	static private function gen_uuid() {
         return sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
             // 32 bits for "time_low"
             mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
