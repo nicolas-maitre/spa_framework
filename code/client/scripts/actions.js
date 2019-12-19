@@ -9,7 +9,13 @@ function Actions(){
     this.onPageLoad = {};
 	this.onPageLoad.home = function(){
         var refreshButton = document.querySelector(".homePageContainer .questionAnswerContainerSearch .refreshButton");
-		refreshButton.addEventListener("click", pagesManager.refreshCurrentPage);
+        refreshButton.addEventListener("click", function(evt){
+            pagesManager.refreshCurrentPage(evt);
+            quizzSearch.value = "";
+        });
+        
+        quizzSearch.value = "";
+        quizzSearch.addEventListener("input", _this.pageMethods.home.onSearchInput);
     }
     this.onPageLoad.manage = function(){
         //add drop on the page
@@ -158,6 +164,33 @@ function Actions(){
     //page specific methods
     //-------------------------------------------------------------------------------------
     this.pageMethods = {};
+    this.pageMethods.home = {};
+    this.pageMethods.home.onSearchInput = function(evt){
+        var search = quizzSearch.value.toLowerCase();
+        var quizzListElem = pagesManager.pages.home.container.querySelector(".ListQuizz");
+        var quizElems = quizzListElem.querySelectorAll(".linkQuizz");
+        var hasResults = false;
+        quizElems.forEach((quizElem)=>{
+            //extract title
+            var title = quizElem.querySelector(".titreQuizz").innerText.toLowerCase();
+            //test title
+            if(title.includes(search)){
+                quizElem.classList.remove("none");
+                hasResults = true;
+            } else {
+                quizElem.classList.add("none");
+            }
+        });
+        //noData
+        if(hasResults && pagesManager.pages.home.memory.quizzNoData){
+            pagesManager.pages.home.memory.quizzNoData.remove();
+            pagesManager.pages.home.memory.quizzNoData = false;
+        }
+        if(!hasResults && !pagesManager.pages.home.memory.quizzNoData){
+            pagesManager.pages.home.memory.quizzNoData = builder.adapters.noData(quizzListElem);
+        }
+    };
+
     this.pageMethods.quizz = {};
     //adds submission data into already loaded data
     this.pageMethods.quizz.patchQuizzWithSubmission = function(){
@@ -225,6 +258,7 @@ function Actions(){
         var newAnswer = await apiManager.createData(`submissions/${submission.id}/questions/${idQuestion}/answers`, {data});
         return {answerId: newAnswer.id};
     };
+
     this.pageMethods.manage = {};
     //Change displayed buttons on a manage quizz cell
     this.pageMethods.manage.updateManageButton = function(element, status){
