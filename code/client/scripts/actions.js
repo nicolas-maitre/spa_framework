@@ -79,14 +79,14 @@ function Actions(){
                 if(quizz.status!=null && quizz.status.match(/^(build|active|clos)$/)){
                     var list = document.getElementById("listQuizzes" + quizz.status.capitalise());
                     dropped = builder.adapters.quizzManage(list, quizz);
-                    dropped.updateManageButton(dropped.parentElement.getAttribute("name"));
+                    actions.pageMethods.manage.updateManageButton(dropped, dropped.parentElement.getAttribute("name"));
                 }
             });
             //add drop possibility on quizz
             globalMemory.dragAndDropManage.addDrag("droped", function(elem){
                 var url = `quiz/${elem.getAttribute("quizzid")}`;
                 apiManager.updateData(url, {status: elem.parentElement.getAttribute("name")})
-                elem.updateManageButton(elem.parentElement.getAttribute("name"));
+                actions.pageMethods.manage.updateManageButton(elem,elem.parentElement.getAttribute("name"));
             });
         });
     }
@@ -183,7 +183,7 @@ function Actions(){
 
         //no submission
         if(!pagesManager.pages.quizz.data.submission){
-            console.log("no submission yet");
+            console.log("create submission");
             var result = await apiManager.createData(`quizzes/${quizz.id}/submission`);
             if(!result[0]){
                 console.warn("submission not created");
@@ -205,29 +205,11 @@ function Actions(){
         var newAnswer = await apiManager.createData(`submission/${submission.id}/question/${idQuestion}/answers`, {data});
         return {answerId: newAnswer.id};
     };
-
-    //-------------------------------------------------------------------------------------
-    //other actions
-    //-------------------------------------------------------------------------------------
-
-
-    /**
-     * To change status of element
-     * @param {string} newStatus status to udate elem
-     */
-    Element.prototype.changeStatus = function(newStatus){
-        this.updateManageButton(newStatus);
-        var url = `quiz/${this.getAttribute("quizzid")}`;
-        apiManager.updateData(url, {status: newStatus});
-    }
-    /**
-     * To change button on manage
-     * @param {string} status status to define button
-     */
-    Element.prototype.updateManageButton = function(status){
-        console.log(status);
+    this.pageMethods.manage = {};
+    //Change displayed buttons on a manage quizz cell
+    this.pageMethods.manage.updateManageButton = function(element, status){
         //get quizz actions div
-        var quizzActions = this.firstChild;
+        var quizzActions = element.firstChild;
         while(!quizzActions.classList.contains("quizzListActions")){
             quizzActions = quizzActions.nextSibling;
         }
@@ -263,4 +245,9 @@ function Actions(){
             default:break;
 		}
     }
+
+    //-------------------------------------------------------------------------------------
+    //other actions
+    //-------------------------------------------------------------------------------------
+    
 }

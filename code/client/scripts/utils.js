@@ -23,32 +23,24 @@ String.prototype.capitalise = function(){
 	return this[0].toUpperCase() + this.slice(1);
 }
 
-/**
- * function to check if mouse is in half top of element
- * @returns true or false 
- */
-Element.prototype.checkMouseIsTop = function(){
-	return (event.clientY < this.offsetTop + (this.offsetHeight / 2)); //opti!
-}
-
-/**
- * function to add Element before ref
- * @param {DOM element} ref
- */
 Element.prototype.addElemBefore = function(ref){
 	ref.parentNode.insertBefore(this, ref);
 }
 
-/**
- * function to add Element after ref
- * @param {DOM element} ref
- */
 Element.prototype.addElemAfter = function(ref){
 	ref.parentNode.insertBefore(this, ref.nextSibling);
 }
 
+HTMLCollection.prototype.forEach = Array.prototype.forEach;
+
 //_UTILS METHODS
 var utils = {};
+
+//check if mouse is in half top of element
+utils.isMouseTop = function(element){
+	return (event.clientY < element.offsetTop + (element.offsetHeight / 2)); //opti!
+}
+
 utils.getGlobalLoader = function(){
 	if(!elements.globalLoader){
 		elements.globalLoader = {};
@@ -56,14 +48,12 @@ utils.getGlobalLoader = function(){
 		elements.globalLoader.loader = elements.globalLoader.container.addElement("div", "globalLoaderImage");
 		
 		elements.globalLoader.show = function(){
-			//console.log("show global loader");
 			elements.globalLoader.container.classList.remove("none");
 			requestAnimationFrame(function(){
 				elements.globalLoader.container.style.opacity = 1;
 			});
 		}
 		elements.globalLoader.hide = function(){
-			//console.log("hide global loader");
 			requestAnimationFrame(function(){
 				elements.globalLoader.container.style.opacity = 0;
 				setTimeout(function(){
@@ -144,8 +134,6 @@ utils.setDynamicLink = function(elem){
         });
     }
 };
-//other
-HTMLCollection.prototype.forEach = Array.prototype.forEach;
 
 //garbage
 function $(){

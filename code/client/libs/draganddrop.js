@@ -5,7 +5,7 @@
  * Created at : 11.10.2019
  * Last updated : 
  * Dependencies :
- * - function checkMouseIsTop in utils.js
+ * - function isMouseTop in utils.js
  * - function addElemBefore
  * - function addElemAfter
  */
@@ -28,7 +28,7 @@ var DragAndDrop = function(){
      */
     this.addDrop = function(classToDrop){
         //add event dragover and drop on all list to move elements between us
-        Array.prototype.forEach.call(document.getElementsByClassName(classToDrop), function(elem){
+        document.getElementsByClassName(classToDrop).forEach(function(elem){
             elem.classList.add("toDrop");
             elem.addEventListener("dragover", function(event){
                 _this.moveElem(draggedElem, event.target);
@@ -44,7 +44,7 @@ var DragAndDrop = function(){
      */
     this.addDrag = function(classToDrag, callbackWhereDrop){
         //add event dragstart to allow on element to drag and display where is dropped and add event to remove the effect
-        Array.prototype.forEach.call(document.getElementsByClassName(classToDrag), function(elem){
+        document.getElementsByClassName(classToDrag).forEach(function(elem){
             if(!elem.classList.contains("toDrag")){
                 elem.classList.add("toDrag");
                 elem.setAttribute('draggable',  true);
@@ -75,7 +75,7 @@ var DragAndDrop = function(){
         }
         if(elementToDrop.className.includes("toDrag")){
             if(elementToDrop != elemToDrag){
-                if(elementToDrop.checkMouseIsTop()){
+                if(utils.isMouseTop(elementToDrop)){
                     elemToDrag.addElemBefore(elementToDrop);
                 }else{ 
                     elemToDrag.addElemAfter(elementToDrop)
