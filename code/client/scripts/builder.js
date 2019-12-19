@@ -5,6 +5,11 @@ function Builder(){
 		//hide loader
 		contentLoader.remove();
 		
+		if(!data[0]){ //no data
+			_this.adapters.noData(container);
+			return;
+		};
+
 		//loop over data
 		for(var indData = 0; indData < data.length; indData++){
 			//display adapter
@@ -28,6 +33,7 @@ function Builder(){
 		quizzTitle.innerText = data.name;
 		quizzDate.innerText = data.datecreation;
 		quizzDescr.innerText = data.description;
+		quizzDescr.title = data.description;
 		link.setAttribute("href", `/quizz/${data.id}`);
 	}
 	this.adapters.quizzManage = function(container, data){
@@ -35,7 +41,7 @@ function Builder(){
 		var droped = container.addElement("div", "droped");
 		var quizzTitle = droped.addElement("p", "quizzListTitle");
 		var quizzActions = droped.addElement("div", "quizzListActions");
-		var quizzDate = droped.addElement("quizzListDate");
+		var quizzDate = droped.addElement("p","quizzListDate");
 
 		//data
 		quizzTitle.innerText = data.name;
@@ -48,13 +54,23 @@ function Builder(){
 		//elements
 		var question = container.addElement("div", "editQuestion");
 		var label = question.addElement("div", "lblQuestion");
-		var inputQuestion = question.addElement("input", "largeInput");
+		var inputQuestion = false;
+		switch(data.type){
+			case "single_line_text":
+				inputQuestion = question.addElement("input", "questionInput largeInput");
+				inputQuestion.type = "text";
+				break;
+			case "text":
+			default:
+				inputQuestion = question.addElement("textarea", "questionInput largeInputMultiline");
+				break;
+		}
 		var action = question.addElement("div", "actionEdit");
 		var btnRemove = action.addElement("button", "");
 		var grap = action.addElement("div", "imgGrap");
+
 		//data
 		label.innerText = "Enoncé";
-		inputQuestion.type = "text";
 		inputQuestion.value = data.statement;
 		question.id = data.id;
 		btnRemove.innerText = "Supprimer";
@@ -110,6 +126,11 @@ function Builder(){
 			}
 		});
 	}
+	this.adapters.noData = function(container, data){
+		var box = container.addElement("div", "noDataContainer");
+		var text = box.addElement("p");
+		text.innerText = config.messageNoData;
+	};
 	
 	//other
 	this.addContentLoader = function(container, className = ""){

@@ -7,9 +7,6 @@ function Actions(){
     //page actions on load
     //-------------------------------------------------------------------------------------
     this.onPageLoad = {};
-    this.onPageLoad.error = function(){
-        
-    }
 	this.onPageLoad.home = function(){
         var refreshButton = document.querySelector(".homePageContainer .questionAnswerContainerSearch .refreshButton");
 		refreshButton.addEventListener("click", pagesManager.refreshCurrentPage);
@@ -20,7 +17,9 @@ function Actions(){
         globalMemory.dragAndDropManage.addDrop("quizzList");
     }
     this.onPageLoad.create = function(){
-        //add event
+        createQuizzTitle.setAttribute("maxlength", config.quizzNameSize);
+        createQuizzDescription.setAttribute("maxlength", config.quizzDescriptionSize);
+
         createQuizz.addEventListener("click", async function(event){
             //check if field is empty
             createQuizzTitle.classList.remove('errorField');
@@ -35,6 +34,9 @@ function Actions(){
         })
     }
     this.onPageLoad.edit = function(){
+        quizzTitle.setAttribute("maxlength", config.quizzNameSize);
+        quizzDescription.setAttribute("maxlength", config.quizzDescriptionSize);
+        //dragAndDrop
         globalMemory.dragAndDropEdit = new DragAndDrop();
         globalMemory.dragAndDropEdit.addDrop("editQuestionsList");
         addQuestion.addEventListener("click", async function(){
@@ -56,10 +58,10 @@ function Actions(){
         listQuizzesBuild.removeChilds(".droped");
         listQuizzesActive.removeChilds(".droped");
         listQuizzesClos.removeChilds(".droped");
-
         var loaderQuizzesBuild = builder.addContentLoader(listQuizzesBuild);
         var loaderQuizzesActive = builder.addContentLoader(listQuizzesActive);
         var loaderQuizzesClos = builder.addContentLoader(listQuizzesClos);
+        
         //load all quizzes
         dataSources.allQuizzes().then(function(datas){
             //hide loaders
@@ -98,7 +100,6 @@ function Actions(){
     //-------------------------------------------------------------------------------------
     //page actions on data
     //-------------------------------------------------------------------------------------
-
     this.onPageData = {};
     this.onPageData.quizz = function(data, dataName){
         switch(dataName){
@@ -124,9 +125,9 @@ function Actions(){
         }
     };
 
-    //______________
+    //-------------------------------------------------------------------------------------
     //pageMethods
-    //________
+    //-------------------------------------------------------------------------------------
     this.pageMethods = {};
     this.pageMethods.quizz = {};
     //adds submission data into already loaded data
@@ -193,9 +194,9 @@ function Actions(){
         return {answerId: newAnswer.id};
     };
 
-    //_________
+    //-------------------------------------------------------------------------------------
     //other actions
-    //_________
+    //-------------------------------------------------------------------------------------
 
 
     /**
