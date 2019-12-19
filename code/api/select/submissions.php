@@ -77,7 +77,7 @@ class Submissions
 		];
 		while($row = $sthAns->fetch(PDO::FETCH_ASSOC))
         {
-            $response["answers"][] = [
+            $response["answers"][$rowAns['fk_Questions']] = [
                 "id" => $row['idSubmissions'],
                 "data" => $row['data'],
                 "fk_Questions" => $row['fk_Questions'],

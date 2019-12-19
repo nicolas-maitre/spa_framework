@@ -133,14 +133,35 @@ function Actions(){
         pagesManager.pages.statistics.data.submissions.forEach(function(submission){
             builder.adapters.submissionStats(submissionList, submission);
         })
+        console.log(data);
     }
     this.onPageData.statisticsQuestion = function(data, dataName){
         if(dataName == "question"){
             document.querySelector(".quizzTitle").innerHTML = data.statement;
         }
     }
-    this.onPageData.statisticsSubmission = function(data, dataName){          
-        console.log(dataName, data);
+    this.onPageData.statisticsSubmission = function(data, dataName){  
+        
+        if(dataName == "submission"){
+            document.querySelector(".quizzTitle").innerText = data.datecreation;
+        }
+        if(pagesManager.pages.statisticsSubmission.data.questions && pagesManager.pages.statisticsSubmission.data.submission){
+            questions = pagesManager.pages.statisticsSubmission.data.questions;
+            submission = pagesManager.pages.statisticsSubmission.data.submission;
+            var listAnswer = document.querySelector(".listAnswers");
+
+            document.querySelector(".quizzTitle").innerText = submission.datecreation;
+            questions.forEach(function(question){
+                console.log(question);
+                var answer = "";
+                if(submission.answers[question.id] !== undefined){
+                    answer = submission.answers[question.id].data;
+                }
+                var answerData = {question: question.statement,answer: answer};
+                console.log(answerData);
+                builder.adapters.questionWithAnswer(listAnswer, answerData);
+            })
+        }
     }
     //______________
     //pageMethods
