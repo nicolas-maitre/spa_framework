@@ -134,7 +134,9 @@ function Actions(){
             builder.adapters.submissionStats(submissionList, submission);
         })
     }
-
+    this.onPageData.statisticsQuestion = function(data, dataName){
+        console.log(data, dataName);
+    }
     //______________
     //pageMethods
     //________

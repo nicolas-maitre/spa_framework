@@ -40,4 +40,10 @@ function DataSources(){
 	this.submissionsWithAnswers = async function({quizzId}){
 		return await apiManager.getData(`quizz/${quizzId}/submisions/`);
 	}
+	this.answersByQuestion = async function({questionId}){
+		return await apiManager.getData(`questions/${questionId}/answers/`);
+	}
+	this.question = async function({questionId}){
+		return await apiManager.getData(`questions/${questionId}`);
+	}
 }
