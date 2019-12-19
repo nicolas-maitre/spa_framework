@@ -154,7 +154,7 @@ function Actions(){
     }
     this.onPageData.statisticsQuestion = function(data, dataName){
         if(dataName == "question"){
-            document.querySelector(".quizzTitle").innerHTML = data.statement;
+            document.querySelector(".quizzTitle").innerText = data.statement;
         }
     }
     this.onPageData.statisticsSubmission = function(data, dataName){  
