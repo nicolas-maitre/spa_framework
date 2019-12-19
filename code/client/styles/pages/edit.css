@@ -1,0 +1,27 @@
+.editQuestion{
+    padding: 5px;
+    -webkit-user-select: none;
+}
+.editQuestion:nth-child(2n){
+    background-color: whitesmoke;
+}
+.questionInput{
+    -webkit-user-select: text;
+}
+.imgGrap{
+    background-image: url(/images/grap.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 20px;
+    width: 20px;
+    margin: 5px;
+    cursor: grab;
+}
+.actionEdit{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+.imgGrap:active{
+    cursor: grabbing;
+}

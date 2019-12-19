@@ -1,50 +1,63 @@
-.ListeQuizz{
-    margin-top: 20px;
+.quizzStat{
+    overflow-x: auto;
 }
-
-.ContainerAnswer:nth-child(2n){
-    background-color: whitesmoke;
+.rowSubmission, .headCol{
+    height: 40px;
+    display: flex;
+    border-bottom: solid 1px lightgray;
 }
-
-.ContainerQuestion, .ContainerAnswer{
+.headCol{
+    font-weight: bolder;
+}
+.questionCol{
     display: flex;
 }
-
-.ContainerQuestion > div , .ContainerAnswer > div {
-    width: 100%;
-    padding: 15px;
+.colD{
+    width: 200px;
 }
-
-.ContainerQuestion{
-    text-align: center;
-    font-weight:bold;
+.colQ{
+    width: 50px;  
 }
-
-.QuestionTake{
-    text-align: left;
+.colQ, .colD, .answerSubmission{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-
-.Question, .Name{
-    color: #F15454;
+.answerSubmission{
+    font-weight: bolder;
+    min-width: 200px;
+    overflow-wrap: break-word;
 }
-
-.Question:hover, .Name:hover{
-    color: blue;
-    cursor: pointer;
+.answerContainer{
+    display: flex;
+    padding: 10px 5px;
+    overflow-wrap: break-word;
 }
-
-.Name, .QuestionTake{
-    width: 150px;
+.answerContainer:nth-child(2n-1){
+    background-color: whitesmoke;
 }
-
-.Answer{
-    text-align: center;
+.colQ:nth-child(2n){
+    background-color: whitesmoke;
 }
-
-.fa-check, .fa-check-double{
-    color: #60B911;
+.questionCol > .colQ:nth-child(2n-1){
+    background-color: whitesmoke;
 }
-
-.fa-times{
-    color: red;
+.questionCol > .colQ:nth-child(2n){
+    background-color: white;
+}
+.check, .check-double, .times{
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 20px;
+    width: 20px;
+}
+.check{
+    background-image: url(/images/check.svg);
+}
+.check-double{
+    background-image: url(/images/check_double.svg);
+}
+.times{
+    background-image: url(/images/times.svg);
 }

@@ -5,16 +5,6 @@ function PagesManager(){
     this.currentPage = false;
     var viewsCache = {};
     this.changePage = function(pageName, {pushToHistory=true, query=false, path=false} = {}){
-		/*
-			pageName string
-			options{
-				pushToHistory bool (true)
-				query{
-					paramName:value
-                }
-                path array of name
-			}
-		*/
         console.log("change page to " + pageName, arguments[1]);
 		
         //page already displayed
@@ -41,7 +31,9 @@ function PagesManager(){
         if(!_this.pages[pageName]){
             _this.pages[pageName] = {
                 isLoaded: false,
-                container: false
+                container: false,
+                data: {},
+                memory: {}
             };
             //build container
             _this.pages[pageName].container = elements.pagesContainer.addElement('div', `pageContainer ${pageName}PageContainer none`);
@@ -58,7 +50,6 @@ function PagesManager(){
 		var queryUrl = "";
 		if(query){
 			queryUrl = "?" + utils.encodeQuery(query);	
-			console.log("queryUrl", queryUrl);
 		}
         
         //path
@@ -72,10 +63,11 @@ function PagesManager(){
 		//title
 		var documentTitle = config.pageTitlePrefix + (pageConfig.title || pageName);
         document.title = documentTitle;
-		
+        var stateSaveObject = {pageName, query, path};
+        _this.pages[_this.currentPage].location = stateSaveObject;
+
         //push to history
         if(!DEV_PREVENT_HISTORY){
-            var stateSaveObject = {pageName, query, path}
             if(pushToHistory){
                 history.pushState(stateSaveObject, documentTitle, pathUrl + queryUrl);
             } else {
@@ -89,7 +81,7 @@ function PagesManager(){
         //already loaded
         if(this.pages[pageName].isLoaded){
 			if(pageConfig.refreshDataOnDisplay){ //reload data
-				builder.applyDataAdapters(pageName);
+                _this.manageData(pageName);
 			}
             if(actions.onPageDisplay[pageName]){
                 actions.onPageDisplay[pageName]();
@@ -104,7 +96,7 @@ function PagesManager(){
         _this.loadView(pageName, function(error, view){
             utils.getGlobalLoader().hide();
             if(error){
-                console.log("view couldn't be loaded.", error);
+                console.warn("view couldn't be loaded.", error);
                 utils.infoBox("Une erreur s'est produite durant le chargement de la page");
                 return;
             }
@@ -116,8 +108,8 @@ function PagesManager(){
             _this.pages[pageName].isLoaded = true;
 			//add dynamic links
 			utils.setDynamicLinks(_this.pages[pageName].container);
-			//apply data adapters / show data
-			builder.applyDataAdapters(pageName);
+			//apply data / show data
+			_this.manageData(pageName);
             //evt
             if(actions.onPageLoad[pageName]){
                 actions.onPageLoad[pageName]();
@@ -152,18 +144,110 @@ function PagesManager(){
         pagesManager.changePage(pageToShow, pageOptions);
     };
     this.managePopState = function(evt){
-        console.log("pop", evt);
         if(!evt.state || !evt.state.pageName){
-            console.log("no pop state defined");
+            console.warn("no pop state defined");
             return;
         }
         var pageOptions = evt.state;
         pageOptions.pushToHistory = false;
         pagesManager.changePage(evt.state.pageName, pageOptions);		
     }
+    this.manageData = function(pageName){
+		if(!pagesConfig[pageName] || !pagesConfig[pageName].data){
+			return;
+		}
+		var allDataConfigs = pagesConfig[pageName].data;
+		for(var indDataConfig = 0; indDataConfig < allDataConfigs.length; indDataConfig++){
+            var dataConfig = allDataConfigs[indDataConfig];
+            _this.applyDataConfig(dataConfig, pageName);
+		}
+    };
+    this.applyDataConfig = function(dataConfig, pageName){
+        //data source
+        if(!dataSources[dataConfig.source]){
+			console.warn(`data source ${dataConfig.source} doesn't exist`);
+			return;
+		}
+        var dataSource = dataSources[dataConfig.source];
+
+        //data adapter check
+        var adapter = false;
+        var adaptersContainer = false;
+        if(builder.adapters[dataConfig.adapter]){
+            adapter = builder.adapters[dataConfig.adapter];
+            adaptersContainer = _this.pages[pageName].container.querySelector(dataConfig.container);
+            if(!adaptersContainer){
+                console.warn(`data container for ${dataConfig.container} selector, doesn't exist`);
+                return;
+            }
+            //remove all content from container
+            while(adaptersContainer.firstChild) {
+                adaptersContainer.removeChild(adaptersContainer.firstChild);
+            }
+            //add loader
+            var contentLoader = builder.addContentLoader(adaptersContainer);
+        }
+
+        //data name + data reset
+        var dataName = false;
+        if(dataConfig.dataName){
+            dataName = dataConfig.dataName;
+            //clear data
+            _this.pages[pageName].data[dataName] = false;
+        }
+
+        //data params (path template)
+        var dataParams = false;
+        if(dataConfig.pathTemplate){
+            dataParams = {};
+
+            //extract param name and values from url
+            var pathEntities = dataConfig.pathTemplate.split("/").slice(1);
+            var pathArray = _this.pages[pageName].location.path;
+            for (let indPath = 0; indPath < pathEntities.length; indPath++) {
+                var templateEntity = pathEntities[indPath];
+                var paramValue = pathArray[indPath];
+                if(!pathArray[indPath]){
+                    console.warn("missing parameter in url");
+                    return;
+                }
+                if(!templateEntity.includes("{{") || !templateEntity.includes("}}")){
+                    //template doesn't correspond to url
+                    if(templateEntity !== paramValue){
+                        console.warn("url path doesnt apply to template. aborting.", {templateEntity, paramValue});
+                        return;
+                    }
+                    continue;
+                }
+                //extract param name and set value
+                var paramName = templateEntity.split("{{")[1].split("}}")[0];
+                dataParams[paramName] = paramValue;
+            }
+        }
+
+        dataSource(dataParams)
+		.then(function(data){
+            if(adapter){ //adapter data
+                builder.applyDataAdapter({
+                    container: adaptersContainer, 
+                    adapter, data, contentLoader
+                });
+            }
+            //get dataName
+            if(dataName){
+                //add to page data
+                _this.pages[pageName].data[dataName] = data;
+            }
+            //onData callBack
+            if(actions.onPageData[pageName]){
+                actions.onPageData[pageName](data, dataName);
+            }
+        });
+        
+    }
 
     this.refreshCurrentPage = function(){
-		builder.applyDataAdapters(_this.currentPage);
+		_this.manageData(_this.currentPage);
 	};
 	this.preloadViews = async function(priority = false){
         //load priority view
@@ -178,8 +262,7 @@ function PagesManager(){
         }
     }
     this.loadView = function(view, callBack){
-        console.log("loadView", view);
-        //get view name from page name
+        //get view name from page config
         var viewName = view;
         if(pagesConfig[view].view){
             viewName = pagesConfig[view].view;
@@ -203,7 +286,7 @@ function PagesManager(){
             console.log("page already loading");
             return;
         }
-        console.log("downloading " + viewName + " view");
+
         //load
         viewsCache[viewName].isLoading = true;
         var url = config.viewsLocation + "/" + viewName + config.viewsExtension;
@@ -212,7 +295,7 @@ function PagesManager(){
             viewsCache[viewName].isLoading = false;
             var error = false, result = false;
             if(!response.ok){
-                console.log("view download failed", response);
+                console.warn("view download failed", response);
 
                 //onload event
                 for(var indEvt = 0; indEvt < viewsCache[viewName].onload.length; indEvt++){
@@ -224,7 +307,6 @@ function PagesManager(){
             response.text().then(function(textData){
                 viewsCache[viewName].htmlString = textData;
                 viewsCache[viewName].isLoaded = true;
-                console.log("view downloaded", viewName);
 
                 //onload event
                 for(var indEvt = 0; indEvt < viewsCache[viewName].onload.length; indEvt++){

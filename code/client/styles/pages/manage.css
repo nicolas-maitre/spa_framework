@@ -30,6 +30,24 @@
     border: solid 1px lightgray;
     display: flex;
     cursor: pointer;
+    height: 60px;
+    position: relative;
+    -webkit-user-select: none;
+}
+.quizzListTitle {
+    width: calc(100% - 30px);
+    overflow: hidden;
+}
+.quizzlistdate {
+    position: absolute;
+    right: 40px;
+    bottom: 5px;
+    color: #666;
+    font-size: 13px;
+}
+.quizzListActions {
+    position: absolute;
+    right: 5px;
 }
 .imgEdit{
     background-image: url(/images/edit.png);
@@ -37,14 +55,25 @@
 .imgTrash{
     background-image: url(/images/trash.png);
 }
-.imgEdit, .imgTrash{
+.imgStats{
+    background-image: url(/images/stats.png);
+}
+.imgRefresh{
+    background-image: url(/images/refresh.png);
+}
+.quizzListActions > div, .imgAdd{/*icons*/
     background-size: cover;
     background-repeat: no-repeat;
     height: 20px;
     width: 20px;
-    margin: 5px;
+    margin-bottom: 5px;
     border-radius: 5px;
 }
-.imgEdit:hover, .imgTrash:hover{
+.quizzListActions > div:hover, .imgAdd:hover{
     background-color: orange;
+}
+.imgAdd{
+    background-image: url(/images/add.png);
+    height: 30;
+    width: 30;
 }

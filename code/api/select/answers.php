@@ -1,48 +1,51 @@
 <?php 
+require_once 'database/database.php';
+require_once 'utility.php';
 
-$test = $_SERVER['REQUEST_URI'];
-$id = substr(strrchr($test, '/'), 1 );
-
-
-trait MonTrait
+class Answers
 {
-    function getQuizzes()
+    public $response = array();
+    
+    public function getAnswer($params)
     {
-        $query = "SELECT * FROM $this->quizTable";
-        $response = array();
-        $result = mysqli_query($this->dbConnect, $query);
-        while($row = mysqli_fetch_array($result))
-        {
-            $response[] = [
-                "id" => $row['idQuizzes'],
-                "name" => $row['1'],
-                "description" => $row['2'],
-                "datecreation" => $row['3']
-            ];
-        }
+		$query = "SELECT * FROM ". Utility::getTableAnswers() ." where idAnswers = '$params->answers'";
+        
+        $request = Utility::prepareRequest(Database::getConnection(), $query);
+		
+        $request->execute();
 
-        $this->returndata($response);
+		$row = $request->fetch(PDO::FETCH_ASSOC);
+		$this->response = [
+			"id" => $row['idAnswers'],
+			"data" => $row['data'],
+			"fk_Questions" => $row['fk_Questions'],
+			"fk_Submissions" => $row['fk_Submissions']
+        ];
+        
+        Utility::returnJSON($this->response);
     }
+	
+	public function getAnswersByQuestion($params){
+		$query = "SELECT * FROM ". Utility::getTableAnswers() ." where fk_Questions = '$params->questions'";
+        
+        $request = Utility::prepareRequest(Database::getConnection(), $query);
+		
+        $request->execute();
 
-    function getQuiz($id=0)
-    {
-        $query = "SELECT * FROM $this->quizTable";
-        if($id != 0)
-        {
-            $query .= " WHERE idQuizzes=".$id." LIMIT 1";
-        }
-        $response = array();
-        $result = mysqli_query($this->dbConnect, $query);
-        while($row = mysqli_fetch_array($result))
-        {
-            $response[] = [
-                "id" => $row['idQuizzes'],
-                "name" => $row['1'],
-                "description" => $row['2'],
-                "datecreation" => $row['3']
-            ];
-        }
-
-        $this->returndata($response);
-    }
+		while($row = $request->fetch(PDO::FETCH_ASSOC)){
+			$idSub = $row['fk_Submissions'];
+			$query = "SELECT datecreation FROM ". Utility::getTableSubmissions() ." where idSubmissions = '$idSub'";
+			$requestSub = Utility::prepareRequest(Database::getConnection(), $query);
+			$requestSub->execute();
+			$rowSub = $requestSub->fetch(PDO::FETCH_ASSOC);
+			$this->response[] = [
+				"id" => $row['idAnswers'],
+				"data" => $row['data'],
+				"fk_Questions" => $row['fk_Questions'],
+				"fk_Submissions" => $row['fk_Submissions'],
+				"date_Submissions" => $rowSub['datecreation']
+			];
+		}
+        Utility::returnJSON($this->response);
+	}
 }

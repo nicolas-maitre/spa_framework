@@ -1,44 +1,30 @@
 <?php 
 require_once 'database/database.php';
+require_once 'utility.php';
 
 class Questions
 {
-    //Définition des tables dans la bdd
-    private $ansTable = 'tblanswers';
-    private $quesTable = 'tblquestions';
-    private $quizTable = 'tblquizzes';
+    public $response = array();
 
-    private $conn;
+    public function getQuestion($params)
+    {
+		$query = "SELECT * FROM ". Utility::getTableQuestions() ." where active = 1 AND idQuestions = '$params->questions'";
+        
+        $request = Utility::prepareRequest(Database::getConnection(), $query);
+		
+        $request->execute();
 
-
-    public function __construct(){
-        $database = new Database();
-        $this->conn = $database->getConnection();
-    }
-
-    public function getAllAnswersFromAllQuestionsFromAQuiz($id){
-        $query = "SELECT tblquizzes.idQuizzes, tblquizzes.name, tblquestions.statement,tblquestions.idQuestions, tblanswers.idAnswers, tblanswers.dataAnswers FROM tblquizzes
-        INNER JOIN tblquestions ON tblquestions.fk_Quizzes = tblquizzes.idQuizzes
-        INNER JOIN tblanswers ON tblanswers.fk_Questions = tblquestions.idQuestions
-        WHERE tblquizzes.idQuizzes ='$id->questions'";
-
-        $response = array();
-        $sth = $this->conn->prepare($query);
-        $sth->execute();
-
-        while($row = $sth->fetch(PDO::FETCH_ASSOC)){
-            $response[$row['idQuestions']][] = [
-                "statement_Questions" => $row['statement'],
-                "id_Answers" => $row['idAnswers'],
-                "data_Answers" => $row['dataAnswers']
-            ];
-        }
-
-        // show products data in json format
-        header('Content-Type: application/json');
-            header('Access-Control-Allow-Origin: *');
-            
-        echo json_encode($response,JSON_PRETTY_PRINT);
+		$row = $request->fetch(PDO::FETCH_ASSOC);
+		$this->response = [
+			"id" => $row['idQuestions'],
+			"data" => $row['dataQuestions'],
+			"fk_Quizzes" => $row['fk_Quizzes'],
+			"statement" => $row['statement'],
+			"type" => $row['type'],
+			"order" => $row['order']
+        ];
+        
+        Utility::returnJSON($this->response);
     }
 
 
@@ -65,4 +51,3 @@ class Questions
         );
     }
 }
-

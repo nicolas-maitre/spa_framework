@@ -1,29 +1,49 @@
 "use strict";
 function DataSources(){
-	//get
-	/**
-	 * get all quizz availible
-	 * @returns {array} 
-	 */
-	this.allAvailibleQuizzes = async function(){
-		var res = await apiManager.call("quizzes");
-		return res.ok ? res.data : [];//return only if data
-	};
-	/**
-	 * get all quizzes
-	 * @returns {array}
-	 */
-	this.allQuizzes = async function(){
-		var res = await apiManager.call("quizzes");
-		return res.ok ? res.data : [];//return only if data
-	};
-	/**
-	 * get 1 quizz
-	 * @param {string} id id of quizz
-	 * @return {array}
-	 */
-	this.quizz = async function(id){
-		return apiManager.getData("quizzes", id)
-	}
+	this.allActiveQuizzes = async function(){
+		var quizzes = await apiManager.getData("quizzes");
 
+		//only add active quizzes
+		var filteredQuizzes = [];
+		for(var indQuiz = 0; indQuiz < quizzes.length; indQuiz++){
+			if(quizzes[indQuiz].status == "active"){
+				filteredQuizzes.push(quizzes[indQuiz]);
+			}
+		}
+
+		//sort by desc date
+		filteredQuizzes.sort(function(quizz1, quizz2){
+			var date1 = new Date(quizz1.datecreation);
+			var date2 = new Date(quizz2.datecreation);
+			return (date1 > date2)?1:-1;
+		});
+
+		return filteredQuizzes;
+	};
+	this.allQuizzes = async function(){
+		return await apiManager.getData("quizzes");
+	};
+	this.quizz = async function({id}){
+		return await apiManager.getData(`quizzes/${id}`);
+	};
+	this.questionsForQuizz = async function({quizzId}){
+		var questions = await apiManager.getData(`quizzes/${quizzId}/questions`);
+		//sort by desc date
+		questions.sort(function(question1, question2){
+			return (question1.order > question2.order)?1:-1;
+		});
+		return questions;
+	};
+	this.submissionWithAnswers = async function({submissionId}){
+		return await apiManager.getData(`submissions/${submissionId}`);
+	};
+	this.submissionsWithAnswers = async function({quizzId}){
+		return await apiManager.getData(`quizzes/${quizzId}/submissions/`);
+	}
+	this.answersByQuestion = async function({questionId}){
+		return await apiManager.getData(`questions/${questionId}/answers/`);
+	}
+	this.question = async function({questionId}){
+		return await apiManager.getData(`questions/${questionId}`);
+	}
 }

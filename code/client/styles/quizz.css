@@ -10,8 +10,11 @@
 .dateQuizz{
     float:right;
 }
-.descriptionQuizz{
+.descriptionQuizz {
     font-style: italic;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 /*quizz title*/
 .titreQuizz{
@@ -21,6 +24,12 @@
 .quizzTitle{
     text-align: center;
     font-size: 30px;
+}
+.lblDescription{
+    width: 100%;
+}
+.description{
+    min-height: 18px;
 }
 /*questions*/
 .quizzQuestionsContainer{
@@ -32,6 +41,9 @@
     margin-top: 20px;
     margin: 20px;
     width: 100%;
+}
+.quizzQuestion{
+    margin-top: 10px;
 }
 .titreQuizz > .questionAnswerContainer{
      width: 40%;
