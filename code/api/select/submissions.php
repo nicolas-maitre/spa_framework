@@ -39,10 +39,10 @@ class Submissions
 		while($row = $sthAns->fetch(PDO::FETCH_ASSOC))
         {
             $response["answers"][] = [
-                "id" => $row['idQuizzes'],
-                "name" => $row['1'],
-                "description" => $row['2'],
-                "datecreation" => $row['3']
+                "id" => $row['idSubmissions'],
+                "data" => $row['data'],
+                "fk_Questions" => $row['fk_Questions'],
+                "fk_Submissions" => $row['fk_Submissions']
             ];
         }
         // show products data in json format
