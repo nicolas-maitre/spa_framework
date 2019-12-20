@@ -30,7 +30,7 @@ function DataSources(){
 		var questions = await apiManager.getData(`quizzes/${quizzId}/questions`);
 		//sort by desc date
 		questions.sort(function(question1, question2){
-			return (question1.order > question2.order)?1:-1;
+			return (Number(question1.order) > Number(question2.order))?1:-1;
 		});
 		return questions;
 	};
