@@ -1,11 +1,15 @@
 /*container*/
-.pagesContainer{
-    width:80%;
+.pagesContainer {
+    width: 100%;
     margin-top: 60px;
-    height: calc(100% - 112px);
+    min-height: calc(100vh - 60px - 30px);
+    display: inline-block;
+    overflow: hidden;
+    text-align: center;
 }
-.pageContainer{
-    height: 100%;
+.pageContainer {
+    width: 80%;
+    display: inline-block;
 }
 /* Manage */
 .flex-container{

@@ -14,10 +14,10 @@
 }
 .colD{
 	font-weight: bolder;
-    width: 200px;
+    min-width: 200px;
 }
 .colQ{
-    width: 50px;  
+    min-width: 50px; 
 }
 .colQ, .colD, .answerSubmission{
     display: flex;
