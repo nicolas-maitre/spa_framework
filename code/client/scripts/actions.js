@@ -1,7 +1,7 @@
 function Actions(){
     var _this = this;
     this.onHeadButtonClick = function(evt){
-        pagesManager.changePage(globalMemory.headButtonTarget);
+        pagesManager.changePage(globalMemory.headButtonTarget, {path:globalMemory.headButtonTargetPath});
     };
     //-------------------------------------------------------------------------------------
     //page actions on load
@@ -109,6 +109,7 @@ function Actions(){
         if(pageConfig.headButton){
             elements.topMenuButton.innerText = pageConfig.headButton.text;
             globalMemory.headButtonTarget = pageConfig.headButton.target;
+			globalMemory.headButtonTargetPath = (pageConfig.headButton.targetPath || []);
             elements.topMenuButton.classList.remove("none");
         }else{
             elements.topMenuButton.classList.add("none");
@@ -149,26 +150,30 @@ function Actions(){
         }
         pagesManager.pages.statistics.data.submissions.forEach(function(submission){
             builder.adapters.submissionStats(submissionList, submission);
-        })
-        console.log(data);
+        });
+		//apply dynamic links
+		utils.setDynamicLinks(submissionList);
     }
     this.onPageData.statisticsQuestion = function(data, dataName){
         if(dataName == "question"){
-            document.querySelector(".quizzTitle").innerText = data.statement;
+            document.querySelector(".quizzTitleStat").innerText = data.statement;
+			globalMemory.headButtonTargetPath = [data.fk_Quizzes];
         }
     }
-    this.onPageData.statisticsSubmission = function(data, dataName){  
-        
+    this.onPageData.statisticsSubmission = function(data, dataName){
+        var pageMemory = pagesManager.pages.statisticsSubmission;
         if(dataName == "submission"){
-            document.querySelector(".quizzTitle").innerText = data.datecreation;
+            pageMemory.container.querySelector(".quizzTitle").innerText = data.datecreation;
+			globalMemory.headButtonTargetPath = [data.fk_Quizzes];
         }
         if(pagesManager.pages.statisticsSubmission.data.questions && pagesManager.pages.statisticsSubmission.data.submission){
-            questions = pagesManager.pages.statisticsSubmission.data.questions;
-            submission = pagesManager.pages.statisticsSubmission.data.submission;
-            var listAnswer = document.querySelector(".listAnswers");
-
-            document.querySelector(".quizzTitle").innerText = submission.datecreation;
-            questions.forEach(function(question){
+			var questions = pageMemory.data.questions;
+            var submission = pageMemory.data.submission;
+            var listAnswer = pageMemory.container.querySelector(".listAnswers");
+            pageMemory.container.querySelector(".quizzTitle").innerText = submission.datecreation;
+            
+			listAnswer.removeChilds(".answerContainer");
+			questions.forEach(function(question){
                 console.log(question);
                 var answer = "";
                 if(submission.answers[question.id] !== undefined){
@@ -177,7 +182,7 @@ function Actions(){
                 var answerData = {question: question.statement,answer: answer};
                 console.log(answerData);
                 builder.adapters.questionWithAnswer(listAnswer, answerData);
-            })
+            });
         }
     }
     

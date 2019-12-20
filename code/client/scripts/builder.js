@@ -156,7 +156,7 @@ function Builder(){
 			answer.addElement("div", symb);
 		})
 		//add data
-		dateSub.href = `/statisticsSubmission/${data.fk_Quizzes}/${data.id}`;
+		dateSub.href = `/statisticsSubmission/${data.fk_Quizzes}/submission/${data.id}`;
 		dateSub.innerText = data.datecreation;
 	}
 	this.adapters.answerLine = function(container, data){

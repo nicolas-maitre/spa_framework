@@ -86,8 +86,8 @@ var pagesConfig = {
     statistics: {
         title: "Statistiques",
         headButton: {
-            text: "Home",
-            target: "home"
+            text: "Manage",
+            target: "manage"
         },
         data: [
             {
@@ -107,8 +107,9 @@ var pagesConfig = {
     },
     statisticsQuestion: {
         headButton: {
-            text: "Home",
-            target: "home"
+            text: "Stats",
+            target: "statistics",
+			targetPath: []
         },
         data: [
             {
@@ -128,8 +129,9 @@ var pagesConfig = {
     },
     statisticsSubmission: {
         headButton: {
-            text: "Home",
-            target: "home"
+            text: "Stats",
+            target: "statistics",
+			targetPath: []
         },
         view: "statisticsSubmission",
         refreshDataOnDisplay: true,
@@ -141,7 +143,7 @@ var pagesConfig = {
             },
             {
                 source: "submissionWithAnswers",
-                pathTemplate: "/{{quizzId}}/{{submissionId}}",
+                pathTemplate: "/{{quizzId}}/submission/{{submissionId}}",
                 dataName: "submission" //use as global data
             },
         ]
