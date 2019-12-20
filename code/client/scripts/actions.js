@@ -156,7 +156,7 @@ function Actions(){
     }
     this.onPageData.statisticsQuestion = function(data, dataName){
         if(dataName == "question"){
-            document.querySelector(".quizzTitleStat").innerText = data.statement;
+            pagesManager.pages.statisticsQuestion.container.querySelector(".quizzTitle").innerText = data.statement;
 			globalMemory.headButtonTargetPath = [data.fk_Quizzes];
         }
     }
