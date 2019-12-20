@@ -8,7 +8,7 @@ class Submissions
 
 	public function getSubmissionsWithAnswers($params){
 
-		$querySub = "SELECT * FROM ". Utility::getTableSubmissions() ." where fk_Quizzes = '$params->quizzes'";
+		$querySub = "SELECT * FROM ". Utility::getTableSubmissions() ." WHERE fk_Quizzes = '$params->quizzes' ORDER BY datecreation DESC";
 
 		$requestSub = Utility::prepareRequest(Database::getConnection(), $querySub);
 		
@@ -17,7 +17,7 @@ class Submissions
 		while($rowSub = $requestSub->fetch(PDO::FETCH_ASSOC))
         {
 			$idSub = $rowSub['idSubmissions'];
-			$queryAns = "SELECT * FROM ". Utility::getTableAnswers() ." where fk_Submissions = '$idSub'";
+			$queryAns = "SELECT * FROM ". Utility::getTableAnswers() ." WHERE fk_Submissions = '$idSub'";
 			$answers = array();
 			$requestAns = Utility::prepareRequest(Database::getConnection(), $queryAns);
 			$requestAns->execute();
