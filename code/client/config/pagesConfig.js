@@ -102,6 +102,11 @@ var pagesConfig = {
                 pathTemplate: "/{{quizzId}}", 
                 dataName: "submissions" //use as global data
             },
+			{
+				source: "quizz",
+				pathTemplate:"/{{id}}",
+				dataName: "quizz"
+			}
         ],
         refreshDataOnDisplay: true
     },

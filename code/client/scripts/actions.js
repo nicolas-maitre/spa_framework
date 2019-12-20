@@ -145,12 +145,18 @@ function Actions(){
     };
 
     this.onPageData.statistics = function(data, dataName){
-        if(!pagesManager.pages.statistics.data.questions || !pagesManager.pages.statistics.data.submissions){
-            return; //missing data
-        }
-        pagesManager.pages.statistics.data.submissions.forEach(function(submission){
-            builder.adapters.submissionStats(submissionList, submission);
-        });
+		console.log(dataName, data);
+		if(dataName == "quizz"){
+			pagesManager.pages.statistics.container.querySelector(".quizzTitle").innerText = data.name;
+			return;
+		}
+		
+		if(!pagesManager.pages.statistics.data.questions || !pagesManager.pages.statistics.data.submissions){
+			return; //missing data
+		}
+		pagesManager.pages.statistics.data.submissions.forEach(function(submission){
+			builder.adapters.submissionStats(submissionList, submission);
+		});
 		//apply dynamic links
 		utils.setDynamicLinks(submissionList);
     }
