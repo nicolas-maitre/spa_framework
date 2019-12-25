@@ -1,5 +1,0 @@
-DirectoryIndex routes.php
-
-RewriteEngine on
-
-RewriteRule /* routes.php

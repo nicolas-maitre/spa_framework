@@ -1,5 +1,0 @@
-DirectoryIndex root.html
-
-RewriteEngine on
-#new pages should be added between the two brackets, separated by a vertical bar
-RewriteRule ^(error|home|create|edit|quizz|manage|statistics)/* root.html
