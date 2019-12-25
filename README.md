@@ -3,4 +3,4 @@ This is a single page application framework that I initially made for a project 
 
 You can access the wiki  **[here](https://github.com/nicolas-maitre/spa_framework/wiki)**
 
-You can find an example project **here(https://github.com/nicolas-maitre/spa_framework/tree/example_kaphoot)**
+You can find an example project **[here](https://github.com/nicolas-maitre/spa_framework/tree/example_kaphoot)**
