@@ -9,6 +9,7 @@ var elements = {};
 var pagesManager = new PagesManager();
 var apiManager = new ApiManager();
 var builder = new Builder();
+var adapters = new Adapters();
 var actions = new Actions();
 var dataSources = new DataSources();
 

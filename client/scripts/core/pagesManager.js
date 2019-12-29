@@ -172,8 +172,8 @@ function PagesManager(){
         //data adapter check
         var adapter = false;
         var adaptersContainer = false;
-        if(builder.adapters[dataConfig.adapter]){
-            adapter = builder.adapters[dataConfig.adapter];
+        if(adapters[dataConfig.adapter]){
+            adapter = adapters[dataConfig.adapter];
             adaptersContainer = _this.pages[pageName].container.querySelector(dataConfig.container);
             if(!adaptersContainer){
                 console.warn(`data container for ${dataConfig.container} selector, doesn't exist`);
@@ -260,7 +260,7 @@ function PagesManager(){
             _this.loadView(viewName, function(){});
         }
     }
-    this.loadView = function(view, callBack){
+    this.loadView = async function(view, callBack){
         //get view name from page config
         var viewName = view;
         if(pagesConfig[view].view){
@@ -282,7 +282,7 @@ function PagesManager(){
         }
         viewsCache[viewName].onload.push(callBack);
         if(viewsCache[viewName].isLoading){
-            console.log("page already loading");
+            //DEBUG: console.log("page already loading");
             return;
         }
 
@@ -290,29 +290,28 @@ function PagesManager(){
         viewsCache[viewName].isLoading = true;
         var url = `${config.viewsLocation}/${viewName}${config.viewsExtension}`;
         
-        fetch(url).then(function(response){
-            viewsCache[viewName].isLoading = false;
-            if(!response.ok){
-                console.warn("view download failed", response);
+        var response = await fetch(url);
+        viewsCache[viewName].isLoading = false;
+        if(!response.ok){
+            console.warn("view download failed", response);
 
-                //onload event
-                for(var indEvt = 0; indEvt < viewsCache[viewName].onload.length; indEvt++){
-                    viewsCache[viewName].onload[indEvt]({clientMsg:"view download failed"});
-                }
-                viewsCache[viewName].onload = [];
-                return;
+            //onload event
+            for(var indEvt = 0; indEvt < viewsCache[viewName].onload.length; indEvt++){
+                viewsCache[viewName].onload[indEvt]({clientMsg:"view download failed"});
             }
-            response.text().then(function(textData){
-                viewsCache[viewName].htmlString = textData;
-                viewsCache[viewName].isLoaded = true;
+            viewsCache[viewName].onload = [];
+            return;
+        }
+        
+        var textData = await response.text();
+        viewsCache[viewName].htmlString = textData;
+        viewsCache[viewName].isLoaded = true;
 
-                //onload event
-                for(var indEvt = 0; indEvt < viewsCache[viewName].onload.length; indEvt++){
-                    viewsCache[viewName].onload[indEvt](false, viewsCache[viewName]);
-                }
-                viewsCache[viewName].onload = [];
-                return;
-            });
-        });
+        //onload event
+        for(var indEvt = 0; indEvt < viewsCache[viewName].onload.length; indEvt++){
+            viewsCache[viewName].onload[indEvt](false, viewsCache[viewName]);
+        }
+        viewsCache[viewName].onload = [];
+        return;
     };
 }
