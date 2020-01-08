@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <script>
+            function setCSS(name){
+                sapu.setAttribute("href", name);
+                console.log(name);
+            }
+        </script>
+        <link id="sapu" rel="stylesheet" href="test1.css"/>
+    </head>
+    <body>
+        <h1>Sapu</h1>
+        <button onclick="setCSS('test1.css')">style1</button>
+        <button onclick="setCSS('test2.css')">style2</button>
+    </body>
+</html>
