@@ -10,7 +10,7 @@ const fs = require("fs");
 const mime = require("mime");
 
 const HTTP_PORT = 6789;
-const CLIENT_RESOURCES_PATH = "client"; //web directory path
+const CLIENT_RESOURCES_PATH = "."; //web directory path
 const INDEX_FILE = "/root.html";
 const WHITELIST_PATHS = ["", "/", "/welcome", "/error"]; //website pages
 
