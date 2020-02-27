@@ -13,20 +13,20 @@ function ApiManager(){
 		};
 		//body of request
 		if(bodyParams){
-			var requestBody = utils.encodeQuery(bodyParams);
+			var requestBody = Utils.encodeQuery(bodyParams);
 			requestInit.body = requestBody;
 		}
 		//url params
 		var requestUrlParams = "";
 		if(urlParams){
-			requestUrlParams = "?" + utils.encodeQuery(urlParams);
+			requestUrlParams = "?" + Utils.encodeQuery(urlParams);
 		}
 		//base path
 		var basePath = "";
-		if(!config.apiPath){
+		if(!config.apiLocation){
 			console.warn("No api path defined in config.js");
 		}
-		basePath = config.apiPath;
+		basePath = config.apiLocation;
 		//call api
 		var apiResponse = await fetch(`${basePath}/${url}${requestUrlParams}`, requestInit);
 		//if http error

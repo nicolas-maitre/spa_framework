@@ -35,7 +35,7 @@ function PagesManager(){
                 memory: {}
             };
             //build container
-            _this.pages[pageName].container = elements.pagesContainer.addElement('div', `pageContainer ${pageName}PageContainer none`);
+            _this.pages[pageName].container = elements.pagesContainer.addElement('div', {class: `pageContainer ${pageName}PageContainer none`});
         }
 
         //display page
@@ -48,7 +48,7 @@ function PagesManager(){
 		//query
 		var queryUrl = "";
 		if(query){
-			queryUrl = "?" + utils.encodeQuery(query);	
+			queryUrl = "?" + Utils.encodeQuery(query);	
 		}
         
         //path
@@ -60,7 +60,7 @@ function PagesManager(){
         }
         
 		//title
-		var documentTitle = config.pageTitlePrefix + (pageConfig.title || pageName);
+		var documentTitle = config.pageTitlePrefix + (pageConfig.title || pageName) + config.pageTitleSuffix;
         document.title = documentTitle;
 
         //location
@@ -90,13 +90,13 @@ function PagesManager(){
 
         //page not loaded -> load page
         //show loader
-        utils.getGlobalLoader().show();
+        Utils.getGlobalLoader().show();
         //load view
         _this.loadView(pageName, function(error, view){
-            utils.getGlobalLoader().hide();
+            Utils.getGlobalLoader().hide();
             if(error){
                 console.warn("view couldn't be loaded.", error);
-                utils.infoBox(config.messageErrorPageLoad);
+                Utils.infoBox(config.messageErrorPageLoad);
                 return;
             }
             //view ref
@@ -106,7 +106,7 @@ function PagesManager(){
             //loaded
             _this.pages[pageName].isLoaded = true;
 			//add dynamic links
-			utils.setDynamicLinks(_this.pages[pageName].container);
+			Utils.setDynamicLinks(_this.pages[pageName].container);
 			//apply data / show data
 			_this.manageData(pageName);
             //evt
@@ -136,7 +136,7 @@ function PagesManager(){
 
         //search
         if(window.location.search){
-            pageOptions.query = utils.decodeQuery(window.location.search);
+            pageOptions.query = Utils.decodeQuery(window.location.search);
         }
 
         //display page
@@ -260,7 +260,7 @@ function PagesManager(){
             _this.loadView(viewName, function(){});
         }
     }
-    this.loadView = async function(view, callBack){
+    this.loadView = async function(view, callBack = ()=>{}){
         //get view name from page config
         var viewName = view;
         if(pagesConfig[view].view){
@@ -293,7 +293,7 @@ function PagesManager(){
         var response = await fetch(url);
         viewsCache[viewName].isLoading = false;
         if(!response.ok){
-            console.warn("view download failed", response);
+            //DEBUG: console.warn("view download failed", response);
 
             //onload event
             for(var indEvt = 0; indEvt < viewsCache[viewName].onload.length; indEvt++){
