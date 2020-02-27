@@ -41,5 +41,13 @@ function Actions(){
     //-------------------------------------------------------------------------------------
     //other actions
     //-------------------------------------------------------------------------------------
-    
+    this.onBeforeBoot = function () {
+
+    };
+    this.onAfterBoot = function () {
+
+    };
+    this.onWebsocketConnection = function () {
+        
+    };
 }
