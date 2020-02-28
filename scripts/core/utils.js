@@ -176,17 +176,9 @@ Utils.setDynamicLink = function(elem){
 	var query = Utils.decodeQuery(elem.search)
 	var path = (hrefArray.slice(2) || false); //get path
 	if(pagesConfig[page]){//only adds event if the page target exists
-        //add event
         elem.addEventListener("click", function(evt){
 			evt.preventDefault();
-			//remove href
-            elem.removeAttribute("href");
-            //change page
 			pagesManager.changePage(page, {query, path});
-            //put href back on
-            requestAnimationFrame(function(frameTime){
-                elem.setAttribute("href", href);
-            });
         });
     }
 };

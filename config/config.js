@@ -5,7 +5,7 @@ var config = {
     landingPage: "welcome",
     viewsExtension: ".html",
     pagesContainerSelector: "#pagesContainer",
-    pageTitlePrefix: "SPA Framwork - ",
+    pageTitlePrefix: "SPA Framework - ",
     pageTitleSuffix: "",
     //text
     messageNoData: "Nothing to show here...",
