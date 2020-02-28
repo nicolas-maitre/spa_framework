@@ -24,23 +24,39 @@ function PagesManager(){
         }
 		
 		//page config
-		var pageConfig = pagesConfig[pageName];
+        var pageConfig = pagesConfig[pageName];
+        var oldPageName = _this.currentPage;
 
         //page not built
         if(!_this.pages[pageName]){
             _this.pages[pageName] = {
                 isLoaded: false,
                 container: false,
+                elements: {},
                 data: {},
                 memory: {}
             };
             //build container
-            _this.pages[pageName].container = elements.pagesContainer.addElement('div', `pageContainer ${pageName}PageContainer none`);
+            _this.pages[pageName].container = elements.pagesContainer.addElement('div', {class: `pageContainer ${pageName}PageContainer none`});
         }
 
+        //dynamic css
+        if(oldPageName){
+            _this.pages[oldPageName].elements.cssLinks.forEach(cssLink => {
+                cssLink.remove();
+            });
+        }
+
+        var stylesheets = _this.getCSSRefs(pageName);
+        _this.pages[pageName].elements.cssLinks = [];
+        stylesheets.forEach(stylesheet => {
+            let cssLink = document.head.addElement("link", {rel:"stylesheet", href:stylesheet});
+            _this.pages[pageName].elements.cssLinks.push(cssLink);
+        });
+
         //display page
-        if(_this.currentPage){
-            _this.pages[_this.currentPage].container.classList.add('none');
+        if(oldPageName){
+            _this.pages[oldPageName].container.classList.add('none');
         }
         _this.pages[pageName].container.classList.remove('none');
         _this.currentPage = pageName;
@@ -48,7 +64,7 @@ function PagesManager(){
 		//query
 		var queryUrl = "";
 		if(query){
-			queryUrl = "?" + utils.encodeQuery(query);	
+			queryUrl = "?" + Utils.encodeQuery(query);	
 		}
         
         //path
@@ -60,12 +76,12 @@ function PagesManager(){
         }
         
 		//title
-		var documentTitle = config.pageTitlePrefix + (pageConfig.title || pageName);
+		var documentTitle = config.pageTitlePrefix + (pageConfig.title || pageName) + config.pageTitleSuffix;
         document.title = documentTitle;
 
         //location
         var stateSaveObject = {pageName, query, path};
-        _this.pages[_this.currentPage].location = stateSaveObject;
+        _this.pages[pageName].location = stateSaveObject;
 
         //push to history
         if(pushToHistory){
@@ -90,13 +106,13 @@ function PagesManager(){
 
         //page not loaded -> load page
         //show loader
-        utils.getGlobalLoader().show();
+        Utils.getGlobalLoader().show();
         //load view
         _this.loadView(pageName, function(error, view){
-            utils.getGlobalLoader().hide();
+            Utils.getGlobalLoader().hide();
             if(error){
                 console.warn("view couldn't be loaded.", error);
-                utils.infoBox(config.messageErrorPageLoad);
+                Utils.infoBox(config.messageErrorPageLoad);
                 return;
             }
             //view ref
@@ -106,7 +122,7 @@ function PagesManager(){
             //loaded
             _this.pages[pageName].isLoaded = true;
 			//add dynamic links
-			utils.setDynamicLinks(_this.pages[pageName].container);
+			Utils.setDynamicLinks(_this.pages[pageName].container);
 			//apply data / show data
 			_this.manageData(pageName);
             //evt
@@ -136,7 +152,7 @@ function PagesManager(){
 
         //search
         if(window.location.search){
-            pageOptions.query = utils.decodeQuery(window.location.search);
+            pageOptions.query = Utils.decodeQuery(window.location.search);
         }
 
         //display page
@@ -247,7 +263,26 @@ function PagesManager(){
 
     this.refreshCurrentPage = function(){
 		_this.manageData(_this.currentPage);
-	};
+    };
+    this.getCSSRefs = function(pageName){
+        var pageConfig = pagesConfig[pageName];
+        var stylesheets = [`${config.pagesCSSLocation}/${pageName}.css`];
+        if(Array.isArray(pageConfig.css)){
+            stylesheets = pageConfig.css;
+        }
+        if(typeof pageConfig.css === 'string'){
+            stylesheets = [pageConfig.css];
+        }
+        return stylesheets;
+    };
+    this.preloadCSS = function(){
+        for(let pageName in pagesConfig){
+            var stylesheets = _this.getCSSRefs(pageName);
+            stylesheets.forEach(link => {
+                document.head.addElement("link", {rel: "preload", href: link});
+            });
+		}
+    };
 	this.preloadViews = async function(priority = false){
         //load priority view
         if(priority){ 
@@ -260,7 +295,7 @@ function PagesManager(){
             _this.loadView(viewName, function(){});
         }
     }
-    this.loadView = async function(view, callBack){
+    this.loadView = async function(view, callBack = ()=>{}){
         //get view name from page config
         var viewName = view;
         if(pagesConfig[view].view){

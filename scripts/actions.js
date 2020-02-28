@@ -7,7 +7,7 @@ function Actions(){
     //page actions on load
     //-------------------------------------------------------------------------------------
     this.onPageLoad = {};
-	this.onPageLoad.welcome = function(){};
+	  this.onPageLoad.welcome = function(){};
     //-------------------------------------------------------------------------------------
     //page actions on display
     //-------------------------------------------------------------------------------------
@@ -41,5 +41,13 @@ function Actions(){
     //-------------------------------------------------------------------------------------
     //other actions
     //-------------------------------------------------------------------------------------
-    
+    this.onBeforeBoot = function () {
+
+    };
+    this.onAfterBoot = function () {
+
+    };
+    this.onWebsocketConnection = function () {
+        
+    };
 }
