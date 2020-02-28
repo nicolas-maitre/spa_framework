@@ -1,5 +1,6 @@
 var config = {
     viewsLocation: "/views",
+    pagesCSSLocation:"/styles/pages",
     apiLocation: false, //"/api",
     websocketLocation: false, //`ws://${location.host}/websocket`,
     landingPage: "welcome",
