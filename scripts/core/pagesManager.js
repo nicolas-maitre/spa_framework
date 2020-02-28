@@ -47,13 +47,7 @@ function PagesManager(){
             });
         }
 
-        var stylesheets = [`${config.pagesCSSLocation}/${pageName}.css`];
-        if(Array.isArray(pageConfig.css)){
-            stylesheets = pageConfig.css;
-        }
-        if(typeof pageConfig.css === 'string'){
-            stylesheets = [pageConfig.css];
-        }
+        var stylesheets = _this.getCSSRefs(pageName);
         _this.pages[pageName].elements.cssLinks = [];
         stylesheets.forEach(stylesheet => {
             let cssLink = document.head.addElement("link", {rel:"stylesheet", href:stylesheet});
@@ -269,7 +263,26 @@ function PagesManager(){
 
     this.refreshCurrentPage = function(){
 		_this.manageData(_this.currentPage);
-	};
+    };
+    this.getCSSRefs = function(pageName){
+        var pageConfig = pagesConfig[pageName];
+        var stylesheets = [`${config.pagesCSSLocation}/${pageName}.css`];
+        if(Array.isArray(pageConfig.css)){
+            stylesheets = pageConfig.css;
+        }
+        if(typeof pageConfig.css === 'string'){
+            stylesheets = [pageConfig.css];
+        }
+        return stylesheets;
+    }
+    this.preloadCSS = function(){
+        for(let pageName in pagesConfig){
+            var stylesheets = _this.getCSSRefs(pageName);
+            stylesheets.forEach(link => {
+                document.head.addElement("link", {rel: "preload", href: link});
+            });
+		}
+    }
 	this.preloadViews = async function(priority = false){
         //load priority view
         if(priority){ 

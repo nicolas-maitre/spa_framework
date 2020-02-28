@@ -5,6 +5,8 @@ var config = {
     websocketLocation: false, //`ws://${location.host}/websocket`,
     landingPage: "welcome",
     viewsExtension: ".html",
+    preloadAllViews: false,
+    preloadAllCSS: false,
     pagesContainerSelector: "#pagesContainer",
     pageTitlePrefix: "SPA Framework - ",
     pageTitleSuffix: "",

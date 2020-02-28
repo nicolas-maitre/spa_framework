@@ -28,6 +28,10 @@ document.addEventListener("DOMContentLoaded", function(domEvt){
 	if(config.preloadAllViews){
 		pagesManager.preloadViews();
 	}
+	//preload css
+	if(config.preloadAllCSS){
+		pagesManager.preloadCSS();
+	}
 
 	//popstate event for history manipulation
 	window.addEventListener("popstate", pagesManager.managePopState);
