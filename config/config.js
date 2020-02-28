@@ -14,4 +14,4 @@ var config = {
     messageNoData: "Nothing to show here...",
     messageErrorPageLoad: "A problem occured while loading the page.",
     messageMustLogin: "You must log in to access this page."
-};
+}

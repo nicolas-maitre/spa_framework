@@ -274,7 +274,7 @@ function PagesManager(){
             stylesheets = [pageConfig.css];
         }
         return stylesheets;
-    }
+    };
     this.preloadCSS = function(){
         for(let pageName in pagesConfig){
             var stylesheets = _this.getCSSRefs(pageName);
@@ -282,7 +282,7 @@ function PagesManager(){
                 document.head.addElement("link", {rel: "preload", href: link});
             });
 		}
-    }
+    };
 	this.preloadViews = async function(priority = false){
         //load priority view
         if(priority){ 
@@ -328,7 +328,7 @@ function PagesManager(){
         var response = await fetch(url);
         viewsCache[viewName].isLoading = false;
         if(!response.ok){
-            //DEBUG: console.warn("view download failed", response);
+            console.warn("view download failed", response);
 
             //onload event
             for(var indEvt = 0; indEvt < viewsCache[viewName].onload.length; indEvt++){
