@@ -24,13 +24,15 @@ function PagesManager(){
         }
 		
 		//page config
-		var pageConfig = pagesConfig[pageName];
+        var pageConfig = pagesConfig[pageName];
+        var oldPageName = _this.currentPage;
 
         //page not built
         if(!_this.pages[pageName]){
             _this.pages[pageName] = {
                 isLoaded: false,
                 container: false,
+                elements: {},
                 data: {},
                 memory: {}
             };
@@ -38,9 +40,29 @@ function PagesManager(){
             _this.pages[pageName].container = elements.pagesContainer.addElement('div', {class: `pageContainer ${pageName}PageContainer none`});
         }
 
+        //dynamic css
+        if(oldPageName){
+            _this.pages[oldPageName].elements.cssLinks.forEach(cssLink => {
+                cssLink.remove();
+            });
+        }
+
+        var stylesheets = [`${config.pagesCSSLocation}/${pageName}.css`];
+        if(Array.isArray(pageConfig.css)){
+            stylesheets = pageConfig.css;
+        }
+        if(typeof pageConfig.css === 'string'){
+            stylesheets = [pageConfig.css];
+        }
+        _this.pages[pageName].elements.cssLinks = [];
+        stylesheets.forEach(stylesheet => {
+            let cssLink = document.head.addElement("link", {rel:"stylesheet", href:stylesheet});
+            _this.pages[pageName].elements.cssLinks.push(cssLink);
+        });
+
         //display page
-        if(_this.currentPage){
-            _this.pages[_this.currentPage].container.classList.add('none');
+        if(oldPageName){
+            _this.pages[oldPageName].container.classList.add('none');
         }
         _this.pages[pageName].container.classList.remove('none');
         _this.currentPage = pageName;
@@ -65,7 +87,7 @@ function PagesManager(){
 
         //location
         var stateSaveObject = {pageName, query, path};
-        _this.pages[_this.currentPage].location = stateSaveObject;
+        _this.pages[pageName].location = stateSaveObject;
 
         //push to history
         if(pushToHistory){
