@@ -295,7 +295,13 @@ function PagesManager(){
             _this.loadView(viewName, function(){});
         }
     }
-    this.loadView = async function(view, callBack = ()=>{}){
+    this.loadPage = 
+    this.loadView = function(view, callBack = (error, res)=>{}){
+        if(!pagesConfig[view]){
+            console.warn(`view ${view} does not exist`);
+            callBack(`view ${view} does not exist`);
+            return;
+        }
         //get view name from page config
         var viewName = view;
         if(pagesConfig[view].view){
@@ -324,29 +330,40 @@ function PagesManager(){
         //load
         viewsCache[viewName].isLoading = true;
         var url = `${config.viewsLocation}/${viewName}${config.viewsExtension}`;
-        
-        var response = await fetch(url);
-        viewsCache[viewName].isLoading = false;
-        if(!response.ok){
-            console.warn("view download failed", response);
+        (async ()=>{
+            var response = await fetch(url);
+            viewsCache[viewName].isLoading = false;
+            if(!response.ok){
+                console.warn("view download failed", response);
+
+                //onload event
+                for(var indEvt = 0; indEvt < viewsCache[viewName].onload.length; indEvt++){
+                    viewsCache[viewName].onload[indEvt]({clientMsg:"view download failed"});
+                }
+                viewsCache[viewName].onload = [];
+                return;
+            }
+            
+            var textData = await response.text();
+            viewsCache[viewName].htmlString = textData;
+            viewsCache[viewName].isLoaded = true;
 
             //onload event
             for(var indEvt = 0; indEvt < viewsCache[viewName].onload.length; indEvt++){
-                viewsCache[viewName].onload[indEvt]({clientMsg:"view download failed"});
+                viewsCache[viewName].onload[indEvt](false, viewsCache[viewName]);
             }
             viewsCache[viewName].onload = [];
             return;
-        }
-        
-        var textData = await response.text();
-        viewsCache[viewName].htmlString = textData;
-        viewsCache[viewName].isLoaded = true;
-
-        //onload event
-        for(var indEvt = 0; indEvt < viewsCache[viewName].onload.length; indEvt++){
-            viewsCache[viewName].onload[indEvt](false, viewsCache[viewName]);
-        }
-        viewsCache[viewName].onload = [];
-        return;
+        })();
     };
+    this.asyncLoadView = function(view){
+        return new Promise(function(res, rej){
+            _this.loadView(view, (error, result)=>{
+                if(error){
+                    throw new Error(error);
+                }
+                res(result);
+            });
+        });
+    }
 }

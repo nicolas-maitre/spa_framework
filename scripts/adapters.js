@@ -1,9 +1,5 @@
 function Adapters(){
-	this.myDataAdapter = function(container, data){
-		var elem = container.addElement("p");
-		elem.innerText = data.text;
-        return elem;
-    }
+    this.myTestAdapter = registerAdapter("my_test_adapter");
     
 	//adapter for when there is no data to display.
 	this.noData = function(container, data){
@@ -13,3 +9,4 @@ function Adapters(){
 		return box;
 	};
 }
+var adapters = {};

@@ -5,11 +5,13 @@
 var globalMemory = {};
 var elements = {};
 
-//instanciate managers
+//core
 var pagesManager = new PagesManager();
 var apiManager = new ApiManager();
 var websocket = new WebsocketManager();
 var builder = new Builder();
+var adaptersManager = new AdaptersManager();
+//user
 var adapters = new Adapters();
 var actions = new Actions();
 var dataSources = new DataSources();
