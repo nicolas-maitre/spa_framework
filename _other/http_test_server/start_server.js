@@ -20,7 +20,7 @@ var WHITELIST_PATHS = ["","/",...Object.keys(clientPagesConfig)];//website pages
 
 var server = http.createServer(onRequest);
 server.listen(HTTP_PORT);
-console.log("http server started on port " + HTTP_PORT);
+console.log(`http server started on port ${HTTP_PORT} (http://localhost:${HTTP_PORT})`);
 
 function onRequest(request, result){//request event
 	console.log("[" + (new Date(Date.now())).toDateString() + "] request received from: " + request.connection.remoteAddress);	
