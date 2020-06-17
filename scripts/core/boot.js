@@ -12,9 +12,9 @@ var websocket = new WebsocketManager();
 var builder = new Builder();
 var adaptersManager = new AdaptersManager();
 //user
-var adapters = new Adapters();
 var actions = new Actions();
 var dataSources = new DataSources();
+adaptersRegistration();
 
 document.addEventListener("DOMContentLoaded", function(domEvt){
 	actions.onBeforeBoot();
