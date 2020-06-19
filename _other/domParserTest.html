@@ -1,11 +1,14 @@
 <html>
-    <head>
-        <meta charset="utf-8"/>
-    </head>
+
+<head>
+    <meta charset="utf-8" />
+</head>
+
 <body>
     <div id="salutLesGenies">
         je me nomme jean eude
     </div>
+    <script src="../scripts/core/utils.js"></script>
     <script>
         var htmlText = `
             <p id="mdr">
@@ -14,15 +17,36 @@
                 oui
             </p>
             je suis jean en dehors des balises
-            <div class="aaaaaaaa"></div>
+            Là y'a un contenu: {{content1}}
+            <div class="aaaaaaaa">Achtung {{content2}}</div>
         `;
         var domParser = new DOMParser()
         var myDom = domParser.parseFromString(htmlText, "text/html");
 
-        console.log(myDom.body.childNodes);
-        for(var node of myDom.body.childNodes){
-            salutLesGenies.appendChild(node);
+        var cleanBody = document.createElement("body");
+        var dataRefs = {};
+        function analyseChildNodes(node){
+            if(node instanceof Text){
+                [textArray, templatesList] = Utils.decodeTextTemplate(node.textContent);
+            }
         }
+        [...myDom.body.childNodes]
+        analyseChildNodes(myDom.body);
+
+        console.log(myDom.body.childNodes);
+
+        var data = {
+            content1: "je suis le contenu 1",
+            content2: "salut contenu 2"
+        };
+
+        cleanBody.childNodes.forEach(node => {
+            console.log(node);
+            salutLesGenies.append(node.cloneNode(true));
+        });
+
+
+
     </script>
 </body>
 

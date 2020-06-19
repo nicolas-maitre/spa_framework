@@ -9,7 +9,6 @@ class Adapter {
         if (!this.viewSource) {
             throw new Error("no view location defined");
         }
-
     }
     onBeforeLoad() { }
     onLoad() { }
@@ -37,13 +36,14 @@ class AdaptersManager {
         this.adapters = {};
         this.adapterViewsCache = {};
         window.registerAdapter = (...args) => {this.registerAdapter(...args);};
+        window.registerAdapterView = (...args) => {this.registerAdapterView(...args);};
+        window.registerAdapterMethod = (...args) => {this.registerAdapterMethod(...args);};
     }
     registerAdapter(name, objectArg = false) {
         // typeof object arg
         //      function: adapterMethod method
         //      string: adapterView view name
-        //      object: type["view", "method"]
-        console.log("register adapter:", ...arguments);
+        //      object: instance of Adapter
         if (this.adapters[name]) {
             throw new Error(`adapter "${name}" already registered`)
         }
@@ -58,6 +58,7 @@ class AdaptersManager {
         }
 
         this.adapters[name] = adapter;
+        console.log(`adapter "${name}" registered`);
         return adapter;
     }
     registerAdapterView(name, options = {}) {
